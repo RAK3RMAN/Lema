@@ -1,0 +1,24 @@
+{
+  "name": "lema-console",
+  "version": "1.0.0",
+  "description": "Lema Console - A Raspberry Pi discovery and implementation tool written in Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js 3000 localhost:3031"
+  },
+  "author": "rak3rman",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "debug": "^4.1.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "http-errors": "^1.7.1",
+    "ip": "^1.1.5",
+    "morgan": "^1.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RAK3RMAN/Lema"
+  }
+}
