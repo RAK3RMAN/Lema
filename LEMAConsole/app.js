@@ -1,3 +1,9 @@
+/*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+App/Filename : LEMAConsole/app.js
+Description  : Initializes express and node 
+               processes, route logic
+Author       : RAk3rman
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 
 //===================================================//
 //     --- Initialize Packages and Routers ---       //
@@ -5,7 +11,7 @@
 
 //Declare Packages
 var express = require('express');
-var morgan = require('morgan');
+var logger = require('morgan');
 var createError = require('http-errors');
 var cookieParser = require('cookie-parser');
 var ip = require('ip');
@@ -36,13 +42,8 @@ app.use('/static', express.static(process.cwd() + '/static'));
 //        --- Page Specific Routes/Logic ---         //
 //===================================================//
 
-//Authentication
-app.get('/', authenticationRouter.login);
-app.get('/auth/logout', authenticationRouter.logout);
-app.use('/users', usersRouter);
-
-//Dashboard
-app.get('/dashboard', loginRequired, dashboardRouter.dashMain);
+//Material
+app.get('/', materialRouter.dashMain);
 
 //End of Page Specific Routes/Logic - - - - - - - - - -
 
@@ -74,8 +75,8 @@ app.use(function(err, req, res, next) {
 //===================================================//
 
 app.listen(port, function () {
-    console.log('Node.js Startup - NodeNetwork-Admin');
-    console.log('Console Accessable at: ' + ip.address() + port);
+    console.log('Node.js Startup - Lema Console');
+    console.log('Lema Console Accessable at: ' + ip.address() + ":" + port);
     console.log('LEMAEngine Accessed at: ' + lemaengine);
 });
 

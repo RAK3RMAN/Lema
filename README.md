@@ -1,5 +1,4 @@
-# Lema CE
-### Project Under Development!
+# Lema CE - Project Under Development!
 A Raspberry Pi discovery and implementation tool written in Node.js
 
 ## Basic Structure & Key Features
