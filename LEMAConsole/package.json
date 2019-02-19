@@ -4,18 +4,27 @@
   "description": "Lema Console - A Raspberry Pi discovery and implementation tool written in Node.js",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js 3000 localhost:3031"
+    "start": "node app.js 3000 localhost:3031 mongodb://localhost:27017"
   },
   "author": "rak3rman",
   "license": "MIT",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "debug": "^4.1.1",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "http-errors": "^1.7.1",
     "ip": "^1.1.5",
-    "morgan": "^1.9.1"
+    "method-override": "^3.0.0",
+    "mongoose": "^5.4.13",
+    "morgan": "^1.9.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-local": "^1.0.0"
   },
   "repository": {
     "type": "git",

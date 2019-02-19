@@ -4,7 +4,7 @@ Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let lemaengine = process.env.LEMAENGINE || process.argv[3];
 
-//Main Page Route - Dashboard
+//Dashboard Page Route - Material
 exports.dashMain =  function(req, res) {
-    res.render('pages/dashboard_main.ejs', { title: 'Dashboard', lemaengine: lemaengine })
+    res.render('pages/dashboard_main.ejs', { title: 'Dashboard', lemaengine: lemaengine, user: req.user })
 };

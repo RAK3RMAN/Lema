@@ -7535,6 +7535,12 @@ button.bg-dark:focus {
   padding-left: 3rem !important;
 }
 
+.p-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .m-auto {
   margin: auto !important;
 }
@@ -13158,6 +13164,16 @@ fieldset[disabled] .form-group .form-control {
   margin-left: 1rem;
 }
 
+.navbar .navbar-brand fonta {
+  font-family: 'Pacifico', cursive;
+  font-size: 24px;
+}
+
+.navbar .navbar-brand fontb {
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+}
+
 .navbar>.container {
   flex: 1;
 }
@@ -17945,9 +17961,6 @@ Copyright (c) 2015 Daniel Eden
   }
   .presentation-page .section-components .coloured-card-btn-img {
     top: -2%;
-  }
-  .login-page .container {
-    padding-top: 100px !important;
   }
   .presentation-page #cd-vertical-nav,
   .index-page #cd-vertical-nav,
