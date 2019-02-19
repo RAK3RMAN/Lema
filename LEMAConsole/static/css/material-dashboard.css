@@ -13654,6 +13654,13 @@ fieldset[disabled] .form-group .form-control {
   margin-bottom: 15px;
 }
 
+.error-page .title {
+    font-size: 12em;
+    color: #fff;
+    letter-spacing: 14px;
+    font-weight: 700
+}
+
 .page-header .title+h4 {
   margin-top: 10px;
 }

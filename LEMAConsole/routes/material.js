@@ -8,3 +8,8 @@ let lemaengine = process.env.LEMAENGINE || process.argv[3];
 exports.dashMain =  function(req, res) {
     res.render('pages/dashboard_main.ejs', { title: 'Dashboard', lemaengine: lemaengine, user: req.user })
 };
+
+//System Setup Page Route - Material
+exports.sysSetup =  function(req, res) {
+    res.render('pages/sys_setup.ejs', { title: 'Setup' })
+};
