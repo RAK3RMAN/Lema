@@ -1,1 +1,1 @@
-node app.js 3000 localhost:3031 mongodb://localhost:27017
+node app.js 3000 mongodb://localhost:27017

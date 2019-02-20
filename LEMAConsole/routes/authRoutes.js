@@ -1,14 +1,14 @@
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-App/Filename : LEMAConsole/routes/auth.js
+App/Filename : LEMAConsole/routes/authRoutes.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 
 //Login Page Route - Auth
-exports.loginPage =  function(req, res) {
+exports.loginPage = function(req, res) {
     res.render('pages/login.ejs', { title: 'Login' })
 };
 
 //Signup Page Route - Auth
-exports.signupPage =  function(req, res) {
+exports.signupPage = function(req, res) {
     res.render('pages/sign_up.ejs', { title: 'Sign Up', message: req.flash('signupMessage') })
 };

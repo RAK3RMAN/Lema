@@ -23,16 +23,19 @@ var session = require('express-session');
 
 //Setup External Connections
 let port = process.env.PORT || process.argv[2];
-let lemaengine = process.env.LEMAENGINE || process.argv[3];
-let mongodb = process.env.MONGODB || process.argv[4];
+let mongodb = process.env.MONGODB || process.argv[3];
 
 //Declare App
 const app = express();
 app.set('view engine', 'ejs');
 
 //Routers
-var authRouter = require('./routes/auth');
-var materialRouter = require('./routes/material');
+var authRouter = require('./routes/authRoutes.js');
+var materialRouter = require('./routes/materialRoutes.js');
+var nodeRouter = require('./routes/nodeRoutes.js');
+
+//Resolvers
+let auth = require('./resolvers/authResolver.js');
 
 //Database Setup
 mongoose.connect(mongodb);
@@ -59,36 +62,30 @@ app.use('/static', express.static(process.cwd() + '/static'));
 //        --- Page Specific Routes/Logic ---         //
 //===================================================//
 
-//Material
-app.get('/', isLoggedIn, materialRouter.dashMain);
-app.get('/setup', isLoggedIn, materialRouter.sysSetup);
+//Forward Node Routes
+nodeRouter(app);
+
+//Material Routes
+app.get('/', auth.isLoggedIn, materialRouter.dashMain);
+app.get('/setup', auth.isLoggedIn, materialRouter.sysSetup);
 
 //Auth Routes
 app.get('/login', authRouter.loginPage);
-app.post('/login', passport.authenticate('local-login', {
-    successRedirect : '/',
-    failureRedirect : '/login',
-    failureFlash : true
-}));
 app.get('/signup', authRouter.signupPage);
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect : '/',
-    failureRedirect : '/signup',
-    failureFlash : true
-}));
-
-//Auth Routing Functions
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/login');
 });
-function isLoggedIn(req, res, next) {
-    // If authorized, allow request
-    if (req.isAuthenticated())
-        return next();
-    // If unauthorized, redirect to login page
-    res.redirect('/login');
-}
+app.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true
+}));
+app.post('/signup', passport.authenticate('local-signup', {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash: true
+}));
 
 //End of Page Specific Routes/Logic - - - - - - - - - -
 
@@ -99,17 +96,17 @@ function isLoggedIn(req, res, next) {
 
 //404 - Send to Error Handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // Error Handler Logic
 app.use(function(err, req, res, next) {
-  //Determine Message
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  //Render Error Page
-  res.status(err.status || 500);
-  res.render('pages/error.ejs', { title: 'Error' });
+    //Determine Message
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    //Render Error Page
+    res.status(err.status || 500);
+    res.render('pages/error.ejs', { title: 'Error' });
 });
 
 //End of Error Handler - - - - - - - - - - - - - - - - -
@@ -119,13 +116,12 @@ app.use(function(err, req, res, next) {
 //               --- Port Listen ---                 //
 //===================================================//
 
-app.listen(port, function () {
+app.listen(port, function() {
     console.log(' ');
     console.log('==============================================');
     console.log(' LEMAConsole ~ Startup | Created By: RAk3rman ');
     console.log('==============================================');
     console.log('Lema Console Accessable at: ' + ip.address() + ":" + port);
-    console.log('LEMAEngine Accessed at: ' + lemaengine);
     console.log('MongoDB Accessed at: ' + mongodb);
     console.log(' ');
 });

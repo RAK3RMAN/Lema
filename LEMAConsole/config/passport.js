@@ -3,7 +3,7 @@ App/Filename : LEMAConsole/config/passport.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 var LocalStrategy   = require('passport-local').Strategy;
-var User = require('../models/user');
+var User = require('../models/userModel');
 
 module.exports = function(passport) {
 //===================================================//
