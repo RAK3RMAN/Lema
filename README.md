@@ -65,8 +65,8 @@ git clone https://github.com/RAK3RMAN/Lema.git
     - Start default application using npm
         - `npm start`
     - If using an external database or running LEMAEngine on a different machine, run on the command line using the following format:
-        - `node app.js BROADCAST_PORT MONGODB_URL`
-        - For example: `node app.js 3000 mongodb://user:pass@192.168.0.10:27017`
+        - `node app.js BROADCAST_PORT MONGODB_URL SESSION_SECRET`
+        - For example: `node app.js 3000 mongodb://user:pass@192.168.0.10:27017 SuperSecretSessionKey`
         - Save your modified configuration in the `start.sh` file in that directory
     - If any errors occur, please read the logs and attempt to resolve. If resolution cannot be achieved, post in the issues under this project. 
 4. Setup PM2 to run services on startup
