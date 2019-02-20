@@ -1,0 +1,69 @@
+<% include ../partials/head.ejs %>
+<% include ../partials/wrapper-top.ejs %>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-success">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title p-0">
+                                    <h4 class="card-title"><strong>Node List</strong></h4>
+                                    <p class="card-category">Last Updated: #</p>
+                                </span>
+                                <ul class="nav nav-tabs justify-content-end" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" onclick="nodeAddSA()" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Add Node
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-success">
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Salary</th>
+                                <th>Country</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Dakota Rice</td>
+                                    <td>$36,738</td>
+                                    <td>Niger</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Minerva Hooper</td>
+                                    <td>$23,789</td>
+                                    <td>Curaçao</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Sage Rodriguez</td>
+                                    <td>$56,142</td>
+                                    <td>Netherlands</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Philip Chaney</td>
+                                    <td>$38,735</td>
+                                    <td>Korea, South</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/lema-js/nodeFunct.js"></script>
+<% include ../partials/wrapper-bottom.ejs %>
+<% include ../partials/footer.ejs %>

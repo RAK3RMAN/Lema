@@ -67,6 +67,7 @@ nodeRouter(app);
 
 //Material Routes
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);
+app.get('/node/list', auth.isLoggedIn, materialRouter.nodeList);
 app.get('/setup', auth.isLoggedIn, materialRouter.sysSetup);
 
 //Auth Routes
