@@ -24,6 +24,7 @@ var session = require('express-session');
 //Setup External Connections
 let port = process.env.PORT || process.argv[2];
 let mongodb = process.env.MONGODB || process.argv[3];
+let sessionSecret = process.env.sessionSecret || process.arg[4];
 
 //Declare App
 const app = express();
@@ -42,7 +43,7 @@ mongoose.connect(mongodb);
 
 //Passport Setup
 require('./config/passport.js')(passport);
-app.use(session({ secret: '98ABS76DF89NANSTDBF98PN8ASYDF' })); //Session secret
+app.use(session({ secret: sessionSecret })); //Session secret
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
