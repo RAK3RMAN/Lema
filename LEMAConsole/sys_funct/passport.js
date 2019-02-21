@@ -1,5 +1,5 @@
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-App/Filename : LEMAConsole/config/passport.js
+App/Filename : LEMAConsole/sys_funct/passport.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 var LocalStrategy   = require('passport-local').Strategy;

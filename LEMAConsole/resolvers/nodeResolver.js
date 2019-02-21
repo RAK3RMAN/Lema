@@ -18,9 +18,5 @@ exports.create_node = function (req, res) {
 
 //List Node Devices
 exports.list_nodes = function (req, res) {
-    // If authorized, allow request
-    if (req.isAuthenticated())
-        return next();
-    // If unauthorized, redirect to login page
-    res.redirect('/login');
+    
 }

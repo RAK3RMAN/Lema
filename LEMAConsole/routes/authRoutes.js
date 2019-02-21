@@ -10,5 +10,5 @@ exports.loginPage = function(req, res) {
 
 //Signup Page Route - Auth
 exports.signupPage = function(req, res) {
-    res.render('pages/sign_up.ejs', { title: 'Sign Up', message: req.flash('signupMessage') })
+    res.render('pages/sign_up.ejs', { title: 'Sign Up' })
 };

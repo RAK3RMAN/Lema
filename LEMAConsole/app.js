@@ -39,7 +39,7 @@ var auth = require('./resolvers/authResolver.js');
 mongoose.connect(storage.get('mongodb_url'));
 
 //Passport Setup
-require('./config/passport.js')(passport);
+require('./sys_funct/passport.js')(passport);
 app.use(session({ secret: storage.get('session_secret') })); //Session secret
 app.use(passport.initialize());
 app.use(passport.session());
@@ -127,7 +127,7 @@ app.listen(storage.get('console_port'), function() {
 
 //Declare Console Functions
 var configManager = require('./config/configManager.js');
-//var checkConnect = require('./config/checkConnect.js');
+var checkConnect = require('./sys_funct/checkConnect.js');
 
 //End of Port Listen - - - - - - - - - - - - - - - - -
 
