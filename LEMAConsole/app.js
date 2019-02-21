@@ -20,10 +20,8 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
-//Setup External Connections
-let port = process.env.PORT || process.argv[2];
-let mongodb = process.env.MONGODB || process.argv[3];
+var dataStore = require('data-store');
+var storage = new dataStore({ path: './config/sysConfig.json' });
 
 //Declare App
 const app = express();
@@ -35,14 +33,14 @@ var materialRouter = require('./routes/materialRoutes.js');
 var nodeRouter = require('./routes/nodeRoutes.js');
 
 //Resolvers
-let auth = require('./resolvers/authResolver.js');
+var auth = require('./resolvers/authResolver.js');
 
 //Database Setup
-mongoose.connect(mongodb);
+mongoose.connect(storage.get('mongodb_url'));
 
 //Passport Setup
 require('./config/passport.js')(passport);
-app.use(session({ secret: '98ABS76DF89NANSTDBF98PN8ASYDF' })); //Session secret
+app.use(session({ secret: storage.get('session_secret') })); //Session secret
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -117,15 +115,19 @@ app.use(function(err, req, res, next) {
 //               --- Port Listen ---                 //
 //===================================================//
 
-app.listen(port, function() {
+app.listen(storage.get('console_port'), function() {
     console.log(' ');
     console.log('==============================================');
     console.log(' LEMAConsole ~ Startup | Created By: RAk3rman ');
     console.log('==============================================');
-    console.log('Lema Console Accessable at: ' + ip.address() + ":" + port);
-    console.log('MongoDB Accessed at: ' + mongodb);
+    console.log('Lema Console Accessable at: ' + ip.address() + ":" + storage.get('console_port'));
+    console.log('MongoDB Accessed at: ' + storage.get('mongodb_url'));
     console.log(' ');
 });
+
+//Declare Console Functions
+var configManager = require('./config/configManager.js');
+//var checkConnect = require('./config/checkConnect.js');
 
 //End of Port Listen - - - - - - - - - - - - - - - - -
 

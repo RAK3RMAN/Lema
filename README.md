@@ -21,8 +21,8 @@ Lema aims to provide a cohesive and powerful solution to interacting with Raspbe
 
 ## Install and Setup
 ### Lema Console Install
-Install Lema Admin on a computer or server that will display the GUI webpage and run the Lema Console. This machine is recommended to remain active and on the network; if disconnected, the Lema Console will not be able to control external devices.
-1. Become `root` to run the Lema Agent Installer. Lema has only been tested on the following operating systems:
+Install Lema Console on a computer or server that will display the GUI webpage and run the admin package. This machine is recommended to remain active and on the network; if disconnected, the Lema Console will not be able to control external devices.
+1. Become `root` to run the Lema Admin Installer. Lema has only been tested on the following operating systems:
     - Ubuntu 17.04+
         - `sudo su`
     - MacOS 10.7+
@@ -46,9 +46,9 @@ bash <(curl -s https://github.com/RAK3RMAN/Lema/lemagent-install.sh)
 ```
 
 ### Advanced Setup
-Use this method if the installer does not run properly when running.
-#### Lema Admin
-Install Lema Admin on a computer or server that will display the GUI webpage and run the Lema Console. This machine is recommended to remain active and on the network; if disconnected, the Lema Console will not be able to control external devices.
+Use this method if the installer does not operate properly when running.
+#### Lema Console
+Install Lema Console on a computer or server that will display the GUI webpage and run the admin package. This machine is recommended to remain active and on the network; if disconnected, the Lema Console will not be able to control external devices.
 1. Setup a mongodb database (if needed)
     - Use the [tutorials](https://docs.mongodb.com/manual/installation/#tutorials) on the mongodb website
 2. Clone the repository from github.com
@@ -64,10 +64,13 @@ git clone https://github.com/RAK3RMAN/Lema.git
         - `sudo npm install`    
     - Start default application using npm
         - `npm start`
-    - If using an external database or running LEMAEngine on a different machine, run on the command line using the following format:
-        - `node app.js BROADCAST_PORT MONGODB_URL`
-        - For example: `node app.js 3000 mongodb://user:pass@192.168.0.10:27017`
-        - Save your modified configuration in the `start.sh` file in that directory
+    - If using an external database or want a different broadcast port, you can configure these values through one of the following options:
+        - Hardcode option:
+            - Enter the `sysConfig.json` file
+                - `sudo nano Lema/LEMAConsole/config/sysConfig.json`
+            - Edit either the `console_port` or the `mongodb_url` to your desired configuration
+        - Lema Console option:
+            - Feature coming soon!
     - If any errors occur, please read the logs and attempt to resolve. If resolution cannot be achieved, post in the issues under this project. 
 4. Setup PM2 to run services on startup
     - Install PM2
