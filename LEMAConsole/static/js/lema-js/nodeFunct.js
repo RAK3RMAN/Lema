@@ -1,3 +1,7 @@
+/*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+LEMAConsole Front-End JS - Authored by: RAk3rman
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+
 //Node Add SA
 function nodeAddSA() {
     Swal.mixin({

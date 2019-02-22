@@ -1,3 +1,6 @@
+/*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+LEMAConsole Front-End JS - Authored by: RAk3rman
+\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 
 function sendNotification(senticon, sentmessage, senttype) {
     $.notify({
