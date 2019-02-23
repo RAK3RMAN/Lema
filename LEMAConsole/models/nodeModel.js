@@ -6,8 +6,9 @@ var mongoose = require('mongoose');
 
 var nodeSchema = mongoose.Schema({
     raspberryPi      : {
-        nodeName     : String,
-        password     : String,
+        node_name     : String,
+        node_ip       : String,
+        node_type     : String,
     },
 });
 
