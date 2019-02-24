@@ -14,7 +14,7 @@
 
   .card-body {
     color: $card-body-color;
-    
+
     .card-category + .card-title {
       color: $white-color;
     }
@@ -34,7 +34,7 @@
     color: $footer-text-color;
   }
 
-  .card-footer .stats a{
+  .card-footer .stats a {
     -webkit-background-clip: text;
     background-clip: text;
     background-image: $stats-primary-link-color;

@@ -7,13 +7,13 @@
 }
 
 .bmd-form-group {
-  &:not(.has-success):not(.has-danger){
-      [class^='bmd-label'],
-      [class*=' bmd-label']{
-          &.bmd-label-floating{
-              color: $placeholder-color;
-          }
+  &:not(.has-success):not(.has-danger) {
+    [class^='bmd-label'],
+    [class*=' bmd-label'] {
+      &.bmd-label-floating {
+        color: $placeholder-color;
       }
+    }
   }
 }
 
@@ -31,14 +31,14 @@
   @include bmd-form-color($brand-info, $brand-info, $brand-info, $dark-input-border-color);
 }
 
-.has-white{
+.has-white {
   @include bmd-form-color($white-color, $white-color, $white-color, $input-border-color-white);
 
-    .form-control{
-        &:focus{
-            color: $white-color;
-        }
+  .form-control {
+    &:focus {
+      color: $white-color;
     }
+  }
 }
 
 .has-warning {

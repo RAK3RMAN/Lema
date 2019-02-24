@@ -10,37 +10,47 @@ Author       : RAk3rman
 //===================================================//
 
 //Declare Packages
-var express = require('express');
-var morgan = require('morgan');
-var createError = require('http-errors');
-var cookieParser = require('cookie-parser');
-var ip = require('ip');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var flash = require('connect-flash');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var dataStore = require('data-store');
-var storage = new dataStore({ path: './config/sysConfig.json' });
+let express = require('express');
+let morgan = require('morgan');
+let createError = require('http-errors');
+let cookieParser = require('cookie-parser');
+let ip = require('ip');
+let mongoose = require('mongoose');
+let passport = require('passport');
+let flash = require('connect-flash');
+let bodyParser = require('body-parser');
+let session = require('express-session');
+let dataStore = require('data-store');
+let storage = new dataStore({path: './config/sysConfig.json'});
 
 //Declare App
 const app = express();
 app.set('view engine', 'ejs');
 
 //Routers
-var authRouter = require('./routes/authRoutes.js');
-var materialRouter = require('./routes/materialRoutes.js');
-var nodeRouter = require('./routes/nodeRoutes.js');
+let authRouter = require('./routes/authRoutes.js');
+let materialRouter = require('./routes/materialRoutes.js');
+let nodeRouter = require('./routes/nodeRoutes.js');
 
 //Resolvers
-var auth = require('./resolvers/authResolver.js');
+let auth = require('./resolvers/authResolver.js');
 
 //Database Setup
-mongoose.connect(storage.get('mongodb_url'));
+//TODO Create Database connection handler
+mongoose.connection.on('connected', function () {
+    console.log('MongoDB: Connected')
+});
+mongoose.connection.on('timeout', function () {
+    console.log('MongoDB: Error')
+});
+mongoose.connection.on('disconnected', function () {
+    console.log('MongoDB: Disconnected')
+});
+mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
 
 //Passport Setup
 require('./sys_funct/passport.js')(passport);
-app.use(session({ secret: storage.get('session_secret') })); //Session secret
+app.use(session({secret: storage.get('session_secret')})); //Session secret
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -50,7 +60,7 @@ app.use(cookieParser());
 app.use(bodyParser());
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use('/static', express.static(process.cwd() + '/static'));
 
 //End of Initialize Packages and Routers - - - - - - - -
@@ -71,7 +81,7 @@ app.get('/setup', auth.isLoggedIn, materialRouter.sysSetup);
 //Auth Routes
 app.get('/login', authRouter.loginPage);
 app.get('/signup', authRouter.signupPage);
-app.get('/logout', function(req, res) {
+app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/login');
 });
@@ -94,18 +104,18 @@ app.post('/signup', passport.authenticate('local-signup', {
 //===================================================//
 
 //404 - Send to Error Handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     next(createError(404));
 });
 
 // Error Handler Logic
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     //Determine Message
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     //Render Error Page
     res.status(err.status || 500);
-    res.render('pages/error.ejs', { title: 'Error' });
+    res.render('pages/error.ejs', {title: 'Error'});
 });
 
 //End of Error Handler - - - - - - - - - - - - - - - - -
@@ -115,7 +125,7 @@ app.use(function(err, req, res, next) {
 //               --- Port Listen ---                 //
 //===================================================//
 
-app.listen(storage.get('console_port'), function() {
+app.listen(storage.get('console_port'), function () {
     console.log(' ');
     console.log('==============================================');
     console.log(' LEMAConsole ~ Startup | Created By: RAk3rman ');
@@ -126,8 +136,8 @@ app.listen(storage.get('console_port'), function() {
 });
 
 //Declare Console Functions
-var configManager = require('./config/configManager.js');
-var checkConnect = require('./sys_funct/checkConnect.js');
+let configManager = require('./config/configManager.js');
+let checkConnect = require('./sys_funct/checkConnect.js');
 
 //End of Port Listen - - - - - - - - - - - - - - - - -
 

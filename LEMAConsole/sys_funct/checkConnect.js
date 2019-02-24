@@ -2,10 +2,10 @@
 App/Filename : LEMAConsole/sys_funct/checkConnect.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
-var cronJob = require('cron').CronJob;
-var MongoClient = require('mongodb').MongoClient;
-var dataStore = require('data-store');
-var storage = new dataStore({ path: './config/sysConfig.json' });
+let cronJob = require('cron').CronJob;
+let MongoClient = require('mongodb').MongoClient;
+let dataStore = require('data-store');
+let storage = new dataStore({path: './config/sysConfig.json'});
 
 //Devices will be monitored through Websockets
 

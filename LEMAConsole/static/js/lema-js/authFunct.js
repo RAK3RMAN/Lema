@@ -6,6 +6,7 @@ LEMAConsole Front-End JS - Authored by: RAk3rman
 function loadJS() {
     onEnter();
 }
+
 //Send Request on Enter
 function onEnter() {
     document.getElementById("enter").onkeypress = function (event) {

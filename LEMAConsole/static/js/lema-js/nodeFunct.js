@@ -10,8 +10,8 @@ function nodeAddSA() {
         showCancelButton: true,
         progressSteps: ['1', '2', '3']
     }).queue([{
-            title: 'Name of Device',
-            text: 'Description'
+        title: 'Name of Device',
+        text: 'Description'
         },
         {
             title: 'Device IP',
@@ -35,7 +35,7 @@ function nodeAddSA() {
                     node_ip: result.value[1],
                     node_type: result.value[2]
                 },
-                success: function(data) {
+                success: function (data) {
                     Swal.fire({
                         title: 'Node Created',
                         html: 'Parameters sent: <pre><code>' +
@@ -45,7 +45,7 @@ function nodeAddSA() {
                         type: 'success'
                     })
                 },
-                error: function(data) {
+                error: function (data) {
                     if (data.status == 200) {
                         Swal.fire({
                             title: 'Node Created',
