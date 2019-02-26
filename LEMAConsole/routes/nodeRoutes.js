@@ -9,4 +9,7 @@ module.exports = function (app) {
 
     app.route('/node/create')
         .post(auth.isLoggedIn, node.create_node);
+
+    app.route('/node/list')
+        .get(auth.isLoggedIn, node.list_nodes);
 };
