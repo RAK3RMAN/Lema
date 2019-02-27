@@ -8,7 +8,7 @@ function nodeAddSA() {
         input: 'text',
         confirmButtonText: 'Next &rarr;',
         showCancelButton: true,
-        progressSteps: ['1', '2', '3']
+        progressSteps: ['1', '2', '3'],
     }).queue([{
         title: 'Name of Device',
         text: 'Description'
@@ -29,7 +29,7 @@ function nodeAddSA() {
         if (result.value) {
             $.ajax({
                 type: "POST",
-                url: "/node/create",
+                url: "/api/node/create",
                 data: {
                     node_name: result.value[0],
                     node_ip: result.value[1],
@@ -43,7 +43,8 @@ function nodeAddSA() {
                             '</code></pre>',
                         confirmButtonText: 'OK',
                         type: 'success'
-                    })
+                    });
+                    nodeList();
                 },
                 error: function (data) {
                     if (data.status == 200) {
@@ -54,7 +55,8 @@ function nodeAddSA() {
                                 '</code></pre>',
                             confirmButtonText: 'OK',
                             type: 'success'
-                        })
+                        });
+                        nodeList();
                     } else {
                         console.log(data);
                         Swal.fire({
@@ -70,4 +72,28 @@ function nodeAddSA() {
             });
         }
     })
+}
+
+//Node List
+function nodeList() {
+    $.ajax({
+        type: "GET",
+        url: "/api/node/list",
+        success: function (data) {
+            $('#nodelist').empty();
+            $.each(data, function (i, value) {
+                $('#nodelist').append(
+                    "<tr><td>" + value.node_name + "</td><td>" + value.node_ip + "</td><td>" + value.node_type + "</td></tr>",
+                );
+            });
+        },
+        error: function (data) {
+            console.log(data);
+            Swal.fire({
+                title: 'Error with Retrieving Data',
+                confirmButtonText: 'OK',
+                type: 'error'
+            })
+        }
+    });
 }

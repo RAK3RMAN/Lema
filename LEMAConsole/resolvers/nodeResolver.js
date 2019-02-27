@@ -17,8 +17,8 @@ exports.create_node = function (req, res) {
         } else {
             if (debug_mode === "true") { console.log('NODE Resolver: Node Created: ' + JSON.stringify(created_node)) }
         }
+        res.json(created_node);
     });
-    res.json(created_node);
 };
 
 //List Node Devices

@@ -7,9 +7,9 @@ module.exports = function (app) {
     let auth = require('../resolvers/authResolver.js');
     let node = require('../resolvers/nodeResolver.js');
 
-    app.route('/node/create')
+    app.route('/api/node/create')
         .post(auth.isLoggedIn, node.create_node);
 
-    app.route('/node/list')
+    app.route('/api/node/list')
         .get(auth.isLoggedIn, node.list_nodes);
 };

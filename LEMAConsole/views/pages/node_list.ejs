@@ -24,39 +24,13 @@
                         </div>
                     </div>
                     <div class="card-body table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="nodelist">
                             <thead class="text-success">
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Salary</th>
-                            <th>Country</th>
+                                <th>NAME</th>
+                                <th>IP</th>
+                                <th>TYPE</th>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Dakota Rice</td>
-                                <td>$36,738</td>
-                                <td>Niger</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Minerva Hooper</td>
-                                <td>$23,789</td>
-                                <td>Curaçao</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Sage Rodriguez</td>
-                                <td>$56,142</td>
-                                <td>Netherlands</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Philip Chaney</td>
-                                <td>$38,735</td>
-                                <td>Korea, South</td>
-                            </tr>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -65,5 +39,10 @@
     </div>
 </div>
 <script type="text/javascript" src="/static/js/lema-js/nodeFunct.js"></script>
+<script>
+    document.ready = function () {
+        nodeList();
+    }
+</script>
 <% include ../partials/wrapper-bottom.ejs %>
 <% include ../partials/footer.ejs %>
