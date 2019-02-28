@@ -44,16 +44,16 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
 	    echo "   4) Exit"
 	    echo ""
 	    until [[ "$MENU_OPTION" =~ ^[1-4]$ ]]; do
-		    read -rp "Select an option [1-3]: " MENU_OPTION
+		    read -rp "Select an option [1-4]: " MENU_OPTION
 	    done
 	    case $MENU_OPTION in
 		    1)
 		    	echo ""
 		    	echo "LEMAgent - Are you sure you want to reinstall the repository?"
                 echo "WARNING: This will DELETE all existing files in the Lema directory!"
-                echo "(y)es or (N)o:"
+                echo "(y)es or (N)o: (n)"
                 read replaceLema
-                if [ "$replaceLema" = "y" ] || [ "$replaceLema" = "" ]; then
+                if [ "$replaceLema" = "y" ] || [ "$replaceLema" = "Y" ]; then
                     rm -rf Lema
                     echo "Installing LEMAgent:"
                     else
@@ -79,13 +79,14 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
 			    echo ""
 		    	echo "LEMAgent - Are you sure you want to REMOVE LEMAgent?"
                 echo "WARNING: This will DELETE all existing files in the Lema directory!"
-                echo "(y)es or (N)o:"
+                echo "(y)es or (N)o: (n)"
                 read removeLema
-                if [ "$removeLema" = "y" ] || [ "$removeLema" = "" ]; then
+                if [ "$removeLema" = "y" ] || [ "$removeLema" = "Y" ]; then
                     rm -rf Lema
                     pm2 delete LEMAgent
                     pm2 save
-                    echo "LEMAgent Successfully Removed!"
+                    echo ""
+                    echo "LEMAgent successfully removed!"
                     echo "Run the install script to re-install LEMAgent"
                     echo ""
                     echo "Exiting install manager..."
