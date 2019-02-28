@@ -8,17 +8,26 @@ echo "=================================================="
 echo "Detected OS: Raspbian"
 echo ""
 echo "LEMAgent - Start auto install?"
-echo "(y)es or (N)o:"
-read nodejsinstall
-if [ "$nodejsinstall" = "y" ] || [ "$nodejsinstall" = "Y" ]; then
-#!/bin/bash
+echo "(y)es or (N)o: (y)"
+read autoInstall
+if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
     if [ -e Lema ]; then
         echo ""
         echo "LEMAgent is already installed..."
         echo ""
-        echo "Exiting install manager..."
-        echo "Follow advanced setup in README if script failed."
-        exit 0
+        echo "LEMAgent - Would you like to replace the repository?"
+        echo "WARNING: This will replace all previous files in the Lema directory!"
+        echo "(y)es or (N)o:"
+        read replaceLema
+        if [ "$replaceLema" = "y" ] || [ "$replaceLema" = "Y" ]; then
+            rm -rf Lema
+            echo "Installing LEMAgent:"
+            else
+                echo ""
+                echo "Exiting install manager..."
+                echo "Follow advanced setup in README if script failed."
+                exit 0
+        fi
     else
         echo "Installing LEMAgent:"
     fi
@@ -32,7 +41,7 @@ if [ "$nodejsinstall" = "y" ] || [ "$nodejsinstall" = "Y" ]; then
     cd LEMAgent
     npm install
     npm install pm2 -g
-#    pm2 startup
+    pm2 startup
 #    pm2 start start.sh --name LEMAgent
 #    pm2 save
     echo ""
