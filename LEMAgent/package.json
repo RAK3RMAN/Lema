@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/RAK3RMAN/Lema/issues"
   },
-  "homepage": "https://github.com/RAK3RMAN/Lema#readme"
+  "homepage": "https://github.com/RAK3RMAN/Lema#readme",
+  "dependencies": {
+    "data-store": "^3.1.0",
+    "ip": "^1.1.5"
+  }
 }
