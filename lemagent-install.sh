@@ -7,6 +7,13 @@ echo "==|| LEMAgent Install Manager - RAk3rman 2019 ||=="
 echo "=================================================="
 echo "Detected OS: Raspbian"
 echo ""
+if [ "$EUID" -ne 0 ]
+  then echo "This script must be run with root-level access."
+  echo ""
+  echo "Exiting install manager..."
+  echo "Follow advanced setup in README if script failed."
+  exit 0
+fi
 echo "LEMAgent - Start auto install?"
 echo "(y)es or (N)o: (y)"
 read autoInstall

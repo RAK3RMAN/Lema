@@ -31,7 +31,7 @@ Install Lema Console on a computer or server that will display the GUI webpage a
         - `sudo su -`
 2. Download and run the installer.
 ```
-bash <(curl -s https://github.com/RAK3RMAN/Lema/lemadmin-install.sh)
+bash <(wget -O - https://raw.github.com/RAK3RMAN/Lema/master/lemadmin-install.sh)
 ```
 
 ### Lema Agent Install
@@ -42,7 +42,7 @@ sudo su -
 ```
 2. Download and run the installer.
 ```
-bash <(curl -s https://github.com/RAK3RMAN/Lema/lemagent-install.sh)
+bash <(wget -O - https://raw.github.com/RAK3RMAN/Lema/master/lemagent-install.sh)
 ```
 
 ### Advanced Setup
