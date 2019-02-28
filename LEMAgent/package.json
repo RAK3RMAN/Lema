@@ -1,0 +1,19 @@
+{
+  "name": "lema-agent",
+  "version": "1.0.0",
+  "description": "Lema Agent - A Raspberry Pi discovery and implementation tool written in Node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RAK3RMAN/Lema.git"
+  },
+  "author": "rak3rman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RAK3RMAN/Lema/issues"
+  },
+  "homepage": "https://github.com/RAK3RMAN/Lema#readme"
+}
