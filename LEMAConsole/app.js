@@ -34,6 +34,7 @@ let nodeRouter = require('./routes/nodeRoutes.js');
 
 //Resolvers
 let auth = require('./resolvers/authResolver.js');
+let socket = require('./resolvers/socketResolver.js');
 
 //Database Setup
 //TODO Create Database connection handler
@@ -72,6 +73,7 @@ app.use('/static', express.static(process.cwd() + '/static'));
 
 //Forward Node Routes
 nodeRouter(app);
+socket(app);
 
 //Material Routes
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);
