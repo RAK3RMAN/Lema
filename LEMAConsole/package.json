@@ -8,6 +8,10 @@
   },
   "author": "rak3rman",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RAK3RMAN/Lema/issues"
+  },
+  "homepage": "https://github.com/RAK3RMAN/Lema#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",

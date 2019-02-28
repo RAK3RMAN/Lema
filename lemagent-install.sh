@@ -29,7 +29,6 @@ if [ "$nodejsinstall" = "y" ] || [ "$nodejsinstall" = "Y" ]; then
     apt-get install nodejs -y
     git clone https://github.com/RAK3RMAN/Lema.git
     cd Lema
-    rm -rf LEMAConsole
     cd LEMAgent
     npm install
     npm install pm2 -g
