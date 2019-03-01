@@ -73,7 +73,6 @@ app.use('/static', express.static(process.cwd() + '/static'));
 
 //Forward Node Routes
 nodeRouter(app);
-socket(app);
 
 //Material Routes
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);
@@ -127,7 +126,9 @@ app.use(function (err, req, res, next) {
 //               --- Port Listen ---                 //
 //===================================================//
 
-app.listen(storage.get('console_port'), function () {
+let http = require('http');
+let server = http.createServer(app);
+server.listen(storage.get('console_port'), function () {
     console.log(' ');
     console.log('==============================================');
     console.log(' LEMAConsole ~ Startup | Created By: RAk3rman ');
@@ -140,6 +141,7 @@ app.listen(storage.get('console_port'), function () {
 //Declare Console Functions
 let configManager = require('./config/configManager.js');
 let checkConnect = require('./sys_funct/checkConnect.js');
+socket(server);
 
 //End of Port Listen - - - - - - - - - - - - - - - - -
 

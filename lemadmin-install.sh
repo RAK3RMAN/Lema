@@ -18,7 +18,7 @@ function manageMenu () {
 
 	case $MENU_OPTION in
 		1)
-			installLema
+			reinstallLema
 		;;
 		2)
 			removeLema
