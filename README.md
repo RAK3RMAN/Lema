@@ -1,4 +1,6 @@
 # Lema CE
+[![Build Status](https://travis-ci.org/RAK3RMAN/Lema.svg?branch=master)](https://travis-ci.org/RAK3RMAN/Lema)
+
 A Raspberry Pi discovery and implementation tool written in Node.js
 
 ### Project Under Development! Please wait for a finalized release before usage!

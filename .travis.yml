@@ -2,6 +2,6 @@ language: node_js
 node_js:
   - "node"
 env:
-  - TEST_SUITE=LEMAConsole
-  - TEST_SUITE=LEMAgent
-script: "cd $TEST_SUITE; npm install; npm test"
+  - LEMA_SUITE=LEMAConsole
+  - LEMA_SUITE=LEMAgent
+script: "cd $LEMA_SUITE; npm install; npm test"
