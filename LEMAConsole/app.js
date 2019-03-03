@@ -20,8 +20,37 @@ let passport = require('passport');
 let flash = require('connect-flash');
 let bodyParser = require('body-parser');
 let session = require('express-session');
+let uuidv4 = require('uuid/v4');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
+
+//System Config Checks - - - - - - - - - - - - - - - - -
+//Session Secret Check
+let session_secret = storage.get('session_secret');
+if (session_secret === undefined) {
+    let newSecret = uuidv4();
+    storage.set('session_secret', newSecret);
+    console.log('Lema Config Manager: Session Secret Set - ' + newSecret);
+}
+//Console Port Check
+let console_port = storage.get('console_port');
+if (console_port === undefined) {
+    storage.set('console_port', 3000);
+    console.log('Lema Config Manager: Console Port Set to DEFAULT: 3000');
+}
+//MongoDB URL Check
+let mongodb_url = storage.get('mongodb_url');
+if (mongodb_url === undefined) {
+    storage.set('mongodb_url', 'mongodb://localhost:27017');
+    console.log('Lema Config Manager: MongoDB URL Set to DEFAULT: mongodb://localhost:27017');
+}
+//Debug Mode Check
+let debug_mode = storage.get('debug_mode');
+if (debug_mode === undefined) {
+    storage.set('debug_mode', 'false');
+    console.log('Lema Config Manager: Debug Mode Set to DEFAULT: false');
+}
+//End of System Config Checks - - - - - - - - - - - - - -
 
 //Declare App
 const app = express();
@@ -35,19 +64,6 @@ let nodeRouter = require('./routes/nodeRoutes.js');
 //Resolvers
 let auth = require('./resolvers/authResolver.js');
 let socket = require('./resolvers/socketResolver.js');
-
-//Database Setup
-//TODO Create Database connection handler
-mongoose.connection.on('connected', function () {
-    console.log('MongoDB: Connected')
-});
-mongoose.connection.on('timeout', function () {
-    console.log('MongoDB: Error')
-});
-mongoose.connection.on('disconnected', function () {
-    console.log('MongoDB: Disconnected')
-});
-mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
 
 //Passport Setup
 require('./sys_funct/passport.js')(passport);
@@ -123,9 +139,10 @@ app.use(function (err, req, res, next) {
 
 
 //===================================================//
-//               --- Port Listen ---                 //
+//        --- External Connections Setup ---         //
 //===================================================//
 
+//Port Listen
 let http = require('http');
 let server = http.createServer(app);
 server.listen(storage.get('console_port'), function () {
@@ -138,11 +155,23 @@ server.listen(storage.get('console_port'), function () {
     console.log(' ');
 });
 
+//Database Setup
+//TODO Create Database connection handler
+mongoose.connection.on('connected', function () {
+    console.log('MongoDB: Connected')
+});
+mongoose.connection.on('timeout', function () {
+    console.log('MongoDB: Error')
+});
+mongoose.connection.on('disconnected', function () {
+    console.log('MongoDB: Disconnected')
+});
+mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
+
 //Declare Console Functions
-let configManager = require('./config/configManager.js');
 let checkConnect = require('./sys_funct/checkConnect.js');
 socket(server);
 
-//End of Port Listen - - - - - - - - - - - - - - - - -
+//End of External Connections Setup - - - - - - - - - -
 
 module.exports = app;

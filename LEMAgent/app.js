@@ -15,13 +15,43 @@ let createError = require('http-errors');
 let cookieParser = require('cookie-parser');
 let ip = require('ip');
 let bodyParser = require('body-parser');
-let jwt = require('jwt-simple');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
+
+//System Config Checks - - - - - - - - - - - - - - - - -
+//Node ID Check
+let node_id = storage.get('node_id');
+if (node_id == undefined) {
+    let newSecret = uuidv4();
+    storage.set('node_id', newSecret);
+    console.log('Lema Config Manager: Node ID Set - ' + newSecret);
+}
+//LEMAConsole Secret Check
+let console_secret = storage.get('console_secret');
+if (console_secret == undefined) {
+    storage.set('console_secret', '');
+    console.log('Lema Config Manager: LEMAConsole Secret Set to DEFAULT');
+}
+//Setup Status Check
+let setup_status = storage.get('setup_status');
+if (setup_status == undefined) {
+    storage.set('setup_status', 'false');
+    console.log('Lema Config Manager: Setup Status Set to DEFAULT - false');
+}
+//LEMAConsole IP Check
+let console_ip= storage.get('console_ip');
+if (console_ip == undefined) {
+    storage.set('console_ip', '');
+    console.log('Lema Config Manager: LEMAConsole IP Set to DEFAULT');
+}
+//End of System Config Checks - - - - - - - - - - - - - -
 
 //Declare App
 const app = express();
 app.set('view engine', 'ejs');
+
+//Resolvers
+let socket = require('./resolvers/socketResolver.js');
 
 //Other Processes Setup
 app.use(cookieParser());
@@ -93,8 +123,10 @@ app.use(function (err, req, res, next) {
 
 
 //===================================================//
-//               --- Port Listen ---                 //
+//        --- External Connections Setup ---         //
 //===================================================//
+
+//Port Listen
 if (storage.get('setup_status') === "false") {
     let http = require('http');
     let client = http.createServer(app);
@@ -114,41 +146,9 @@ if (storage.get('setup_status') === "false") {
     console.log('===========================================');
 }
 
-//Declare Console Functions
-let configManager = require('./config/configManager.js');
+//Initialize Socket.io
+socket();
 
-//End of Port Listen - - - - - - - - - - - - - - - - -
-
-
-//===================================================//
-//           --- Socket.io Functions ---             //
-//===================================================//
-
-if (storage.get('setup_status') === "true") {
-    console.log('Socket.io Connecting to LEMAConsole...');
-    console.log('LEMAConsole IP: ' + storage.get('console_ip'));
-    console.log(' ');
-    //Setup JWT
-    let payload = { node_id: storage.get('node_id') };
-    let secret = storage.get('console_secret');
-    let jwt_token = jwt.encode(payload, secret);
-    //Setup Socket.io
-    let io = require('socket.io-client');
-    let socket = io.connect(storage.get('console_ip'));
-    socket.on('connect', function () {
-        socket
-            .emit('authenticate', {token: jwt_token}) //send the jwt
-            .on('authenticated', function () {
-                console.log('Authorized connection made to LEMAConsole');
-                console.log(' ');
-                socket.emit('server custom event', {my: 'data'});
-            })
-            .on('unauthorized', function(msg) {
-                console.log("Unauthorized: " + JSON.stringify(msg.data));
-            })
-    });
-}
-
-//End of Socket.io Functions - - - - - - - - - - - - - -
+//End of External Connections Setup - - - - - - - - - -
 
 module.exports = app;
