@@ -4,7 +4,8 @@
   "description": "Lema Console - A Raspberry Pi discovery and implementation tool written in Node.js",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "node app.js"
   },
   "author": "rak3rman",
   "license": "MIT",
