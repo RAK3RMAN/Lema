@@ -171,6 +171,9 @@ mongoose.connection.on('disconnected', function () {
 });
 mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
 
+//Remove Deprecation Warnings
+mongoose.set('useFindAndModify', false);
+
 //Declare Console Functions
 let checkConnect = require('./sys_funct/checkConnect.js');
 

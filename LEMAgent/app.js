@@ -40,7 +40,7 @@ if (setup_status == undefined) {
     console.log('Lema Config Manager: Setup Status Set to DEFAULT - false');
 }
 //LEMAConsole IP Check
-let console_ip= storage.get('console_ip');
+let console_ip = storage.get('console_ip');
 if (console_ip == undefined) {
     storage.set('console_ip', '');
     console.log('Lema Config Manager: LEMAConsole IP Set to DEFAULT');

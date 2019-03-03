@@ -8,6 +8,7 @@ let storage = new dataStore({path: './config/sysConfig.json'});
 
 module.exports = function () {
     if (storage.get('setup_status') === "true") {
+        //Broadcast
         console.log('Socket.io Connecting to LEMAConsole...');
         console.log('LEMAConsole IP: ' + storage.get('console_ip'));
         console.log(' ');

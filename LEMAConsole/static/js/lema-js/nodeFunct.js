@@ -12,7 +12,7 @@ function nodeAddSA() {
     }).queue([{
         title: 'Name of Device',
         text: 'Description'
-        },
+    },
         {
             title: 'Device IP',
             text: 'Description'
@@ -82,8 +82,14 @@ function nodeList() {
         success: function (data) {
             $('#nodelist').empty();
             $.each(data, function (i, value) {
+                let name_element;
+                if (value.node_status === "online") {
+                    name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name
+                } else {
+                    name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name
+                }
                 $('#nodelist').append(
-                    "<tr><td>" + value.node_name + "</td><td>" + value.node_ip + "</td><td>" + value.node_type + "</td></tr>",
+                    "<tr><td>" + name_element + "</td><td>" + value.node_ip + "</td><td>" + value.node_type + "</td></tr>",
                 );
             });
         },

@@ -1,4 +1,4 @@
-# Lema CE
+# Lema
 [![Build Status](https://travis-ci.org/RAK3RMAN/Lema.svg?branch=master)](https://travis-ci.org/RAK3RMAN/Lema)
 
 A Raspberry Pi discovery and implementation tool written in Node.js
@@ -6,7 +6,7 @@ A Raspberry Pi discovery and implementation tool written in Node.js
 ### Project Under Development! Please wait for a finalized release before usage!
 
 ### Basic Structure
-Lema aims to provide a cohesive and powerful solution to interacting with Raspberry Pi's GPIO capabilities. The Lema Agent runs on the Raspberry Pi and communicates with the Lema Console, which provides a GUI webpage and API pathways for external integration.
+Lema aims to provide a cohesive and powerful solution to interacting with the Raspberry Pi's GPIO capabilities. The Lema Agent runs on the Raspberry Pi and communicates with the Lema Console, which provides a GUI webpage and API pathways for external integration.
 
 ### Key Features
 - Automated Capabilites
