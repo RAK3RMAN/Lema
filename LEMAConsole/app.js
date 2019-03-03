@@ -50,6 +50,9 @@ if (debug_mode === undefined) {
     storage.set('debug_mode', 'false');
     console.log('Lema Config Manager: Debug Mode Set to DEFAULT: false');
 }
+//Initialize Exit Options
+let exitOpt = require('./config/exitOpt.js');
+setTimeout(exitOpt.testCheck, 3000);
 //End of System Config Checks - - - - - - - - - - - - - -
 
 //Declare App
@@ -166,7 +169,7 @@ mongoose.connection.on('timeout', function () {
 mongoose.connection.on('disconnected', function () {
     console.log('MongoDB: Disconnected')
 });
-//mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
+mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
 
 //Declare Console Functions
 let checkConnect = require('./sys_funct/checkConnect.js');

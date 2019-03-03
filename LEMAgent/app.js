@@ -45,6 +45,9 @@ if (console_ip == undefined) {
     storage.set('console_ip', '');
     console.log('Lema Config Manager: LEMAConsole IP Set to DEFAULT');
 }
+//Initialize Exit Options
+let exitOpt = require('./config/exitOpt.js');
+setTimeout(exitOpt.testCheck, 3000);
 //End of System Config Checks - - - - - - - - - - - - - -
 
 //Declare App
