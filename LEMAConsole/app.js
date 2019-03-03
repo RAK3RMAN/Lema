@@ -166,10 +166,12 @@ mongoose.connection.on('timeout', function () {
 mongoose.connection.on('disconnected', function () {
     console.log('MongoDB: Disconnected')
 });
-mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
+//mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTimeoutMS: 10000});
 
 //Declare Console Functions
 let checkConnect = require('./sys_funct/checkConnect.js');
+
+//Initialize Socket.io
 socket(server);
 
 //End of External Connections Setup - - - - - - - - - -
