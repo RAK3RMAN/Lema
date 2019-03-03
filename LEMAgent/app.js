@@ -28,7 +28,6 @@ app.use(bodyParser());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-
 //End of Initialize Packages and Routers - - - - - - - -
 
 
@@ -39,7 +38,6 @@ app.use(express.urlencoded({extended: false}));
 //Create Routes
 app.post('/lema-agent/broadcast', agentBroadcast);
 app.post('/lema-agent/setup', agentSetup);
-app.post('/lema-agent/release', agentRelease);
 
 //Broadcast Agent Information
 function agentBroadcast(req, res) {
@@ -48,13 +46,22 @@ function agentBroadcast(req, res) {
 //Receive Setup config from LEMAConsole
 function agentSetup(req, res) {
     let agentConfig = req.body;
-    console.log(agentConfig);
-    res.json({ setupStat: 'success', node_id: storage.get('node_id'), node_arch: 'type' });
+    console.log(agentConfig["console_ip"]);
+    if (agentConfig["console_ip"] === undefined) {
+        console.log('ERROR: Not all parameters sent');
+        res.json({ setupStat: 'failure', node_id: storage.get('node_id') });
+    } else {
+        storage.set('setup_status', 'true');
+        storage.set('console_ip', agentConfig["console_ip"]);
+        res.json({ setupStat: 'success', node_id: storage.get('node_id'), node_arch: 'type' });
+    }
 }
 //Remove LEMAConsole configuration, release, and await setup
 function agentRelease(req, res) {
-    let releaseCode = req.body;
+    let releaseCode = JSON.parse(req.body);
     console.log(releaseCode);
+    storage.set('setup_status', 'false');
+    storage.set('console_ip', '');
     res.json({ releaseStat: 'success', node_id: storage.get('node_id') });
 }
 
@@ -73,11 +80,9 @@ app.use(function (req, res, next) {
 // Error Handler Logic
 app.use(function (err, req, res, next) {
     //Determine Message
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-    //Render Error Page
+    console.log("ERROR: " + err.message);
+    //Return Error
     res.status(err.status || 500);
-    res.render('pages/error.ejs', {title: 'Error'});
 });
 
 //End of Error Handler - - - - - - - - - - - - - - - - -
@@ -86,17 +91,24 @@ app.use(function (err, req, res, next) {
 //===================================================//
 //               --- Port Listen ---                 //
 //===================================================//
-
-let http = require('http');
-let client = http.createServer(app);
-client.listen(3030, function () {
+if (storage.get('setup_status') === "false") {
+    let http = require('http');
+    let client = http.createServer(app);
+    client.listen(3030, function () {
+        console.log(' ');
+        console.log('===========================================');
+        console.log(' LEMAgent ~ Startup | Created By: RAk3rman ');
+        console.log('===========================================');
+        console.log('Lema Agent Broadcasting at: ' + ip.address() + ":3030");
+        console.log('Awaiting Setup Request from LEMAConsole...');
+        console.log(' ');
+    });
+} else {
     console.log(' ');
     console.log('===========================================');
     console.log(' LEMAgent ~ Startup | Created By: RAk3rman ');
     console.log('===========================================');
-    console.log('Lema Agent Broadcasting at: ' + ip.address() + ":3030");
-    console.log(' ');
-});
+}
 
 //Declare Console Functions
 let configManager = require('./config/configManager.js');
@@ -108,12 +120,29 @@ let configManager = require('./config/configManager.js');
 //           --- Socket.io Functions ---             //
 //===================================================//
 
-let io = require('socket.io-client');
-let socket = io.connect('http://localhost:3000');
-socket.on('connect', function () {
-    console.log('Connected');
-    socket.emit('server custom event', { my: 'data' });
-});
+if (storage.get('setup_status') === "true") {
+    console.log('Socket.io Connecting to LEMAConsole...');
+    console.log('LEMAConsole IP: ' + storage.get('console_ip'));
+    console.log(' ');
+    let jwt = require('jwt-simple');
+    let payload = { node_id: storage.get('node_id') };
+    let secret = storage.get('console_secret');
+    let token = jwt.encode(payload, secret);
+    let io = require('socket.io-client');
+    let socket = io.connect(storage.get('console_ip'));
+    socket.on('connect', function () {
+        socket
+            .emit('authenticate', {token: token}) //send the jwt
+            .on('authenticated', function () {
+                console.log('Authorized connection made to LEMAConsole');
+                console.log(' ');
+                socket.emit('server custom event', {my: 'data'});
+            })
+            .on('unauthorized', function(msg) {
+                console.log("unauthorized: " + JSON.stringify(msg.data));
+            })
+    });
+}
 
 //End of Socket.io Functions - - - - - - - - - - - - - -
 

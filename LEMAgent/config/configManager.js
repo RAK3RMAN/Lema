@@ -17,12 +17,29 @@ if (node_id == undefined) {
     console.log('Lema Config Manager: Node ID Set - ' + newSecret);
 }
 
+//LEMAConsole Secret Check
+let console_secret = storage.get('console_secret');
+if (console_secret == undefined) {
+    console.log('Lema Config Manager: Auto Config for LEMAConsole Secret Started');
+    let newSecret = uuidv4();
+    storage.set('console_secret', newSecret);
+    console.log('Lema Config Manager: LEMAConsole Secret Set - ' + newSecret);
+}
+
 //Setup Status Check
-let setup_status= storage.get('setup_status');
+let setup_status = storage.get('setup_status');
 if (setup_status == undefined) {
     console.log('Lema Config Manager: Auto Config for Setup Status Started');
     storage.set('setup_status', 'false');
     console.log('Lema Config Manager: Setup Status Set to DEFAULT - false');
+}
+
+//LEMAConsole IP Check
+let console_ip= storage.get('console_ip');
+if (console_ip == undefined) {
+    console.log('Lema Config Manager: Auto Config for LEMAConsole IP Started');
+    storage.set('console_ip', '');
+    console.log('Lema Config Manager: LEMAConsole IP Set to DEFAULT');
 }
 
 //End of System Config Checks - - - - - - - - - - - - - -
