@@ -4,4 +4,4 @@ node_js:
 env:
   - TEST_SUITE=LEMAConsole
   - TEST_SUITE=LEMAgent
-script: "cd $TEST_SUITE; npm test"
+script: "cd $TEST_SUITE; npm install; npm test"
