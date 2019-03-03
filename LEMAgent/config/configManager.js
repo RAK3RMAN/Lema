@@ -21,9 +21,8 @@ if (node_id == undefined) {
 let console_secret = storage.get('console_secret');
 if (console_secret == undefined) {
     console.log('Lema Config Manager: Auto Config for LEMAConsole Secret Started');
-    let newSecret = uuidv4();
-    storage.set('console_secret', newSecret);
-    console.log('Lema Config Manager: LEMAConsole Secret Set - ' + newSecret);
+    storage.set('console_secret', '');
+    console.log('Lema Config Manager: LEMAConsole Secret Set to DEFAULT');
 }
 
 //Setup Status Check

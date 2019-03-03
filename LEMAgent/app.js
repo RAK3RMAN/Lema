@@ -15,6 +15,7 @@ let createError = require('http-errors');
 let cookieParser = require('cookie-parser');
 let ip = require('ip');
 let bodyParser = require('body-parser');
+let jwt = require('jwt-simple');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 
@@ -28,6 +29,7 @@ app.use(bodyParser());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+
 //End of Initialize Packages and Routers - - - - - - - -
 
 
@@ -47,12 +49,13 @@ function agentBroadcast(req, res) {
 function agentSetup(req, res) {
     let agentConfig = req.body;
     console.log(agentConfig["console_ip"]);
-    if (agentConfig["console_ip"] === undefined) {
+    if ( agentConfig["console_ip"] === undefined || agentConfig["console_secret"] === undefined ) {
         console.log('ERROR: Not all parameters sent');
         res.json({ setupStat: 'failure', node_id: storage.get('node_id') });
     } else {
         storage.set('setup_status', 'true');
         storage.set('console_ip', agentConfig["console_ip"]);
+        storage.set('console_secret', agentConfig["console_secret"]);
         res.json({ setupStat: 'success', node_id: storage.get('node_id'), node_arch: 'type' });
     }
 }
@@ -62,6 +65,7 @@ function agentRelease(req, res) {
     console.log(releaseCode);
     storage.set('setup_status', 'false');
     storage.set('console_ip', '');
+    storage.set('console_secret', '');
     res.json({ releaseStat: 'success', node_id: storage.get('node_id') });
 }
 
@@ -124,22 +128,23 @@ if (storage.get('setup_status') === "true") {
     console.log('Socket.io Connecting to LEMAConsole...');
     console.log('LEMAConsole IP: ' + storage.get('console_ip'));
     console.log(' ');
-    let jwt = require('jwt-simple');
+    //Setup JWT
     let payload = { node_id: storage.get('node_id') };
     let secret = storage.get('console_secret');
-    let token = jwt.encode(payload, secret);
+    let jwt_token = jwt.encode(payload, secret);
+    //Setup Socket.io
     let io = require('socket.io-client');
     let socket = io.connect(storage.get('console_ip'));
     socket.on('connect', function () {
         socket
-            .emit('authenticate', {token: token}) //send the jwt
+            .emit('authenticate', {token: jwt_token}) //send the jwt
             .on('authenticated', function () {
                 console.log('Authorized connection made to LEMAConsole');
                 console.log(' ');
                 socket.emit('server custom event', {my: 'data'});
             })
             .on('unauthorized', function(msg) {
-                console.log("unauthorized: " + JSON.stringify(msg.data));
+                console.log("Unauthorized: " + JSON.stringify(msg.data));
             })
     });
 }
