@@ -9,6 +9,7 @@ Author       : RAk3rman
 //===================================================//
 
 //Declare Packages
+let os = require('os');
 let express = require('express');
 let morgan = require('morgan');
 let createError = require('http-errors');
@@ -77,7 +78,9 @@ app.post('/lema-agent/setup', agentSetup);
 
 //Broadcast Agent Information
 function agentBroadcast(req, res) {
-    res.json({ node_id: storage.get('node_id') });
+    //TODO Fix default value
+    let node_type = "raspberryPi";
+    res.json({ node_id: storage.get('node_id'), node_hostname: os.hostname(), node_type: node_type });
 }
 //Receive Setup config from LEMAConsole
 function agentSetup(req, res) {

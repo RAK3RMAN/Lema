@@ -50,6 +50,12 @@ if (debug_mode === undefined) {
     storage.set('debug_mode', 'false');
     console.log('Lema Config Manager: Debug Mode Set to DEFAULT: false');
 }
+//Node Search Range Check
+let node_search_range = storage.get('node_search_range');
+if (node_search_range === undefined) {
+    storage.set('node_search_range', '127.0.0.1');
+    console.log('Lema Config Manager: Node Search Range Set to DEFAULT: 127.0.0.1');
+}
 //Initialize Exit Options
 let exitOpt = require('./config/exitOpt.js');
 setTimeout(exitOpt.testCheck, 3000);
@@ -177,7 +183,6 @@ mongoose.set('useFindAndModify', false);
 //Declare Console Functions
 let checkConnect = require('./sys_funct/checkConnect.js');
 let nodeSearch = require('./sys_funct/nodeSearch.js');
-nodeSearch.findNodes("127.0.0.1");
 
 //Initialize Socket.io
 socket(server);

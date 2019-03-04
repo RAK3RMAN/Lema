@@ -1,11 +1,11 @@
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-App/Filename : LEMAConsole/models/nodeModel.js
+App/Filename : LEMAConsole/models/nodePenModel.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let mongoose = require('mongoose');
 
-let nodeSchema = mongoose.Schema({
-    node_name: String,
+let nodependingSchema = mongoose.Schema({
+    node_hostname: String,
     node_ip: String,
     node_type: String,
     node_id: {
@@ -14,12 +14,8 @@ let nodeSchema = mongoose.Schema({
     },
     node_status: {
         type: String,
-        default: "offline",
-    },
-    created_date: {
-        type: Date,
-        default: Date.now
+        default: "pending",
     },
 });
 
-module.exports = mongoose.model('node', nodeSchema);
+module.exports = mongoose.model('nodePending', nodependingSchema);
