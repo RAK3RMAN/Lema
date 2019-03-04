@@ -25,8 +25,7 @@ module.exports = function () {
                 .emit('authenticate', {token: jwt_token}) //send the jwt
                 .on('authenticated', function () {
                     console.log('Authorized connection made to LEMAConsole');
-                    console.log(' ');
-                    socket.emit('server custom event', {my: 'data'});
+                    //socket.emit('server custom event', {my: 'data'});
                 })
                 .on('unauthorized', function(msg) {
                     console.log("Unauthorized: " + JSON.stringify(msg.data));

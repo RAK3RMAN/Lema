@@ -176,6 +176,8 @@ mongoose.set('useFindAndModify', false);
 
 //Declare Console Functions
 let checkConnect = require('./sys_funct/checkConnect.js');
+let nodeSearch = require('./sys_funct/nodeSearch.js');
+nodeSearch.findNodes("127.0.0.1");
 
 //Initialize Socket.io
 socket(server);

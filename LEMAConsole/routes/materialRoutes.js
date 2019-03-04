@@ -10,7 +10,7 @@ exports.dashMain = function (req, res) {
 
 //Nodes List Page Route - Material
 exports.nodeList = function (req, res) {
-    res.render('pages/node_list.ejs', {title: 'Node List', user: req.user})
+    res.render('pages/node_list.ejs', {title: 'Node List', user: req.user});
 };
 
 //System Setup Page Route - Material
