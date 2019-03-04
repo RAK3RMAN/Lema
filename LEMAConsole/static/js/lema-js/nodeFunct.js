@@ -76,6 +76,7 @@ function nodeAddSA() {
 
 //Node List
 function nodeList() {
+    //Get list for active Nodes
     $.ajax({
         type: "GET",
         url: "/api/node/list",
@@ -90,6 +91,33 @@ function nodeList() {
                 }
                 $('#nodelist').append(
                     "<tr><td>" + name_element + "</td><td>" + value.node_ip + "</td><td>" + value.node_type + "</td></tr>",
+                );
+            });
+        },
+        error: function (data) {
+            console.log(data);
+            Swal.fire({
+                title: 'Error with Retrieving Data',
+                confirmButtonText: 'OK',
+                type: 'error'
+            })
+        }
+    });
+    //Get list for NodePens
+    $.ajax({
+        type: "GET",
+        url: "/api/nodepen/list",
+        success: function (data) {
+            $('#nodepenlist').empty();
+            $.each(data, function (i, value) {
+                let name_element;
+                if (value.node_status === "pending") {
+                    name_element = "<i class=\"fab fa-raspberry-pi\" style=\"color: orange;\"></i> " + value.node_hostname + "@" + value.node_ip
+                } else {
+                    name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_hostname + "@" + value.node_ip
+                }
+                $('#nodepenlist').append(
+                    "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "</td></tr>",
                 );
             });
         },

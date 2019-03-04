@@ -5,7 +5,7 @@ Author       : RAk3rman
 let cmd = require('node-cmd');
 let request = require('request');
 let node = require('../models/nodeModel.js');
-let nodePen= require('../models/nodePenModel.js');
+let nodePen = require('../models/nodePenModel.js');
 let cronJob = require('cron').CronJob;
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});

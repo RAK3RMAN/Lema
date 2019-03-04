@@ -12,4 +12,7 @@ module.exports = function (app) {
 
     app.route('/api/node/list')
         .get(auth.isLoggedIn, node.list_nodes);
+
+    app.route('/api/nodepen/list')
+        .get(auth.isLoggedIn, node.list_nodepens);
 };

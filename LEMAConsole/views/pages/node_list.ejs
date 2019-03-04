@@ -35,6 +35,38 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-warning">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title p-0">
+                                    <h4 class="card-title"><strong>NodePen List</strong></h4>
+                                    <p class="card-category">Last Updated: #</p>
+                                </span>
+                                <ul class="nav nav-tabs justify-content-end" data-tabs="tabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" onclick="nodeAddSA()" data-toggle="tab">
+                                            <i class="material-icons">library_add</i> Add Node
+                                            <div class="ripple-container"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-warning">
+                            <th>Hostname/IP</th>
+                            <th>Node ID</th>
+                            <th>Acquisition Date</th>
+                            </thead>
+                            <tbody id="nodepenlist"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

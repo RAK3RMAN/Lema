@@ -4,7 +4,7 @@ Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let mongoose = require('mongoose');
 
-let nodependingSchema = mongoose.Schema({
+let nodepenSchema = mongoose.Schema({
     node_hostname: String,
     node_ip: String,
     node_type: String,
@@ -16,6 +16,10 @@ let nodependingSchema = mongoose.Schema({
         type: String,
         default: "pending",
     },
+    created_date: {
+        type: Date,
+        default: Date.now
+    },
 });
 
-module.exports = mongoose.model('nodePending', nodependingSchema);
+module.exports = mongoose.model('nodePen', nodepenSchema);
