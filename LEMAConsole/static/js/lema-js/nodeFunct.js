@@ -85,12 +85,12 @@ function nodeList() {
             $.each(data, function (i, value) {
                 let name_element;
                 if (value.node_status === "online") {
-                    name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name
+                    name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + "@" + value.node_ip
                 } else {
-                    name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name
+                    name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + "@" + value.node_ip
                 }
                 $('#nodelist').append(
-                    "<tr><td>" + name_element + "</td><td>" + value.node_ip + "</td><td>" + value.node_type + "</td></tr>",
+                    "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.node_type + "</td></tr>",
                 );
             });
         },
@@ -155,7 +155,6 @@ function nodeSetRange() {
                 type: 'success',
                 title: 'Scan settings updated!'
             });
-            nodeList();
         },
         error: function (data) {
             if (data.status == 200) {
@@ -163,13 +162,12 @@ function nodeSetRange() {
                     type: 'success',
                     title: 'Scan settings updated!'
                 });
-                nodeList();
             } else {
                 console.log(data);
                 Toast.fire({
                     type: 'error',
                     title: 'Error in sending data...'
-                })
+                });
             }
         }
     });

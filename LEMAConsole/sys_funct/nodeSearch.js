@@ -10,11 +10,12 @@ let cronJob = require('cron').CronJob;
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
-let range = storage.get('node_search_range');
 
 
 // Check for New Nodes every 15 seconds
 new cronJob('*/15 * * * * *', function() {
+    let storage = new dataStore({path: './config/sysConfig.json'});
+    let range = (storage.get('node_search_rangeStart') + "-" + storage.get('node_search_rangeEnd'));
     cmd.get(
         "evilscan " + range + " --port=3030 --status=O --json",
         function(err, data, stderr){

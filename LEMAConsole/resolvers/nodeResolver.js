@@ -47,3 +47,10 @@ exports.list_nodepens = function (req, res) {
         res.json(listed_nodes);
     });
 };
+
+//Update Scan Range for Node Discovery
+exports.update_scanrange = function (req, res) {
+    storage.set('node_search_rangeStart', req.body["start_range"]);
+    storage.set('node_search_rangeEnd', req.body["end_range"]);
+    res.json('success');
+};

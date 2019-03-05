@@ -51,9 +51,12 @@ if (debug_mode === undefined) {
     console.log('Lema Config Manager: Debug Mode Set to DEFAULT: false');
 }
 //Node Search Range Check
-let node_search_range = storage.get('node_search_range');
-if (node_search_range === undefined) {
-    storage.set('node_search_range', '127.0.0.1-127.0.0.1');
+//TODO Migrate to DB
+let node_search_rangeStart = storage.get('node_search_rangeStart');
+let node_search_rangeEnd = storage.get('node_search_rangeEnd');
+if (node_search_rangeStart === undefined || node_search_rangeEnd === undefined) {
+    storage.set('node_search_rangeStart', '127.0.0.1');
+    storage.set('node_search_rangeEnd', '127.0.0.1');
     console.log('Lema Config Manager: Node Search Range Set to DEFAULT:127.0.0.1-127.0.0.1');
 }
 //Initialize Exit Options
