@@ -112,7 +112,7 @@ function nodeList() {
             $.each(data, function (i, value) {
                 let name_element;
                 if (value.node_status === "pending") {
-                    name_element = "<i class=\"fab fa-raspberry-pi\" style=\"color: orange;\"></i> " + value.node_hostname + "@" + value.node_ip
+                    name_element = "<i class=\"fas fa-adjust\" style=\"color: orange;\"></i> " + value.node_hostname + "@" + value.node_ip
                 } else {
                     name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_hostname + "@" + value.node_ip
                 }
@@ -128,6 +128,49 @@ function nodeList() {
                 confirmButtonText: 'OK',
                 type: 'error'
             })
+        }
+    });
+}
+
+//Node Set Scan Range
+function nodeSetRange() {
+    let startRange = document.getElementById("startRange").value;
+    let endRange = document.getElementById("endRange").value;
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+    });
+    console.log(startRange + endRange);
+    $.ajax({
+        type: "POST",
+        url: "/api/nodepen/scan_range",
+        data: {
+            start_range: startRange,
+            end_range: endRange,
+        },
+        success: function (data) {
+            Toast.fire({
+                type: 'success',
+                title: 'Scan settings updated!'
+            });
+            nodeList();
+        },
+        error: function (data) {
+            if (data.status == 200) {
+                Toast.fire({
+                    type: 'success',
+                    title: 'Scan settings updated!'
+                });
+                nodeList();
+            } else {
+                console.log(data);
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in sending data...'
+                })
+            }
         }
     });
 }

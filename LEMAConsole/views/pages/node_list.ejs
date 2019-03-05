@@ -9,15 +9,19 @@
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">
                                 <span class="nav-tabs-title p-0">
-                                    <h4 class="card-title"><strong>Node List</strong></h4>
-                                    <p class="card-category">Last Updated: #</p>
+                                    <h4 class="card-title"><strong>Active Nodes</strong></h4>
+                                    <p class="card-category">Total Number of Nodes: </p>
                                 </span>
                                 <ul class="nav nav-tabs justify-content-end" data-tabs="tabs">
                                     <li class="nav-item">
-                                        <a class="nav-link active" onclick="nodeAddSA()" data-toggle="tab">
-                                            <i class="material-icons">library_add</i> Add Node
-                                            <div class="ripple-container"></div>
-                                        </a>
+                                        <div class="input-group no-border">
+                                            <input type="test" value="" class="form-control text-white"
+                                                   placeholder="Node Search...">
+                                            <button type="submit" class="btn btn-default btn-round btn-just-icon ml-2">
+                                                <i class="material-icons">search</i>
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -26,9 +30,9 @@
                     <div class="card-body table-responsive">
                         <table class="table table-hover">
                             <thead class="text-success">
-                                <th>NAME</th>
-                                <th>IP</th>
-                                <th>TYPE</th>
+                            <th>NAME</th>
+                            <th>IP</th>
+                            <th>TYPE</th>
                             </thead>
                             <tbody id="nodelist"></tbody>
                         </table>
@@ -41,15 +45,40 @@
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">
                                 <span class="nav-tabs-title p-0">
-                                    <h4 class="card-title"><strong>NodePen List</strong></h4>
-                                    <p class="card-category">Last Updated: #</p>
+                                    <h4 class="card-title"><strong>Nodes Awaiting Implementation on Network</strong></h4>
+                                    <p class="card-category">Scanning IP Range: #</p>
                                 </span>
                                 <ul class="nav nav-tabs justify-content-end" data-tabs="tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" onclick="nodeAddSA()" data-toggle="tab">
-                                            <i class="material-icons">library_add</i> Add Node
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link active" href="#" id="nodepenDropdown" data-toggle="dropdown"
+                                               aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-bars"></i>
                                             <div class="ripple-container"></div>
                                         </a>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="nodepenDropdown">
+                                            <div style="min-width: 18em;" class="row pr-3 pl-3">
+                                                <div class="col-5 pr-0">
+                                                    <div class="form-group bmd-form-group">
+                                                        <input type="text" class="form-control" id="startRange" placeholder="127.0.0.1">
+                                                        <span class="bmd-help">Start Range</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 p-0">
+                                                    <div class="form-group bmd-form-group">
+                                                        <input type="text" disabled class="form-control" placeholder="to">
+                                                    </div>
+                                                </div>
+                                                <div class="col-5 pl-0">
+                                                    <div class="form-group bmd-form-group">
+                                                        <input type="text" class="form-control" id="endRange" placeholder="127.0.0.1">
+                                                        <span class="bmd-help">End Range</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a class="dropdown-item justify-content-center" onclick="nodeSetRange()" href="#"><i class="material-icons">settings_ethernet</i>  Set Network Range</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item justify-content-center" onclick="nodeAddSA()" href="#"><i class="material-icons">library_add</i>  Manually Add Node</a>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
