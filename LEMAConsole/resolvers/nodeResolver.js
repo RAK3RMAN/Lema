@@ -35,7 +35,7 @@ exports.list_nodes = function (req, res) {
     });
 };
 
-//List Node Devices
+//List NodePen Devices
 exports.list_nodepens = function (req, res) {
     nodePen.find({}, function (err, listed_nodes) {
         if (err) {

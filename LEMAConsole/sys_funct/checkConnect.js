@@ -7,8 +7,6 @@ let MongoClient = require('mongodb').MongoClient;
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 
-//Devices will be monitored through Websockets
-
 // Check Connections every 10 seconds
 // new cronJob('*/10 * * * * *', function() {
 //     MongoClient.connect(storage.get('mongodb_url'), function(err, db) {

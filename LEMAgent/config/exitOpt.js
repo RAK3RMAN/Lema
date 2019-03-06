@@ -3,6 +3,7 @@ App/Filename : LEMAgent/config/exitOpt.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 
+//Check if in Testing ENV, Run Tests, Exit
 exports.testCheck = function () {
     let testENV = process.env.testENV || process.argv[2];
     if (testENV === "test") {

@@ -6,6 +6,7 @@ let jwt = require('jwt-simple');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 
+//Socket Functions
 module.exports = function () {
     if (storage.get('setup_status') === "true") {
         //Broadcast

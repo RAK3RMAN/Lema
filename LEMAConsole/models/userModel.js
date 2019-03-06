@@ -2,11 +2,11 @@
 App/Filename : LEMAConsole/models/userModel.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
+let mongoose = require('mongoose');
+let bcrypt = require('bcrypt-nodejs');
 
 //Schema for Mongoose
-var userSchema = mongoose.Schema({
+let userSchema = mongoose.Schema({
     local: {
         email: String,
         password: String,
@@ -35,5 +35,4 @@ userSchema.methods.validPassword = function (password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-//Create Model
 module.exports = mongoose.model('User', userSchema);
