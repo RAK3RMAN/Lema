@@ -50,7 +50,33 @@ exports.list_nodepens = function (req, res) {
 
 //Update Scan Range for Node Discovery
 exports.update_scanrange = function (req, res) {
-    storage.set('node_search_rangeStart', req.body["start_range"]);
-    storage.set('node_search_rangeEnd', req.body["end_range"]);
-    res.json('success');
+    var_Updater('node_search_rangeStart', req.body["start_range"]);
+    var_Updater('node_search_rangeEnd', req.body["end_range"]);
+    res.status('success');
 };
+
+//Update Variables to DB
+let varSet = require('../models/varModel.js');
+function var_Updater(var_name, var_value) {
+    varSet.findOneAndUpdate({ var_name: var_name }, { $set: { var_value: var_value }}, function (err, data) {
+        if (err) {
+            console.log("VAR Resolver: Retrieve failed: " + err);
+        }
+        if (data == null) {
+            console.log('test');
+            let newVar = new varSet({ var_name: var_name, var_value: var_value });
+            newVar.save(function (err, created_var) {
+                if (err) {
+                    console.log("VAR Resolver: Save failed: " + err);
+                } else {
+                    if (debug_mode === "true") { console.log('VAR Resolver: VAR Created: ' + JSON.stringify(created_var)) }
+                }
+            });
+
+        } else {
+            if (debug_mode === "true") {
+                console.log("VAR Resolver: " + var_name + " Updated: " + var_value)
+            }
+        }
+    });
+}

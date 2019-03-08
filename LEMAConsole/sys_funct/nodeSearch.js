@@ -10,14 +10,29 @@ let cronJob = require('cron').CronJob;
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
+let topRange = "127.0.0.1";
+let bottomRange = "127.0.0.1";
 
 
 // Check for New Nodes every 15 seconds
 new cronJob('*/15 * * * * *', function() {
-    let storage = new dataStore({path: './config/sysConfig.json'});
-    let range = (storage.get('node_search_rangeStart') + "-" + storage.get('node_search_rangeEnd'));
+    let varSet = require('../models/varModel.js');
+    varSet.find({}, function (err, var_data) {
+        if (err) {
+            console.log("NODE Resolver: Retrieve failed: " + err);
+        } else {
+            for (let i in var_data) {
+                if (var_data[i]["var_name"] === "node_search_rangeStart") {
+                    topRange = var_data[i]["var_value"];
+                }
+                if (var_data[i]["var_name"] === "node_search_rangeEnd") {
+                    bottomRange = var_data[i]["var_value"];
+                }
+            }
+        }
+    });
     cmd.get(
-        "evilscan " + range + " --port=3030 --status=O --json",
+        "evilscan " + topRange + "-" + bottomRange + " --port=3030 --status=O --json",
         function(err, data, stderr){
             let preProcess = data.replace(/}/g, "}, ");
             let formattedData = JSON.parse("[" + preProcess.slice(0, -3) + "]");
@@ -34,7 +49,7 @@ function gatherInfo(ip) {
     let url = "http://" + ip + ":3030/lema-agent/broadcast";
     request.post(url, function (err, response, body) {
         if (err) {
-            console.log('NODE Discovery: ERROR in Data Extraction: ', error);
+            console.log('NODE Discovery: ERROR in Data Extraction: ', err);
         }
         if (response.statusCode === 200) {
             let nodeData = JSON.parse(body);
