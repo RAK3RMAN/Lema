@@ -70,14 +70,18 @@ let socket = require('./resolvers/socketResolver.js');
 
 //Passport Setup
 require('./sys_funct/passport.js')(passport);
-app.use(session({secret: storage.get('session_secret')})); //Session secret
+
+//Other Processes Setup
+app.use(session({
+    secret: storage.get('session_secret'),
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-
-//Other Processes Setup
 app.use(cookieParser());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(express.json());

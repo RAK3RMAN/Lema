@@ -1,6 +1,13 @@
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 LEMAConsole Front-End JS - Authored by: RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+//Set SA Toast Settings
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000
+});
 
 //Node Add SA
 function nodeAddSA() {
@@ -130,18 +137,31 @@ function nodeList() {
             })
         }
     });
+    //Get scan range
+    $.ajax({
+        type: "GET",
+        url: "/api/nodepen/scan_range",
+        success: function (data) {
+            document.getElementById("startRangeSent").innerHTML = data["rangeStart"];
+            document.getElementById("endRangeSent").innerHTML = data["rangeEnd"];
+            document.getElementById("startRange").placeholder = data["rangeStart"];
+            document.getElementById("endRange").placeholder = data["rangeEnd"];
+        },
+        error: function (data) {
+            console.log(data);
+            Swal.fire({
+                title: 'Error with Retrieving Data',
+                confirmButtonText: 'OK',
+                type: 'error'
+            })
+        }
+    });
 }
 
 //Node Set Scan Range
 function nodeSetRange() {
     let startRange = document.getElementById("startRange").value;
     let endRange = document.getElementById("endRange").value;
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 5000
-    });
     console.log(startRange + endRange);
     $.ajax({
         type: "POST",
@@ -171,4 +191,5 @@ function nodeSetRange() {
             }
         }
     });
+    nodeList();
 }

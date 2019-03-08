@@ -13,10 +13,10 @@ let debug_mode = storage.get('debug_mode');
 let topRange = "127.0.0.1";
 let bottomRange = "127.0.0.1";
 
-
 // Check for New Nodes every 15 seconds
 new cronJob('*/15 * * * * *', function() {
     let varSet = require('../models/varModel.js');
+    //Get Vars from DB
     varSet.find({}, function (err, var_data) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
@@ -31,6 +31,7 @@ new cronJob('*/15 * * * * *', function() {
             }
         }
     });
+    //Run Scanner to find devices
     cmd.get(
         "evilscan " + topRange + "-" + bottomRange + " --port=3030 --status=O --json",
         function(err, data, stderr){
@@ -73,7 +74,7 @@ function gatherInfo(ip) {
                         }
                     });
                 } else {
-                    if (debug_mode === "true") { console.log('NODE Discovery: Node (' + nodeData["node_id"] + ') already exits in database.') }
+                    if (debug_mode === "true") { console.log('NODE Discovery: Node (' + nodeData["node_id"] + ') already exists in database.') }
                 }
             });
         }

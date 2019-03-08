@@ -60,7 +60,7 @@ let socket = require('./resolvers/socketResolver.js');
 
 //Other Processes Setup
 app.use(cookieParser());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(express.json());

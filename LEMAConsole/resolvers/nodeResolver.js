@@ -48,6 +48,28 @@ exports.list_nodepens = function (req, res) {
     });
 };
 
+//Get Scan Range
+let topRangeSend;
+let bottomRangeSend;
+exports.get_scanrange = function (req, res) {
+    varSet.find({}, function (err, var_data) {
+        if (err) {
+            console.log("NODE Resolver: Retrieve failed: " + err);
+            res.send(err);
+        } else {
+            for (let i in var_data) {
+                if (var_data[i]["var_name"] === "node_search_rangeStart") {
+                    topRangeSend = var_data[i]["var_value"];
+                }
+                if (var_data[i]["var_name"] === "node_search_rangeEnd") {
+                    bottomRangeSend = var_data[i]["var_value"];
+                }
+            }
+        }
+        res.json({ rangeStart: topRangeSend, rangeEnd: bottomRangeSend })
+    });
+};
+
 //Update Scan Range for Node Discovery
 exports.update_scanrange = function (req, res) {
     var_Updater('node_search_rangeStart', req.body["start_range"]);

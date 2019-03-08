@@ -17,5 +17,6 @@ module.exports = function (app) {
         .get(auth.isLoggedIn, node.list_nodepens);
 
     app.route('/api/nodepen/scan_range')
-        .post(auth.isLoggedIn, node.update_scanrange);
+        .get(auth.isLoggedIn, node.get_scanrange)
+        .post(auth.isLoggedIn, node.update_scanrange)
 };
