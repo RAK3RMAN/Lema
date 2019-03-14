@@ -183,7 +183,6 @@ mongoose.connect(storage.get('mongodb_url'), {useNewUrlParser: true, connectTime
 mongoose.set('useFindAndModify', false);
 
 //Declare Console Functions
-let checkConnect = require('./sys_funct/checkConnect.js');
 let nodeSearch = require('./sys_funct/nodeSearch.js');
 
 //Initialize Socket.io

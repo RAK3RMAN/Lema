@@ -150,6 +150,42 @@
           }
         }
       }
+    },
+    "/api/node/update/status": {
+      "put": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Update the status of a node",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/update_status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -183,6 +219,20 @@
           "type": "string"
         },
         "end_range": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    },
+    "update_status": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "status": {
           "type": "string"
         }
       },

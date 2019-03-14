@@ -54,27 +54,15 @@ function nodeAddSA() {
                     nodeList();
                 },
                 error: function (data) {
-                    if (data.status == 200) {
-                        Swal.fire({
-                            title: 'Node Created',
-                            html: 'Parameters sent: <pre><code>' +
-                                JSON.stringify(result.value) +
-                                '</code></pre>',
-                            confirmButtonText: 'OK',
-                            type: 'success'
-                        });
-                        nodeList();
-                    } else {
-                        console.log(data);
-                        Swal.fire({
-                            title: 'Node was not created...',
-                            html: 'Parameters sent: <pre><code>' +
-                                JSON.stringify(result.value) +
-                                '</code></pre>',
-                            confirmButtonText: 'OK',
-                            type: 'error'
-                        })
-                    }
+                    console.log(data);
+                    Swal.fire({
+                        title: 'Node was not created...',
+                        html: 'Parameters sent: <pre><code>' +
+                            JSON.stringify(result.value) +
+                            '</code></pre>',
+                        confirmButtonText: 'OK',
+                        type: 'error'
+                    })
                 }
             });
         }
@@ -92,12 +80,14 @@ function nodeList() {
             $('#nodepenlist').empty();
             $.each(data, function (i, value) {
                 //If node is active, append to active table
-                if (value.node_status === "online" || value.node_status === "offline") {
+                if (value.node_status === "online" || value.node_status === "offline" || value.node_status === "unknown") {
                     let name_element;
                     if (value.node_status === "online") {
                         name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + " | " + value.node_ip
-                    } else {
+                    } else if(value.node_status === "offline") {
                         name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + " | " + value.node_ip
+                    } else {
+                        name_element = "<i class=\"far fa-question-circle\" style=\"color: dodgerblue;\"></i> " + value.node_name + " | " + value.node_ip
                     }
                     $('#nodelist').append(
                         "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.node_type + "</td></tr>",
@@ -107,12 +97,12 @@ function nodeList() {
                 else if (value.node_status === "pending") {
                     let name_element = "<i class=\"fas fa-adjust\" style=\"color: orange;\"></i> " + value.node_name + " | " + value.node_ip;
                     $('#nodepenlist').append(
-                        "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "</td>" +
+                        "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "(UTC)</td>" +
                         "<td class=\"td-actions text-right\">\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodepenActivate('" + value.node_id + "')\" title=\"\">\n" +
                         "<i class=\"material-icons\">add</i> Activate\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodepenHide('" + value.node_id + "')\" title=\"\">\n" +
-                        "<i class=\"material-icons\">close</i> Remove\n" +
+                        "<i class=\"material-icons\">move_to_inbox</i> Hide\n" +
                         "</td></tr>"
                     );
                 }
@@ -165,18 +155,11 @@ function nodeSetRange() {
             });
         },
         error: function (data) {
-            if (data.status == 200) {
-                Toast.fire({
-                    type: 'success',
-                    title: 'Scan settings updated!'
-                });
-            } else {
-                console.log(data);
-                Toast.fire({
-                    type: 'error',
-                    title: 'Error in sending data...'
-                });
-            }
+            console.log(data);
+            Toast.fire({
+                type: 'error',
+                title: 'Error in sending data...'
+            });
         }
     });
     nodeList();
@@ -184,10 +167,55 @@ function nodeSetRange() {
 
 //NodePen Activate Node
 function nodepenActivate(nodeID) {
-    console.log("Create: " + nodeID);
+    //TODO Add LEMAgent callback for activation
+    console.log("NODE Discovery: Activating Node: " + nodeID);
+    $.ajax({
+        type: "PUT",
+        url: "/api/node/update/status",
+        data: {
+            node_id: nodeID,
+            status: 'unknown',
+        },
+        success: function (data) {
+            Toast.fire({
+                type: 'success',
+                title: 'Node Activated!'
+            });
+            nodeList();
+        },
+        error: function (data) {
+            console.log(data);
+            Toast.fire({
+                type: 'error',
+                title: 'Error in sending data...'
+            });
+        }
+    });
 }
 
 //NodePen Hide Node
 function nodepenHide(nodeID) {
-    console.log("Hide: " + nodeID);
+    console.log("NODE Discovery: Hiding Node: " + nodeID);
+    $.ajax({
+        type: "PUT",
+        url: "/api/node/update/status",
+        data: {
+            node_id: nodeID,
+            status: 'hide',
+        },
+        success: function (data) {
+            Toast.fire({
+                type: 'success',
+                title: 'Node is now hidden!'
+            });
+            nodeList();
+        },
+        error: function (data) {
+            console.log(data);
+            Toast.fire({
+                type: 'error',
+                title: 'Error in sending data...'
+            });
+        }
+    });
 }

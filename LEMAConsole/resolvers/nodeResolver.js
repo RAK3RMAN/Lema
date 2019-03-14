@@ -34,6 +34,21 @@ exports.list_nodes = function (req, res) {
     });
 };
 
+//Update Node Status
+exports.update_status = function (req, res) {
+    node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: req.body["status"] }}, function (err, data) {
+        if (err || data == null) {
+            console.log("NODE Resolver: Retrieve failed: " + err);
+            res.send(err);
+        } else {
+            if (debug_mode === "true") {
+                console.log("NODE Resolver: Node Status Updated: " + data);
+            }
+        }
+        res.json({ node_id: req.body["node_id"], node_status: req.body["status"] })
+    });
+};
+
 //Get Scan Range
 let topRangeSend;
 let bottomRangeSend;
@@ -60,7 +75,7 @@ exports.get_scanrange = function (req, res) {
 exports.update_scanrange = function (req, res) {
     var_Updater('node_search_rangeStart', req.body["start_range"]);
     var_Updater('node_search_rangeEnd', req.body["end_range"]);
-    res.status('success');
+    res.json({ start_range: req.body["start_range"], end_range: req.body["end_range"] })
 };
 
 //Update Variables to DB
