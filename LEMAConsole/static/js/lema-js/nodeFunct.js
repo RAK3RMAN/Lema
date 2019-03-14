@@ -89,64 +89,47 @@ function nodeList() {
         url: "/api/node/list",
         success: function (data) {
             $('#nodelist').empty();
-            $.each(data, function (i, value) {
-                let name_element;
-                if (value.node_status === "online") {
-                    name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + "@" + value.node_ip
-                } else {
-                    name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + "@" + value.node_ip
-                }
-                $('#nodelist').append(
-                    "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.node_type + "</td></tr>",
-                );
-            });
-        },
-        error: function (data) {
-            console.log(data);
-            Swal.fire({
-                title: 'Error with Retrieving Data',
-                confirmButtonText: 'OK',
-                type: 'error'
-            })
-        }
-    });
-    //Get list for NodePens
-    $.ajax({
-        type: "GET",
-        url: "/api/nodepen/list",
-        success: function (data) {
             $('#nodepenlist').empty();
             $.each(data, function (i, value) {
-                let name_element;
-                if (value.node_status === "pending") {
-                    name_element = "<i class=\"fas fa-adjust\" style=\"color: orange;\"></i> " + value.node_hostname + "@" + value.node_ip
-                } else {
-                    name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_hostname + "@" + value.node_ip
+                //If node is active, append to active table
+                if (value.node_status === "online" || value.node_status === "offline") {
+                    let name_element;
+                    if (value.node_status === "online") {
+                        name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + " | " + value.node_ip
+                    } else {
+                        name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + " | " + value.node_ip
+                    }
+                    $('#nodelist').append(
+                        "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.node_type + "</td></tr>",
+                    );
                 }
-                $('#nodepenlist').append(
-                    "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "</td>" +
-                    "<td class=\"td-actions text-right\">\n" +
+                //If node is pending, append to nodePen table
+                else if (value.node_status === "pending") {
+                    let name_element = "<i class=\"fas fa-adjust\" style=\"color: orange;\"></i> " + value.node_name + " | " + value.node_ip;
+                    $('#nodepenlist').append(
+                        "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "</td>" +
+                        "<td class=\"td-actions text-right\">\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodepenActivate('" + value.node_id + "')\" title=\"\">\n" +
                         "<i class=\"material-icons\">add</i> Activate\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodepenHide('" + value.node_id + "')\" title=\"\">\n" +
                         "<i class=\"material-icons\">close</i> Remove\n" +
-                    "</td></tr>"
-                );
+                        "</td></tr>"
+                    );
+                }
             });
         },
         error: function (data) {
             console.log(data);
-            Swal.fire({
-                title: 'Error with Retrieving Data',
-                confirmButtonText: 'OK',
-                type: 'error'
-            })
+            Toast.fire({
+                type: 'error',
+                title: 'Error with retrieving data...'
+            });
         }
     });
     //Get scan range
     $.ajax({
         type: "GET",
-        url: "/api/nodepen/scan_range",
+        url: "/api/node/scan_range",
         success: function (data) {
             document.getElementById("startRangeSent").innerHTML = data["rangeStart"];
             document.getElementById("endRangeSent").innerHTML = data["rangeEnd"];
@@ -155,11 +138,10 @@ function nodeList() {
         },
         error: function (data) {
             console.log(data);
-            Swal.fire({
-                title: 'Error with Retrieving Data',
-                confirmButtonText: 'OK',
-                type: 'error'
-            })
+            Toast.fire({
+                type: 'error',
+                title: 'Error with retrieving data...'
+            });
         }
     });
 }
@@ -171,7 +153,7 @@ function nodeSetRange() {
     console.log(startRange + endRange);
     $.ajax({
         type: "POST",
-        url: "/api/nodepen/scan_range",
+        url: "/api/node/scan_range",
         data: {
             start_range: startRange,
             end_range: endRange,

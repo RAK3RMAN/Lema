@@ -3,7 +3,6 @@ App/Filename : LEMAConsole/resolvers/nodeResolver.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let node = require('../models/nodeModel.js');
-let nodePen = require('../models/nodePenModel.js');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
@@ -30,19 +29,6 @@ exports.list_nodes = function (req, res) {
             res.send(err);
         } else {
             if (debug_mode === "true") { console.log("NODE Resolver: Nodes Sent: " + JSON.stringify(listed_nodes)) }
-        }
-        res.json(listed_nodes);
-    });
-};
-
-//List NodePen Devices
-exports.list_nodepens = function (req, res) {
-    nodePen.find({}, function (err, listed_nodes) {
-        if (err) {
-            console.log("NODE Resolver: Retrieve failed: " + err);
-            res.send(err);
-        } else {
-            if (debug_mode === "true") { console.log("NODE Resolver: NodePens Sent: " + JSON.stringify(listed_nodes)) }
         }
         res.json(listed_nodes);
     });
