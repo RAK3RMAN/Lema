@@ -1,0 +1,194 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API Documentation for LEMAConsole_EXT, LEMAConsole_INT, & LEMAgent. Project Summary: Lema aims to provide a cohesive and powerful solution to interacting with the Raspberry Pi's GPIO capabilities. The Lema Agent runs on the Raspberry Pi and communicates with the Lema Console, which provides a GUI webpage and API pathways for external integration.",
+    "version": "1.0.0",
+    "title": "Lema API",
+    "contact": {
+      "name": "Github Repository",
+      "url": "https://github.com/RAK3RMAN/Lema"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://github.com/RAK3RMAN/Lema/blob/master/LICENSE"
+    }
+  },
+  "tags": [
+    {
+      "name": "LEMAConsole_EXT",
+      "description": "External integration into the LEMA platform"
+    },
+    {
+      "name": "LEMAConsole_INT",
+      "description": "Internal API calls within LEMAConsole for web clients"
+    },
+    {
+      "name": "LEMAgent",
+      "description": "API calls for interaction with devices running LEMAgent"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/node/create": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Create a new node",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/node"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/node/list": {
+      "get": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "List all nodes in database",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/node/scan_range": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Set scan range of node discovery tool",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/scan_range"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Get scan range of node discovery tool",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "node": {
+      "type": "object",
+      "properties": {
+        "node_id": {
+          "type": "string"
+        },
+        "node_name": {
+          "type": "string"
+        },
+        "node_status": {
+          "type": "string"
+        },
+        "node_type": {
+          "type": "string"
+        },
+        "node_ip": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    },
+    "scan_range": {
+      "type": "object",
+      "properties": {
+        "start_range": {
+          "type": "string"
+        },
+        "end_range": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    }
+  }
+}

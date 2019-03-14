@@ -124,7 +124,13 @@ function nodeList() {
                     name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_hostname + "@" + value.node_ip
                 }
                 $('#nodepenlist').append(
-                    "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "</td></tr>",
+                    "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "</td>" +
+                    "<td class=\"td-actions text-right\">\n" +
+                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodepenActivate('" + value.node_id + "')\" title=\"\">\n" +
+                        "<i class=\"material-icons\">add</i> Activate\n" +
+                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodepenHide('" + value.node_id + "')\" title=\"\">\n" +
+                        "<i class=\"material-icons\">close</i> Remove\n" +
+                    "</td></tr>"
                 );
             });
         },
@@ -192,4 +198,14 @@ function nodeSetRange() {
         }
     });
     nodeList();
+}
+
+//NodePen Activate Node
+function nodepenActivate(nodeID) {
+    console.log("Create: " + nodeID);
+}
+
+//NodePen Hide Node
+function nodepenHide(nodeID) {
+    console.log("Hide: " + nodeID);
 }

@@ -5,8 +5,14 @@ Author       : RAk3rman
 let mongoose = require('mongoose');
 
 let varSchema = mongoose.Schema({
-    var_name: String,
-    var_value: String,
+    var_name: {
+        type: String,
+        required: true,
+    },
+    var_value: {
+        type: String,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model('variables', varSchema);

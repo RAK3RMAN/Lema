@@ -5,12 +5,21 @@ Author       : RAk3rman
 let mongoose = require('mongoose');
 
 let nodeSchema = mongoose.Schema({
-    node_name: String,
-    node_ip: String,
-    node_type: String,
+    node_name: {
+        type: String,
+        required: true,
+    },
+    node_ip: {
+        type: String,
+        required: true,
+    },
+    node_type: {
+        type: String,
+        required: true,
+    },
     node_id: {
         type: String,
-        default: "N/A",
+        default: "NOT SET",
     },
     node_status: {
         type: String,

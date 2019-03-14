@@ -21,6 +21,8 @@ let flash = require('connect-flash');
 let bodyParser = require('body-parser');
 let session = require('express-session');
 let uuidv4 = require('uuid/v4');
+let swaggerUi = require('swagger-ui-express');
+let swaggerDocument = require('./config/apiDoc.json');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 
@@ -102,6 +104,7 @@ nodeRouter(app);
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);
 app.get('/node/list', auth.isLoggedIn, materialRouter.nodeList);
 app.get('/setup', auth.isLoggedIn, materialRouter.sysSetup);
+app.use('/api/docs', auth.isLoggedIn, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //Auth Routes
 app.get('/login', authRouter.loginPage);
