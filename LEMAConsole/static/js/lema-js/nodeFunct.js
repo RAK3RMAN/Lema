@@ -78,13 +78,14 @@ function nodeList() {
         success: function (data) {
             $('#nodelist').empty();
             $('#nodepenlist').empty();
+            $('#nodehidden').empty();
             $.each(data, function (i, value) {
                 //If node is active, append to active table
                 if (value.node_status === "online" || value.node_status === "offline" || value.node_status === "unknown") {
                     let name_element;
                     if (value.node_status === "online") {
                         name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + " | " + value.node_ip
-                    } else if(value.node_status === "offline") {
+                    } else if (value.node_status === "offline") {
                         name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + " | " + value.node_ip
                     } else {
                         name_element = "<i class=\"far fa-question-circle\" style=\"color: dodgerblue;\"></i> " + value.node_name + " | " + value.node_ip
@@ -103,6 +104,15 @@ function nodeList() {
                         "<i class=\"material-icons\">add</i> Activate\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodepenHide('" + value.node_id + "')\" title=\"\">\n" +
                         "<i class=\"material-icons\">move_to_inbox</i> Hide\n" +
+                        "</td></tr>"
+                    );
+                } else {
+                    let name_element = "<i class=\"fas fa-ban\" style=\"color: grey;\"></i> " + value.node_name + " | " + value.node_ip;
+                    $('#nodehidden').append(
+                        "<tr><td>" + name_element + "</td><td>" + value.node_id + "</td><td>" + value.created_date + "(UTC)</td>" +
+                        "<td class=\"td-actions text-right\">\n" +
+                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodepenActivate('" + value.node_id + "')\" title=\"\">\n" +
+                        "<i class=\"material-icons\">add</i> Activate\n" +
                         "</td></tr>"
                     );
                 }
@@ -180,7 +190,9 @@ function nodepenActivate(nodeID) {
                 type: 'success',
                 title: 'Node Activated!'
             });
-            nodeList();
+            setTimeout(function(){
+                nodeList();
+            }, 500);
         },
         error: function (data) {
             console.log(data);
@@ -196,8 +208,8 @@ function nodepenActivate(nodeID) {
 function nodepenHide(nodeID) {
     console.log("NODE Discovery: Hiding Node: " + nodeID);
     $.ajax({
-        type: "PUT",
-        url: "/api/node/update/status",
+        type: "POST",
+        url: "/api/node/hide",
         data: {
             node_id: nodeID,
             status: 'hide',
@@ -207,7 +219,9 @@ function nodepenHide(nodeID) {
                 type: 'success',
                 title: 'Node is now hidden!'
             });
-            nodeList();
+            setTimeout(function(){
+                nodeList();
+            }, 500);
         },
         error: function (data) {
             console.log(data);
@@ -217,4 +231,56 @@ function nodepenHide(nodeID) {
             });
         }
     });
+}
+
+//Show/Hide Hidden Nodes Table
+let tablestat = 0;
+function toggleHidden() {
+    let basecode = "<div class=\"card\">\n" +
+        "   <div class=\"card-header card-header-tabs card-header-primary\">\n" +
+        "       <div class=\"nav-tabs-navigation\">\n" +
+        "           <div class=\"nav-tabs-wrapper\">\n" +
+        "               <span class=\"nav-tabs-title p-0\">\n" +
+        "                   <h4 class=\"card-title\"><strong>Hidden Nodes</strong></h4>\n" +
+        "                   <p class=\"card-category\">Total Number of Nodes: </p>\n" +
+        "               </span>\n" +
+        "           </div>\n" +
+        "       </div>\n" +
+        "    </div>\n" +
+        "    <div class=\"card-body table-responsive\">\n" +
+        "       <table class=\"table table-hover\">\n" +
+        "           <thead class=\"text-muted\">\n" +
+        "               <th>Hostname/IP</th>\n" +
+        "               <th>Node ID</th>\n" +
+        "               <th>Acquisition Date</th>\n" +
+        "               <th>Tools</th>\n" +
+        "           </thead>\n" +
+        "           <tbody id=\"nodehidden\"></tbody>\n" +
+        "       </table>\n" +
+        "    </div>\n" +
+        "</div>";
+    if (tablestat === 0) {
+        $('#hiddenTable').append(
+            basecode
+        );
+        $('#hiddenButton').empty();
+        $('#hiddenButton').append(
+            "<button class=\"btn btn-muted btn-round\" onclick=\"toggleHidden()\"><i class=\"fas fa-eye-slash\"></i> Hide Hidden Nodes\n" +
+            "   <div class=\"ripple-container\"></div>\n" +
+            "</button>"
+        );
+        nodeList();
+        tablestat = 1;
+        console.log('Appended');
+    } else {
+        $('#hiddenTable').empty();
+        $('#hiddenButton').empty();
+        $('#hiddenButton').append(
+            "<button class=\"btn btn-muted btn-round\" onclick=\"toggleHidden()\"><i class=\"far fa-eye\"></i> Show Hidden Nodes\n" +
+            "   <div class=\"ripple-container\"></div>\n" +
+            "</button>"
+        );
+        tablestat = 0;
+        console.log('Removed');
+    }
 }

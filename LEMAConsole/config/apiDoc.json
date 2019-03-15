@@ -173,7 +173,43 @@
             "description": "Body parameters that are sent inside of api request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/console_agent_setup"
+              "$ref": "#/definitions/node_modifier"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/node/hide": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Set the status of a node to hidden",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/node_modifier"
             }
           }
         ],
@@ -287,7 +323,7 @@
         "name": "node"
       }
     },
-    "console_agent_setup": {
+    "node_modifier": {
       "type": "object",
       "properties": {
         "node_id": {

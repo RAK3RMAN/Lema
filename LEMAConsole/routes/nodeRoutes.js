@@ -20,4 +20,7 @@ module.exports = function (app) {
     app.route('/api/node/lema-agent/setup')
         .post(auth.isLoggedIn, node.agent_setup);
 
+    app.route('/api/node/hide')
+        .post(auth.isLoggedIn, node.hide_node);
+
 };

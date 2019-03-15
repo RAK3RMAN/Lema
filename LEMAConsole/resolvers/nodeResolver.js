@@ -79,6 +79,19 @@ exports.agent_setup = function (req, res) {
     });
 };
 
+//Set status of node to hidden
+exports.hide_node = function (req, res) {
+    node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: 'hidden' }}, function (err, data) {
+        if (err || data == null) {
+            console.log("NODE Resolver: Retrieve failed: " + err);
+            res.status(500).send('error');
+        } else {
+            console.log("NODE Resolver: Node Status Updated: " + data);
+            res.json(data);
+        }
+    });
+};
+
 //Get Scan Range
 let topRangeSend;
 let bottomRangeSend;

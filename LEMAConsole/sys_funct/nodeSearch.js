@@ -50,8 +50,7 @@ function gatherInfo(ip) {
     request.post(url, function (err, response, body) {
         if (err) {
             console.log('NODE Discovery: ERROR in Data Extraction: ', err);
-        }
-        if (response.statusCode === 200) {
+        } else if (response.statusCode === 200) {
             let nodeData = JSON.parse(body);
             if (debug_mode === "true") { console.log("NODE Discovery (2): Extracted ID from Node: " + nodeData["node_id"]) }
             //Search database to see if Node exists
