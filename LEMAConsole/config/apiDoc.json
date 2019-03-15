@@ -151,12 +151,12 @@
         }
       }
     },
-    "/api/node/update/status": {
-      "put": {
+    "/api/node/lema-agent/setup": {
+      "post": {
         "tags": [
           "LEMAConsole_INT"
         ],
-        "summary": "Update the status of a node",
+        "summary": "Setup a node running LEMAgent",
         "description": "",
         "consumes": [
           "application/json",
@@ -173,7 +173,68 @@
             "description": "Body parameters that are sent inside of api request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/update_status"
+              "$ref": "#/definitions/console_agent_setup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/lema-agent/broadcast": {
+      "get": {
+        "tags": [
+          "LEMAgent"
+        ],
+        "summary": "Get information about node",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/lema-agent/setup": {
+      "post": {
+        "tags": [
+          "LEMAgent"
+        ],
+        "summary": "Request to setup node after discovery",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/agent_setup"
             }
           }
         ],
@@ -226,13 +287,24 @@
         "name": "node"
       }
     },
-    "update_status": {
+    "console_agent_setup": {
       "type": "object",
       "properties": {
         "node_id": {
           "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    },
+    "agent_setup": {
+      "type": "object",
+      "properties": {
+        "console_ip": {
+          "type": "string"
         },
-        "status": {
+        "console_secret": {
           "type": "string"
         }
       },

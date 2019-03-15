@@ -13,10 +13,11 @@ module.exports = function (app) {
     app.route('/api/node/list')
         .get(auth.isLoggedIn, node.list_nodes);
 
-    app.route('/api/node/update/status')
-        .put(auth.isLoggedIn, node.update_status);
-
     app.route('/api/node/scan_range')
         .get(auth.isLoggedIn, node.get_scanrange)
         .post(auth.isLoggedIn, node.update_scanrange)
+
+    app.route('/api/node/lema-agent/setup')
+        .post(auth.isLoggedIn, node.agent_setup);
+
 };

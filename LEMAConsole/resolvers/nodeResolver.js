@@ -3,6 +3,8 @@ App/Filename : LEMAConsole/resolvers/nodeResolver.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let node = require('../models/nodeModel.js');
+let request = require('request');
+let ip = require('ip');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
@@ -34,18 +36,46 @@ exports.list_nodes = function (req, res) {
     });
 };
 
-//Update Node Status
-exports.update_status = function (req, res) {
-    node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: req.body["status"] }}, function (err, data) {
-        if (err || data == null) {
+//Conduct setup functions for node running LEMAgent
+exports.agent_setup = function (req, res) {
+    node.find({ node_id: req.body["node_id"] }, function (err, nodeData) {
+        if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
             res.send(err);
         } else {
-            if (debug_mode === "true") {
-                console.log("NODE Resolver: Node Status Updated: " + data);
-            }
+            let agent_url = "http://" + nodeData[0]["node_ip"] + ":3030/lema-agent/setup";
+            let agent_config = {
+                url: agent_url,
+                body: {
+                    console_ip: "http://" + ip.address() + ":" + storage.get('console_port'),
+                    console_secret: '61862295-77ca-4088-967a-e3969d744db8'
+                },
+                json: true,
+            };
+            console.log("NODE Discovery: Sent parameters to node: " + agent_config);
+            request.post(agent_config, function (err, response, body) {
+                if (err) {
+                    console.log('NODE Discovery: ERROR in Reaching Node: ', err);
+                    res.status(500).send('error');
+                } else if (response.statusCode === 200) {
+                    console.log('NODE Discovery: Response from node: ' + body);
+                    if (body["setupStat"] === "success") {
+                        node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: 'unknown' }}, function (err, data) {
+                            if (err || data == null) {
+                                console.log("NODE Resolver: Retrieve failed: " + err);
+                                res.status(500).send('error');
+                            } else {
+                                console.log("NODE Resolver: Node Status Updated: " + data);
+                                res.json(nodeData);
+                            }
+                        });
+                    } else {
+                        console.log('NODE Discovery: Setup not successful. Please see logs above for resolution.');
+                        res.status(500).send('error');
+                    }
+                }
+            });
         }
-        res.json({ node_id: req.body["node_id"], node_status: req.body["status"] })
     });
 };
 

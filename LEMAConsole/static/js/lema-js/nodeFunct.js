@@ -170,11 +170,10 @@ function nodepenActivate(nodeID) {
     //TODO Add LEMAgent callback for activation
     console.log("NODE Discovery: Activating Node: " + nodeID);
     $.ajax({
-        type: "PUT",
-        url: "/api/node/update/status",
+        type: "POST",
+        url: "/api/node/lema-agent/setup",
         data: {
             node_id: nodeID,
-            status: 'unknown',
         },
         success: function (data) {
             Toast.fire({
@@ -187,7 +186,7 @@ function nodepenActivate(nodeID) {
             console.log(data);
             Toast.fire({
                 type: 'error',
-                title: 'Error in sending data...'
+                title: 'Error in node setup...'
             });
         }
     });

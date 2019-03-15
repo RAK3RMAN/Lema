@@ -85,16 +85,15 @@ function agentBroadcast(req, res) {
 }
 //Receive Setup config from LEMAConsole
 function agentSetup(req, res) {
-    let agentConfig = req.body;
-    console.log(agentConfig["console_ip"]);
-    if ( agentConfig["console_ip"] === undefined || agentConfig["console_secret"] === undefined ) {
+    console.log(req.body["console_ip"]);
+    if ( req.body["console_ip"] === undefined || req.body["console_secret"] === undefined ) {
         console.log('ERROR: Not all parameters sent');
         res.json({ setupStat: 'failure', node_id: storage.get('node_id') });
     } else {
+        res.json({ setupStat: 'success', node_id: storage.get('node_id') });
         storage.set('setup_status', 'true');
-        storage.set('console_ip', agentConfig["console_ip"]);
-        storage.set('console_secret', agentConfig["console_secret"]);
-        res.json({ setupStat: 'success', node_id: storage.get('node_id'), node_arch: 'type' });
+        storage.set('console_ip', req.body["console_ip"]);
+        storage.set('console_secret', req.body["console_secret"]);
     }
 }
 //Remove LEMAConsole configuration, release, and await setup
