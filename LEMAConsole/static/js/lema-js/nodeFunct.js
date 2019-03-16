@@ -8,6 +8,7 @@ const Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 5000
 });
+let hiddenCount = 0;
 
 //Node List
 function nodeList() {
@@ -19,6 +20,9 @@ function nodeList() {
             $('#nodelist').empty();
             $('#nodepenlist').empty();
             $('#nodehidden').empty();
+            let activeCount = 0;
+            let pendingCount = 0;
+            hiddenCount = 0;
             $.each(data, function (i, value) {
                 //If node is active, append to active table
                 if (value.node_status === "online" || value.node_status === "offline" || value.node_status === "unknown") {
@@ -43,6 +47,7 @@ function nodeList() {
                         "<i class=\"fas fa-times-circle\"></i> Release\n" +
                         "</td></tr>"
                     );
+                    activeCount += 1;
                 }
                 //If node is pending, append to nodePen table
                 else if (value.node_status === "pending") {
@@ -56,6 +61,7 @@ function nodeList() {
                         "<i class=\"material-icons\">move_to_inbox</i> Hide\n" +
                         "</td></tr>"
                     );
+                    pendingCount += 1;
                 } else {
                     let name_element = "<i class=\"fas fa-ban\" style=\"color: grey;\"></i> " + value.node_name + " | " + value.node_ip;
                     $('#nodehidden').append(
@@ -65,8 +71,11 @@ function nodeList() {
                         "<i class=\"material-icons\">add</i> Activate\n" +
                         "</td></tr>"
                     );
+                    hiddenCount += 1;
                 }
             });
+            document.getElementById("activeCount").innerHTML = activeCount;
+            //document.getElementById("pendingCount").innerHTML = pendingCount;
         },
         error: function (data) {
             console.log(data);
@@ -269,7 +278,6 @@ function nodeEdit(nodeID) {
                     '</div>',
                 showCancelButton: true,
                 confirmButtonText: 'Update',
-                showLoaderOnConfirm: true,
             }).then(() => {
                 let nodeIP = document.getElementById("editIP").value;
                 let nodeName = document.getElementById("editName").value;
@@ -312,30 +320,42 @@ function nodeEdit(nodeID) {
 
 //Node Release SA
 function nodeRelease(nodeID) {
-    console.log("NODE Discovery: Hiding Node: " + nodeID);
-    $.ajax({
-        type: "POST",
-        url: "/api/node/hide",
-        data: {
-            node_id: nodeID,
-        },
-        success: function (data) {
-            Toast.fire({
-                type: 'success',
-                title: 'Node is now hidden!'
-            });
-            setTimeout(function(){
-                nodeList();
-            }, 500);
-        },
-        error: function (data) {
-            console.log(data);
-            Toast.fire({
-                type: 'error',
-                title: 'Error in hiding node...'
+    console.log("NODE Discovery: Releasing Node: " + nodeID);
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This node will be released from LEMAConsole",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, release it!'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: "POST",
+                url: "/api/node/hide",
+                data: {
+                    node_id: nodeID,
+                },
+                success: function (data) {
+                    Toast.fire({
+                        type: 'success',
+                        title: 'Node is now hidden!'
+                    });
+                    setTimeout(function(){
+                        nodeList();
+                    }, 500);
+                },
+                error: function (data) {
+                    console.log(data);
+                    Toast.fire({
+                        type: 'error',
+                        title: 'Error in hiding node...'
+                    });
+                }
             });
         }
-    });
+    })
 }
 
 //Node Set Scan Range
@@ -376,7 +396,7 @@ function toggleHidden() {
         "           <div class=\"nav-tabs-wrapper\">\n" +
         "               <span class=\"nav-tabs-title p-0\">\n" +
         "                   <h4 class=\"card-title\"><strong>Hidden Nodes</strong></h4>\n" +
-        "                   <p class=\"card-category\">Total Number of Nodes: </p>\n" +
+        "                   <p class=\"card-category\">Number of Hidden Nodes: <strong><span id=\"hiddenCount\"></span></strong></p>\n" +
         "               </span>\n" +
         "           </div>\n" +
         "       </div>\n" +
@@ -414,6 +434,7 @@ function toggleHidden() {
             "</button>"
         );
         tablestat = 0;
-        console.log('Removed');
+        nodeList();
     }
+    document.getElementById("hiddenCount").innerHTML = hiddenCount;
 }
