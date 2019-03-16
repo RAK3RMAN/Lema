@@ -67,7 +67,43 @@
         }
       }
     },
-    "/api/node/list": {
+    "/api/node/details": {
+      "get": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Give details about the node requested",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/node_id_model"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/node/details/all": {
       "get": {
         "tags": [
           "LEMAConsole_INT"
@@ -81,6 +117,42 @@
         "produces": [
           "application/json",
           "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/node/edit": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Edit an existing node",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/node"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -151,7 +223,7 @@
         }
       }
     },
-    "/api/node/lema-agent/setup": {
+    "/api/node/setup": {
       "post": {
         "tags": [
           "LEMAConsole_INT"
@@ -173,7 +245,7 @@
             "description": "Body parameters that are sent inside of api request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/node_modifier"
+              "$ref": "#/definitions/node_id_model"
             }
           }
         ],
@@ -209,7 +281,7 @@
             "description": "Body parameters that are sent inside of api request",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/node_modifier"
+              "$ref": "#/definitions/node_id_model"
             }
           }
         ],
@@ -323,7 +395,7 @@
         "name": "node"
       }
     },
-    "node_modifier": {
+    "node_id_model": {
       "type": "object",
       "properties": {
         "node_id": {

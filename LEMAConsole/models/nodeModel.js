@@ -23,7 +23,7 @@ let nodeSchema = mongoose.Schema({
     },
     node_status: {
         type: String,
-        default: "offline",
+        default: "unknown",
     },
     created_date: {
         type: Date,
