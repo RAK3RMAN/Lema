@@ -10,36 +10,36 @@
                             <div class="nav-tabs-wrapper">
                                 <span class="nav-tabs-title p-0">
                                     <h4 class="card-title"><strong>Active Nodes</strong></h4>
-                                    <p class="card-category">Number of Active Nodes: <strong><span id="activeCount"></span></strong></p>
+                                    <p class="card-category">Number of Active Nodes: <strong><span
+                                                    id="activeCount"></span></strong></p>
                                 </span>
                                 <ul class="nav nav-tabs justify-content-end" data-tabs="tabs">
-                                    <li class="nav-item">
-                                        <div class="input-group no-border">
-                                            <input type="test" value="" class="form-control text-white"
-                                                   placeholder="Node Search...">
-                                            <button type="submit" class="btn btn-default btn-round btn-just-icon ml-2">
-                                                <i class="material-icons">search</i>
-                                                <div class="ripple-container"></div>
-                                            </button>
-                                        </div>
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link active" onclick="nodeList()">
+                                            <i class="fas fa-sync-alt"></i>
+                                            <div class="ripple-container"></div>
+                                        </a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover">
-                            <thead class="text-success">
-                            <th>Node Name</th>
-                            <th>IP Address</th>
-                            <th>Node ID</th>
-                            <th>Tools</th>
-                            </thead>
-                            <tbody id="nodelist"></tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped dt-responsive display nowrap" id="activeTable" style="width: 100%">
+                                <thead class="text-success">
+                                <th>Node Name</th>
+                                <th>IP Address</th>
+                                <th>Node ID</th>
+                                <th>Tools</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-12">
                 <div class="card">
                     <div class="card-header card-header-tabs card-header-warning">
@@ -93,22 +93,51 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-hover">
-                            <thead class="text-warning">
-                            <th>Hostname/IP</th>
-                            <th>Node ID</th>
-                            <th>Acquisition Date</th>
-                            <th>Tools</th>
-                            </thead>
-                            <tbody id="nodepenlist"></tbody>
-                        </table>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped dt-responsive display nowrap" id="pendingTable" style="width: 100%">
+                                <thead class="text-warning">
+                                <th>Hostname/IP</th>
+                                <th>Node ID</th>
+                                <th>Acquisition Date</th>
+                                <th>Tools</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="hiddenTable" class="col-12"></div>
+            <div id="hiddenDiv" class="col-12" style="display: none">
+                <div class="card">
+                    <div class="card-header card-header-tabs card-header-primary">
+                        <div class="nav-tabs-navigation">
+                            <div class="nav-tabs-wrapper">
+                                <span class="nav-tabs-title p-0">
+                                    <h4 class="card-title"><strong>Hidden Nodes</strong></h4>
+                                    <p class="card-category">Number of Hidden Nodes: <strong><span id="hiddenCount">3</span></strong></p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped dt-responsive display nowrap" id="hiddenTable" style="width: 100%">
+                                <thead class="text-muted">
+                                <th>Hostname/IP</th>
+                                <th>Node ID</th>
+                                <th>Acquisition Date</th>
+                                <th>Tools</th>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-12 text-center" id="hiddenButton">
-                <button class="btn btn-muted btn-round" onclick="toggleHidden()"><i class="far fa-eye"></i> Show Hidden Nodes
+                <button class="btn btn-muted btn-round" onclick="toggleHidden()"><i class="far fa-eye"></i> Show Hidden
+                    Nodes
                     <div class="ripple-container"></div>
                 </button>
             </div>
@@ -118,6 +147,7 @@
 <script type="text/javascript" src="/static/js/lema-js/nodeFunct.js"></script>
 <script>
     document.ready = function () {
+        $('#activeTable').DataTable();
         nodeList();
     }
 </script>
