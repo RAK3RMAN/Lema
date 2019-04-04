@@ -27,9 +27,9 @@ let tableSettings = {
         "search": searchValue,
     }
 };
-activeTable = $('#activeTable').DataTable(tableSettings);
-pendingTable = $('#pendingTable').DataTable(tableSettings);
-hiddenTable = $('#hiddenTable').DataTable(tableSettings);
+let activeTable = $('#activeTable').DataTable(tableSettings);
+let pendingTable = $('#pendingTable').DataTable(tableSettings);
+let hiddenTable = $('#hiddenTable').DataTable(tableSettings);
 
 //Node List
 function nodeList() {
@@ -385,7 +385,7 @@ function nodeRelease(nodeID) {
 function nodeSetRange() {
     let startRange = document.getElementById("startRange").value;
     let endRange = document.getElementById("endRange").value;
-    console.log(startRange + endRange);
+    console.log(startRange + " - " + endRange);
     $.ajax({
         type: "POST",
         url: "/api/node/scan_range",
