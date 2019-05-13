@@ -21,7 +21,7 @@ module.exports = function (app) {
 
     app.route('/api/node/scan_range')
         .get(auth.isLoggedIn, node.get_scanrange)
-        .post(auth.isLoggedIn, node.update_scanrange)
+        .post(auth.isLoggedIn, node.update_scanrange);
 
     app.route('/api/node/setup')
         .post(auth.isLoggedIn, node.agent_setup);

@@ -53,11 +53,11 @@ function nodeList() {
                         nodeArch = "  <i class=\"fab fa-raspberry-pi\" style=\"color: darkgrey;\"></i>";
                     }
                     if (value.node_status === "online") {
-                        name_element = "<i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + "  " + nodeArch
+                        name_element = "<a href=\"/node/details/" + value.node_id + "\" style='color: grey !important'><i class=\"far fa-check-circle\" style=\"color: mediumseagreen;\"></i> " + value.node_name + "  " + nodeArch + "</a>"
                     } else if (value.node_status === "offline") {
-                        name_element = "<i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + "  " + nodeArch
+                        name_element = "<a href=\"/node/details/" + value.node_id + "\" style='color: grey !important'><i class=\"far fa-times-circle\" style=\"color: Tomato;\"></i> " + value.node_name + "  " + nodeArch + "</a>"
                     } else {
-                        name_element = "<i class=\"far fa-question-circle\" style=\"color: dodgerblue;\"></i> " + value.node_name + "  " + nodeArch
+                        name_element = "<a href=\"/node/details/" + value.node_id + "\" style='color: grey !important'><i class=\"far fa-question-circle\" style=\"color: dodgerblue;\"></i> " + value.node_name + "  " + nodeArch + "</a>"
                     }
                     let tools = ("<div class=\"td-actions text-right\">\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodeEdit('" + value.node_id + "')\" title=\"\">\n" +

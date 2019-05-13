@@ -103,6 +103,7 @@ nodeRouter(app);
 //Material Routes
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);
 app.get('/node/list', auth.isLoggedIn, materialRouter.nodeList);
+app.get('/node/details/:nodeID', auth.isLoggedIn, materialRouter.nodeDetails);
 app.get('/setup', auth.isLoggedIn, materialRouter.sysSetup);
 app.use('/api/docs', auth.isLoggedIn, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

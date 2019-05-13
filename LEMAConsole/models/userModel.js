@@ -11,18 +11,6 @@ let userSchema = mongoose.Schema({
         email: String,
         password: String,
     },
-    github: {
-        id: String,
-        token: String,
-        email: String,
-        name: String
-    },
-    google: {
-        id: String,
-        token: String,
-        email: String,
-        name: String
-    },
 });
 
 //Hash Passwords
