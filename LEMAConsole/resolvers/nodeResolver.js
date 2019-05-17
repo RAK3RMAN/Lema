@@ -75,7 +75,7 @@ exports.agent_setup = function (req, res) {
                 url: agent_url,
                 body: {
                     console_ip: "http://" + ip.address() + ":" + storage.get('console_port'),
-                    console_secret: '61862295-77ca-4088-967a-e3969d744db8'
+                    console_secret: storage.get('public_secret')
                 },
                 json: true,
             };

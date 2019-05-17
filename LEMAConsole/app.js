@@ -52,6 +52,13 @@ if (debug_mode === undefined) {
     storage.set('debug_mode', 'false');
     console.log('Lema Config Manager: Debug Mode Set to DEFAULT: false');
 }
+//Public Secret Check
+let public_secret = storage.get('public_secret');
+if (public_secret === undefined) {
+    let newSecret = uuidv4();
+    storage.set('public_secret', newSecret);
+    console.log('Lema Config Manager: Public Secret Set - ' + newSecret);
+}
 //Initialize Exit Options
 let exitOpt = require('./config/exitOpt.js');
 setTimeout(exitOpt.testCheck, 3000);

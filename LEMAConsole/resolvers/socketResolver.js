@@ -13,8 +13,7 @@ module.exports = function (server) {
     let socketJWT = require("socketio-jwt");
     io.sockets
         .on('connection', socketJWT.authorize({
-            //TODO Save Secret for each Node
-            secret: '61862295-77ca-4088-967a-e3969d744db8',
+            secret: storage.get('public_secret'),
             timeout: 15000
         }))
         .on('authenticated', function (socket) {
