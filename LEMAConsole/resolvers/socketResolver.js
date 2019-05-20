@@ -8,7 +8,7 @@ let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
 
 //Socket Functions
-module.exports = function (server) {
+module.exports.initialize = function (server) {
     let io = require('socket.io').listen(server);
     let socketJWT = require("socketio-jwt");
     io.sockets
@@ -18,18 +18,24 @@ module.exports = function (server) {
         }))
         .on('authenticated', function (socket) {
             let nodeID = socket.decoded_token.node_id;
-            console.log('Node CONNECTED with ID: ' + nodeID);
-            updateStatus(nodeID, "online")
-            .on('disconnect', function (reason) {
+            console.log('Node CONNECTED with ID: ' + nodeID + ' | SocketID: ' + socket.id);
+            updateStatus(nodeID, "online", socket.id);
+            socket.on('disconnect', function (reason) {
                 console.log('Node DISCONNECTED with ID: ' + nodeID + ' | Reason: ' + reason);
-                updateStatus(nodeID, "offline");
+                updateStatus(nodeID, "offline", socket.id);
             })
-        })
+        });
+    exportIO(io);
 };
 
+//Export IO functions to other JS files
+function exportIO(io) {
+    module.exports.exportIO = io;
+}
+
 //Update Status of Node Device when Connected
-function updateStatus(node_id, status) {
-    node.findOneAndUpdate({ node_id: node_id }, { $set: { node_status: status }}, function (err, data) {
+function updateStatus(node_id, status, socketID) {
+    node.findOneAndUpdate({ node_id: node_id }, { $set: { node_status: status, socket_id: socketID }}, function (err, data) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
         }

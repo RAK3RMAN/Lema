@@ -25,6 +25,10 @@ let nodeSchema = mongoose.Schema({
         type: String,
         default: "unknown",
     },
+    socket_id: {
+        type: String,
+        default: "N/A",
+    },
     created_date: {
         type: Date,
         default: Date.now

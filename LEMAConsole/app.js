@@ -194,7 +194,7 @@ mongoose.set('useFindAndModify', false);
 let nodeSearch = require('./sys_funct/nodeSearch.js');
 
 //Initialize Socket.io
-socket(server);
+socket.initialize(server);
 
 //End of External Connections Setup - - - - - - - - - -
 

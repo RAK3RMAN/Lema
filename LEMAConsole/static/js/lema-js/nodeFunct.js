@@ -62,7 +62,7 @@ function nodeList() {
                     let tools = ("<div class=\"td-actions text-right\">\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodeEdit('" + value.node_id + "')\" title=\"\">\n" +
                         "<i class=\"fas fa-edit\"></i> Edit\n" +
-                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodeRelease('" + value.node_id + "')\" title=\"\">\n" +
+                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodeRelease('" + value.node_id + "', '" + value.socket_id + "')\" title=\"\">\n" +
                         "<i class=\"fas fa-times-circle\"></i> Release\n" +
                         "</div></div>"
                     );
@@ -342,7 +342,7 @@ function nodeEdit(nodeID) {
 }
 
 //Node Release SA
-function nodeRelease(nodeID) {
+function nodeRelease(nodeID, socketID) {
     console.log("NODE Discovery: Releasing Node: " + nodeID);
     Swal.fire({
         title: 'Are you sure?',
@@ -359,6 +359,7 @@ function nodeRelease(nodeID) {
                 url: "/api/node/hide",
                 data: {
                     node_id: nodeID,
+                    socket_id: socketID,
                 },
                 success: function (data) {
                     Toast.fire({

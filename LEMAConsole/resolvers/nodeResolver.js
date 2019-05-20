@@ -8,6 +8,7 @@ let ip = require('ip');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
+let socket = require('./socketResolver.js');
 
 //Create a new node
 exports.create_node = function (req, res) {
@@ -108,6 +109,7 @@ exports.agent_setup = function (req, res) {
 
 //Set the status of a node to hidden
 exports.hide_node = function (req, res) {
+    let io = socket.exportIO;
     node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: 'hidden' }}, function (err, data) {
         if (err || data == null) {
             console.log("NODE Resolver: Retrieve failed: " + err);
@@ -117,6 +119,18 @@ exports.hide_node = function (req, res) {
             res.json(data);
         }
     });
+    if (req.body["socket_id"]) {
+        io.to(req.body["socket_id"]).emit('release', req.body["node_id"]);
+        setTimeout(function () {
+            node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: 'hidden' }}, function (err, data) {
+                if (err || data == null) {
+                    console.log("NODE Resolver: Retrieve failed: " + err);
+                } else {
+                    console.log("NODE Resolver: Node Status Updated: " + data);
+                }
+            });
+        }, 2000);
+    }
 };
 
 //Get scan range of node discovery tool
