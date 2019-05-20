@@ -40,12 +40,6 @@ if (setup_status == undefined) {
     storage.set('setup_status', 'false');
     console.log('Lema Config Manager: Setup Status Set to DEFAULT - false');
 }
-//LEMAConsole IP Check
-let console_ip = storage.get('console_ip');
-if (console_ip == undefined) {
-    storage.set('console_ip', '');
-    console.log('Lema Config Manager: LEMAConsole IP Set to DEFAULT');
-}
 //Initialize Exit Options
 let exitOpt = require('./config/exitOpt.js');
 setTimeout(exitOpt.testCheck, 3000);
@@ -95,15 +89,6 @@ function agentSetup(req, res) {
         storage.set('console_ip', req.body["console_ip"]);
         storage.set('console_secret', req.body["console_secret"]);
     }
-}
-//Remove LEMAConsole configuration, release, and await setup
-function agentRelease(req, res) {
-    let releaseCode = JSON.parse(req.body);
-    console.log(releaseCode);
-    storage.set('setup_status', 'false');
-    storage.set('console_ip', '');
-    storage.set('console_secret', '');
-    res.json({ releaseStat: 'success', node_id: storage.get('node_id') });
 }
 
 //End of LEMAgent Config Routes/Logic - - - - - - - - -

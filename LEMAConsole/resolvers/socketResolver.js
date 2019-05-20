@@ -19,10 +19,7 @@ module.exports = function (server) {
         .on('authenticated', function (socket) {
             let nodeID = socket.decoded_token.node_id;
             console.log('Node CONNECTED with ID: ' + nodeID);
-            updateStatus(nodeID, "online");
-            socket.on('server custom event', function (data) {
-                console.log(data);
-            })
+            updateStatus(nodeID, "online")
             .on('disconnect', function (reason) {
                 console.log('Node DISCONNECTED with ID: ' + nodeID + ' | Reason: ' + reason);
                 updateStatus(nodeID, "offline");

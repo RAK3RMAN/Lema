@@ -23,10 +23,14 @@ module.exports = function () {
         //Declare Socket.io Functions
         socket.on('connect', function () {
             socket
-                .emit('authenticate', {token: jwt_token}) //send the jwt
+                .emit('authenticate', {token: jwt_token})
                 .on('authenticated', function () {
-                    console.log('Authorized connection made to LEMAConsole');
-                    //socket.emit('server custom event', {my: 'data'});
+                    console.log('LEMAgent: Authorized connection made to LEMAConsole')
+                    socket
+                        .on('release', function (data) {
+                            console.log('LEMAgent: Starting to Release Node...');
+                            agentRelease(data.node_id);
+                        })
                 })
                 .on('unauthorized', function(msg) {
                     console.log("Unauthorized: " + JSON.stringify(msg.data));
@@ -34,3 +38,15 @@ module.exports = function () {
         });
     }
 };
+
+//Remove LEMAConsole configuration, release, and await setup
+function agentRelease(authID) {
+    if (authID === storage.get('node_id')) {
+        storage.set('setup_status', 'false');
+        storage.set('console_ip', '');
+        storage.set('console_secret', '');
+        console.log('LEMAgent: Node Release Successful');
+    } else {
+        console.log('LEMAgent: Node Release Failed');
+    }
+}
