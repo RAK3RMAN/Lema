@@ -25,7 +25,7 @@ module.exports = function () {
             socket
                 .emit('authenticate', {token: jwt_token})
                 .on('authenticated', function () {
-                    console.log('LEMAgent: Authorized connection made to LEMAConsole');
+                    console.log('LEMAgent: Authorized connection made to LEMAConsole | SocketID: ' + socket.id);
                     socket
                         //Agent Actions
                         .on('release', function (data) {

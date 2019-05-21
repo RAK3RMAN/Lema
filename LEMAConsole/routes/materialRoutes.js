@@ -15,7 +15,7 @@ exports.nodeList = function (req, res) {
 
 //Nodes Details Page Route - Material
 exports.nodeDetails = function (req, res) {
-    res.render('pages/node_details.ejs', {title: 'Node Details', user: req.user});
+    res.render('pages/node_details.ejs', {title: 'Node Details', user: req.user, nodeID: req.params.nodeID});
 };
 
 //System Setup Page Route - Material

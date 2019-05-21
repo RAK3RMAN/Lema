@@ -71,7 +71,11 @@ function nodeList() {
                 }
                 //If node is pending, append to nodePen table
                 else if (value.node_status === "pending") {
-                    let name_element = "<i class=\"fas fa-adjust\" style=\"color: orange;\"></i> " + value.node_name + " | " + value.node_ip;
+                    let nodeArch = "";
+                    if (value.node_type === "raspberryPi") {
+                        nodeArch = "  <i class=\"fab fa-raspberry-pi pr-1\" style=\"color: orange;\"></i>";
+                    }
+                    let name_element = nodeArch + value.node_name + " | " + value.node_ip;
                     let created_date = value.created_date + "(UTC)";
                     let tools = ("<div class=\"td-actions text-right\">\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodepenActivate('" + value.node_id + "')\" title=\"\">\n" +
