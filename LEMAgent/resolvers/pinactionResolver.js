@@ -8,7 +8,7 @@ let storage = new dataStore({path: './config/sysConfig.json'});
 let pinConfig = new dataStore({path: './config/pinConfig.json'});
 
 //Pin Action Function Setup
-module.exports = function setup() {
+module.exports.setup = function () {
     //Pin Config Setup Check
     let pinconfigSetup = storage.get('pinconfigSetup');
     if (pinconfigSetup === undefined && storage.get('node_id')) {
@@ -21,7 +21,7 @@ module.exports = function setup() {
 };
 
 //Pin Action Function
-module.exports = function pinUpdate(pin, action) {
+module.exports.pinUpdate = function (pin, action) {
     console.log("PIN:" + pin + " ACTION:" + action);
 };
 
