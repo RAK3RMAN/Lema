@@ -8,3 +8,5 @@ LEMAgent/node_modules/
 LEMAConsole/config/sysConfig\.json
 
 LEMAgent/config/sysConfig\.json
+
+LEMAgent/config/pinConfig\.json

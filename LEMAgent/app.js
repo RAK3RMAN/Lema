@@ -19,6 +19,7 @@ let bodyParser = require('body-parser');
 let uuidv4 = require('uuid/v4');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
+let pinConfig = new dataStore({path: './config/pinConfig.json'});
 
 //System Config Checks - - - - - - - - - - - - - - - - -
 //Node ID Check
@@ -51,6 +52,7 @@ app.set('view engine', 'ejs');
 
 //Resolvers
 let socket = require('./resolvers/socketResolver.js');
+let pinAction = require('./resolvers/pinactionResolver.js');
 
 //Other Processes Setup
 app.use(cookieParser());
@@ -138,8 +140,9 @@ if (storage.get('setup_status') === "false") {
     console.log('===========================================');
 }
 
-//Initialize Socket.io
+//Initialize Socket.io & PinAction
 socket();
+pinAction();
 
 //End of External Connections Setup - - - - - - - - - -
 

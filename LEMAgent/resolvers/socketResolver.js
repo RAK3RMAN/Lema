@@ -5,6 +5,7 @@ Author       : RAk3rman
 let jwt = require('jwt-simple');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
+let fs = require('fs');
 
 //Socket Functions
 module.exports = function () {
@@ -27,6 +28,8 @@ module.exports = function () {
                 .on('authenticated', function () {
                     console.log('LEMAgent: Authorized connection made to LEMAConsole | SocketID: ' + socket.id);
                     socket
+                        //Emit Pin Configuration
+                        .emit('pinConfig', JSON.parse(fs.readFileSync('./config/pinConfig.json')))
                         //Agent Actions
                         .on('release', function (data) {
                             console.log('LEMAgent: Starting to Release Node...');

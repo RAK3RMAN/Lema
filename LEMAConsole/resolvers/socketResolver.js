@@ -20,6 +20,15 @@ module.exports.initialize = function (server) {
             let nodeID = socket.decoded_token.node_id;
             console.log('Node CONNECTED with ID: ' + nodeID + ' | SocketID: ' + socket.id);
             updateStatus(nodeID, "online", socket.id);
+            socket.on('pinConfig', function (data) {
+                node.findOneAndUpdate({ node_id: nodeID }, { $set: { pin_config: data } }, function (err, updatedNode) {
+                    if (err) {
+                        console.log("NODE Resolver: Update failed: " + err);
+                    } else {
+                        console.log("NODE Resolver: Node Updated: " + updatedNode);
+                    }
+                });
+            });
             socket.on('disconnect', function (reason) {
                 console.log('Node DISCONNECTED with ID: ' + nodeID + ' | Reason: ' + reason);
                 updateStatus(nodeID, "offline", socket.id);
@@ -39,6 +48,6 @@ function updateStatus(node_id, status, socketID) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
         }
-        if (debug_mode === "true") { console.log("NODE Resolver: Node Status Updated: " + data) }
+        //if (debug_mode === "true") { console.log("NODE Resolver: Node Status Updated: " + data) }
     });
 }

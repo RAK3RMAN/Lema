@@ -40,11 +40,46 @@ function pinoutList(nodeID) {
             let storedKey;
             let storedValue;
             $.each(data[0].pin_config, function (key, value) {
-                if (key.slice(3,5) % 2 === 0) {
-                    pinoutTable.row.add([storedKey, storedValue, value, key]);
+                let formatKey = 'Pin #' + key.slice(3,5);
+                let formatValueL = value;
+                let formatValueR = value;
+                if (value.slice(0,3) ===  "NA/") {
+                    let NAStatus = value.substring(3);
+                    if (NAStatus === "3.3V") {
+                        if (key === "pin01") {
+                            formatValueL = NAStatus + "<i class=\"fas fa-stop-circle pl-1\" style=\"color: darkorange\"></i>";
+                            formatValueR = "<i class=\"fas fa-stop-circle pr-1\" style=\"color: darkorange\"></i>" + NAStatus;
+                        } else {
+                            formatValueL = NAStatus + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: darkorange\"></i>";
+                            formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: darkorange\"></i>" + NAStatus;
+                        }
+                    } else if (NAStatus === "5V") {
+                        formatValueL = NAStatus + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: orangered\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: orangered\"></i>" + NAStatus;
+                    } else if (NAStatus === "GND") {
+                        formatValueL = NAStatus + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: black\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: black\"></i>" + NAStatus;
+                    } else {
+                        formatValueL = NAStatus + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: grey\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: grey\"></i>" + NAStatus;
+                    }
                 } else {
-                    storedKey = key;
-                    storedValue = value;
+                    if (value === "ON") {
+                        formatValueL = value + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #4caf50\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #4caf50\"></i>" + value;
+                    } else if (value === "OFF") {
+                        formatValueL = value + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #f44336\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #f44336\"></i>" + value;
+                    } else {
+                        formatValueL = value + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #00bcd4\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #00bcd4\"></i>" + value;
+                    }
+                }
+                if (key.slice(3,5) % 2 === 0) {
+                    pinoutTable.row.add([storedKey, storedValue, formatValueR, formatKey]);
+                } else {
+                    storedKey = formatKey;
+                    storedValue = formatValueL;
                 }
             });
             pinoutTable.draw();
