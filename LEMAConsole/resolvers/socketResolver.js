@@ -24,8 +24,6 @@ module.exports.initialize = function (server) {
                 node.findOneAndUpdate({ node_id: nodeID }, { $set: { pin_config: data } }, function (err, updatedNode) {
                     if (err) {
                         console.log("NODE Resolver: Update failed: " + err);
-                    } else {
-                        console.log("NODE Resolver: Node Updated: " + updatedNode);
                     }
                 });
             });

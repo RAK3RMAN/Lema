@@ -7,16 +7,30 @@ let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let pinConfig = new dataStore({path: './config/pinConfig.json'});
 
-//Pin Action Functions
-module.exports = function () {
+//Pin Action Function Setup
+module.exports = function setup() {
     //Pin Config Setup Check
     let pinconfigSetup = storage.get('pinconfigSetup');
     if (pinconfigSetup === undefined && storage.get('node_id')) {
         storage.set('pinconfigSetup', 'raspberryPi');
-        modelPins('raspberryPi');
+        modelPins(storage.get('pinconfigSetup'));
         console.log('Lema Pin Config Manager: pinConfig.json modeled for Raspberry Pi');
     }
+    //Check pin configuration upon setup
+    checkPins(storage.get('pinconfigSetup'));
 };
+
+//Pin Action Function
+module.exports = function pinUpdate(pin, action) {
+    console.log("PIN:" + pin + " ACTION:" + action);
+};
+
+//Check Pin Status
+function checkPins(arch) {
+    if (arch === "raspberryPi") {
+
+    }
+}
 
 //Model Pins to Default
 function modelPins(arch) {

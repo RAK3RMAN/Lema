@@ -142,7 +142,7 @@ if (storage.get('setup_status') === "false") {
 
 //Initialize Socket.io & PinAction
 socket();
-pinAction();
+pinAction.setup();
 
 //End of External Connections Setup - - - - - - - - - -
 

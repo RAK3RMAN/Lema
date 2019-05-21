@@ -6,6 +6,7 @@ let jwt = require('jwt-simple');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let fs = require('fs');
+let pinAction = require('./pinactionResolver.js');
 
 //Socket Functions
 module.exports = function () {
@@ -30,6 +31,11 @@ module.exports = function () {
                     socket
                         //Emit Pin Configuration
                         .emit('pinConfig', JSON.parse(fs.readFileSync('./config/pinConfig.json')))
+                        //Pin Update
+                        .on('pinUpdate', function (data) {
+                            console.log('LEMAgent: Updating Pin ' + data);
+                            pinAction.pinUpdate(data.pin, data.action);
+                        })
                         //Agent Actions
                         .on('release', function (data) {
                             console.log('LEMAgent: Starting to Release Node...');
