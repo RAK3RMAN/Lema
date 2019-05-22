@@ -2,7 +2,8 @@
 App/Filename : LEMAgent/resolvers/socketResolver.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
-let jwt = require('jwt-simple');
+let fs = require('fs');
+let cmd = require('node-cmd');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let pinConfig = new dataStore({path: './config/pinConfig.json'});
@@ -10,14 +11,13 @@ let pinConfig = new dataStore({path: './config/pinConfig.json'});
 //Pin Action Function Setup
 module.exports.setup = function () {
     //Pin Config Setup Check
-    let pinconfigSetup = storage.get('pinconfigSetup');
-    if (pinconfigSetup === undefined && storage.get('node_id')) {
-        storage.set('pinconfigSetup', 'raspberryPi');
-        modelPins(storage.get('pinconfigSetup'));
+    let testPin = pinConfig.get('pin01');
+    if (testPin === undefined && storage.get('sys_arch')) {
+        modelPins(storage.get('sys_arch'));
         console.log('Lema Pin Config Manager: pinConfig.json modeled for Raspberry Pi');
     }
     //Check pin configuration upon setup
-    checkPins(storage.get('pinconfigSetup'));
+    checkPins(storage.get('sys_arch'));
 };
 
 //Pin Action Function
@@ -28,7 +28,31 @@ module.exports.pinUpdate = function (pin, action) {
 //Check Pin Status
 function checkPins(arch) {
     if (arch === "raspberryPi") {
-
+        let pinData = JSON.parse(fs.readFileSync('./config/pinConfig.json'));
+        for (let i in pinData) {
+            if (pinData[i].slice(0,3) !== "NA/") {
+                cmd.get(
+                    "gpio -1 read " + i.slice(3,5),
+                    function(err, data, stderr){
+                        if (err) {
+                            console.log("LEMAgent | Error in Reading Pins: " + err)
+                        } else {
+                            if (pinData[i] === "UNDEF") {
+                                pinConfig.set(i, 'D-IN--' + data);
+                            } else if (pinData[i].slice(0,6) === "D-IN--") {
+                                pinConfig.set(i, 'D-IN--' + data);
+                            } else if (pinData[i].slice(0,6) === "D-OUT-") {
+                                pinConfig.set(i, 'D-OUT-' + data);
+                            } else {
+                                pinConfig.set(i, 'UNDEF');
+                            }
+                        }
+                    }
+                );
+            }
+        }
+    } else {
+        console.log('LEMAgent | Cannot check pins due to system architecture...')
     }
 }
 

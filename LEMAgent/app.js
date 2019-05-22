@@ -75,9 +75,22 @@ app.post('/lema-agent/setup', agentSetup);
 
 //Broadcast Agent Information
 function agentBroadcast(req, res) {
-    //TODO Fix default value
-    let node_type = "raspberryPi";
+    //Find Node Architecture
+    let node_type = "unknown";
+    if (os.type() === "Linux") {
+        if ((fs.readFileSync('/etc/os-release', 'utf8')).search('raspbian')) {
+            node_type = "raspberryPi";
+        } else {
+            node_type = "linux";
+        }
+    } else if (os.type() === "Darwin") {
+        node_type = "darwin";
+    } else if (os.type() === "Windows") {
+        node_type = "windows";
+    }
     res.json({ node_id: storage.get('node_id'), node_hostname: os.hostname(), node_type: node_type });
+    storage.set('sys_arch', node_type);
+    pinAction.setup();
 }
 //Receive Setup config from LEMAConsole
 function agentSetup(req, res) {
@@ -140,7 +153,7 @@ if (storage.get('setup_status') === "false") {
     console.log('===========================================');
 }
 
-//Initialize Socket.io & PinAction
+//Initialize Socket.io
 socket();
 pinAction.setup();
 

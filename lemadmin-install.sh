@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 #Lema Admin Install Script
 
+#TODO Need to install evilscan on install
+
 function manageMenu () {
 	echo ""
 	echo "===================================================="
