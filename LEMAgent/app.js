@@ -17,6 +17,7 @@ let cookieParser = require('cookie-parser');
 let ip = require('ip');
 let bodyParser = require('body-parser');
 let uuidv4 = require('uuid/v4');
+let fs = require('fs');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let pinConfig = new dataStore({path: './config/pinConfig.json'});

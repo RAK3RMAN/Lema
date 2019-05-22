@@ -103,32 +103,32 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
 		    ;;
 	    esac
     else
-        echo "Installing LEMAgent:"
+        echo "Installing LEMAgent: Press ^C to Cancel"
         echo ""
     fi
-    echo "Updating Raspbian..."
+    echo "LEMAgent - Updating Raspbian..."
     apt-get update
     apt-get upgrade -y
     echo ""
-    echo "Installing Git..."
+    echo "LEMAgent - Installing Git..."
     apt-get install git -y
     echo ""
-    echo "Installing NodeJS..."
+    echo "LEMAgent - Installing NodeJS..."
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
     apt-get install nodejs -y
     echo ""
-    echo "Cloning LEMAgent..."
+    echo "LEMAgent - Cloning LEMAgent..."
     git clone https://github.com/RAK3RMAN/Lema.git
     echo ""
-    echo "Installing Dependencies..."
+    echo "LEMAgent - Installing Dependencies..."
     cd Lema
     cd LEMAgent
     npm install
     echo ""
-    echo "Installing PM2..."
+    echo "LEMAgent - Installing PM2..."
     npm install pm2 -g
     echo ""
-    echo "Configuring PM2 with LEMAgent..."
+    echo "LEMAgent - Configuring PM2 with LEMAgent..."
     pm2 startup
     pm2 start start.sh --name LEMAgent
     pm2 save
