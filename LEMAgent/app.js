@@ -22,6 +22,10 @@ let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let pinConfig = new dataStore({path: './config/pinConfig.json'});
 
+//Resolvers
+let socket = require('./resolvers/socketResolver.js');
+let pinAction = require('./resolvers/pinactionResolver.js');
+
 //System Config Checks - - - - - - - - - - - - - - - - -
 //Node ID Check
 let node_id = storage.get('node_id');
@@ -42,6 +46,26 @@ if (setup_status == undefined) {
     storage.set('setup_status', 'false');
     console.log('Lema Config Manager: Setup Status Set to DEFAULT - false');
 }
+//System Architecture Check
+let sys_arch = storage.get('sys_arch');
+if (sys_arch == undefined) {
+    //Find Sys Arch
+    let node_type = "unknown";
+    if (os.type() === "Linux") {
+        if ((fs.readFileSync('/etc/os-release', 'utf8')).search('raspbian')) {
+            node_type = "raspberryPi";
+        } else {
+            node_type = "linux";
+        }
+    } else if (os.type() === "Darwin") {
+        node_type = "darwin";
+    } else if (os.type() === "Windows") {
+        node_type = "windows";
+    }
+    storage.set('sys_arch', node_type);
+    console.log('Lema Config Manager: System Architecture Set to ' + node_type);
+    pinAction.setup(node_type);
+}
 //Initialize Exit Options
 let exitOpt = require('./config/exitOpt.js');
 setTimeout(exitOpt.testCheck, 3000);
@@ -50,10 +74,6 @@ setTimeout(exitOpt.testCheck, 3000);
 //Declare App
 const app = express();
 app.set('view engine', 'ejs');
-
-//Resolvers
-let socket = require('./resolvers/socketResolver.js');
-let pinAction = require('./resolvers/pinactionResolver.js');
 
 //Other Processes Setup
 app.use(cookieParser());
@@ -76,22 +96,7 @@ app.post('/lema-agent/setup', agentSetup);
 
 //Broadcast Agent Information
 function agentBroadcast(req, res) {
-    //Find Node Architecture
-    let node_type = "unknown";
-    if (os.type() === "Linux") {
-        if ((fs.readFileSync('/etc/os-release', 'utf8')).search('raspbian')) {
-            node_type = "raspberryPi";
-        } else {
-            node_type = "linux";
-        }
-    } else if (os.type() === "Darwin") {
-        node_type = "darwin";
-    } else if (os.type() === "Windows") {
-        node_type = "windows";
-    }
-    res.json({ node_id: storage.get('node_id'), node_hostname: os.hostname(), node_type: node_type });
-    storage.set('sys_arch', node_type);
-    pinAction.setup();
+    res.json({ node_id: storage.get('node_id'), node_hostname: os.hostname(), node_type: storage.get('sys_arch') });
 }
 //Receive Setup config from LEMAConsole
 function agentSetup(req, res) {
@@ -156,7 +161,6 @@ if (storage.get('setup_status') === "false") {
 
 //Initialize Socket.io
 socket();
-pinAction.setup();
 
 //End of External Connections Setup - - - - - - - - - -
 

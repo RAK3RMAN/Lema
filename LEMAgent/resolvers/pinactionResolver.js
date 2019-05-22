@@ -9,15 +9,13 @@ let storage = new dataStore({path: './config/sysConfig.json'});
 let pinConfig = new dataStore({path: './config/pinConfig.json'});
 
 //Pin Action Function Setup
-module.exports.setup = function () {
+module.exports.setup = function (sys_arch) {
     //Pin Config Setup Check
+    console.log('here');
     let testPin = pinConfig.get('pin01');
-    if (testPin === undefined && storage.get('sys_arch')) {
-        modelPins(storage.get('sys_arch'));
-        console.log('Lema Pin Config Manager: pinConfig.json modeled for Raspberry Pi');
+    if (testPin === undefined) {
+        modelPins(sys_arch);
     }
-    //Check pin configuration upon setup
-    checkPins(storage.get('sys_arch'));
 };
 
 //Pin Action Function
@@ -59,6 +57,7 @@ function checkPins(arch) {
 //Model Pins to Default
 function modelPins(arch) {
     if (arch === "raspberryPi") {
+        console.log('LEMAgent | pinConfig.json modeled for Raspberry Pi');
         pinConfig.set('pin01', 'NA/3.3V');
         pinConfig.set('pin02', 'NA/5V');
         pinConfig.set('pin03', 'NA/SDA');
@@ -99,5 +98,9 @@ function modelPins(arch) {
         pinConfig.set('pin38', 'UNDEF');
         pinConfig.set('pin39', 'NA/GND');
         pinConfig.set('pin40', 'UNDEF');
+        //Check pin configuration upon setup
+        checkPins(arch);
+    } else {
+        console.log('LEMAgent | Cannot set pins due to system architecture...')
     }
 }
