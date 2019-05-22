@@ -5,9 +5,8 @@ echo ""
 echo "=================================================="
 echo "==|| LEMAgent Install Manager - RAk3rman 2019 ||=="
 echo "=================================================="
-detect_os=$(uname -m)
-if [ "$detect_os" = "armv7l" ]; then
-    echo "Detected OS: Raspbian ($detect_os)"
+if [ grep raspbian /etc/os-release ]; then
+    echo "Detected OS: Raspbian"
 else
     echo "The detected OS is not Raspbian, this agent is designed to run on a Raspberry Pi."
     echo "LEMAgent - Would you like to override this check?"
@@ -30,6 +29,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 0
 fi
 echo "LEMAgent - Start auto install?"
+echo "WARNING: This auto install script installs all dependencies required for LEMAgent to run properly. These dependencies may interfere with custom, existing applications and frameworks that are already running on this device. Please proceed with caution and check the README if an advanced setup option is needed."
 echo "(y)es or (N)o: (y)"
 read autoInstall
 if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
@@ -103,17 +103,31 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
 	    esac
     else
         echo "Installing LEMAgent:"
+        echo ""
     fi
+    echo "Updating Raspbian..."
     apt-get update
     apt-get upgrade -y
+    echo ""
+    echo "Installing Git..."
     apt-get install git -y
+    echo ""
+    echo "Installing NodeJS..."
     curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
     apt-get install nodejs -y
+    echo ""
+    echo "Cloning LEMAgent..."
     git clone https://github.com/RAK3RMAN/Lema.git
+    echo ""
+    echo "Installing Dependencies..."
     cd Lema
     cd LEMAgent
     npm install
+    echo ""
+    echo "Installing PM2..."
     npm install pm2 -g
+    echo ""
+    echo "Configuring PM2 with LEMAgent..."
     pm2 startup
     pm2 start start.sh --name LEMAgent
     pm2 save
@@ -122,7 +136,7 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
     echo "Use 'pm2 status LEMAgent' to see status of application."
     echo "Use 'pm2 logs LEMAgent' to see logs of application."
     echo "See other pm2 commands using 'pm2 --help'"
-    echo "Thank you for using LEMA! - Interface with LEMA Console"
+    echo "Thank you for using LEMA! - Interface with this device using LEMA Console"
     echo ""
 else
     echo ""
