@@ -1,5 +1,5 @@
 /*\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-App/Filename : LEMAgent/resolvers/socketResolver.js
+App/Filename : LEMAgent/resolvers/pinactionResolver.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let fs = require('fs');
@@ -11,7 +11,6 @@ let pinConfig = new dataStore({path: './config/pinConfig.json'});
 //Pin Action Function Setup
 module.exports.setup = function (sys_arch) {
     //Pin Config Setup Check
-    console.log('here');
     let testPin = pinConfig.get('pin01');
     if (testPin === undefined) {
         modelPins(sys_arch);
@@ -35,15 +34,18 @@ function checkPins(arch) {
                         if (err) {
                             console.log("LEMAgent | Error in Reading Pins: " + err)
                         } else {
+                            let pinValue;
                             if (pinData[i] === "UNDEF") {
-                                pinConfig.set(i, 'D-IN--' + data);
+                                pinValue = 'D-IN--' + data.slice(0, -1);
                             } else if (pinData[i].slice(0,6) === "D-IN--") {
-                                pinConfig.set(i, 'D-IN--' + data);
+                                pinValue = 'D-IN--' + data.slice(0, -1);
                             } else if (pinData[i].slice(0,6) === "D-OUT-") {
-                                pinConfig.set(i, 'D-OUT-' + data);
+                                pinValue = 'D-OUT-' + data.slice(0, -1);
                             } else {
-                                pinConfig.set(i, 'UNDEF');
+                                pinValue = 'UNDEF'
                             }
+                            pinConfig.set(i, pinValue);
+                            console.log("LEMAgent | " + i + " set to value " + pinValue)
                         }
                     }
                 );
@@ -99,7 +101,11 @@ function modelPins(arch) {
         pinConfig.set('pin39', 'NA/GND');
         pinConfig.set('pin40', 'UNDEF');
         //Check pin configuration upon setup
-        checkPins(arch);
+        setTimeout(awaitCheck, 1000);
+        function awaitCheck() {
+            console.log("LEMAgent | Now checking pin status");
+            checkPins(arch);
+        }
     } else {
         console.log('LEMAgent | Cannot set pins due to system architecture...')
     }
