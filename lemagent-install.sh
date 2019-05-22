@@ -5,7 +5,7 @@ echo ""
 echo "=================================================="
 echo "==|| LEMAgent Install Manager - RAk3rman 2019 ||=="
 echo "=================================================="
-detect_os=$(grep raspbian /etc/os-releas)
+detect_os=$(grep raspbian /etc/os-release)
 if [ "$detect_os" ]; then
     echo "Detected OS: Raspbian"
 else
