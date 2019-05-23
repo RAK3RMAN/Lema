@@ -10,6 +10,43 @@ let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
 let socket = require('./socketResolver.js');
 
+//Get details for dashboard
+exports.dash_details = function (req, res) {
+    //Set Variables
+    let connectedNodes;
+    let totalConsoleNodes;
+    let totalNetworkNodes;
+    node.find({}, function (err, listed_nodes) {
+        if (err) {
+            console.log("NODE Resolver: Retrieve failed: " + err);
+        }
+        for (let i in listed_nodes) {
+            //Connected Nodes Card
+            if (listed_nodes[i]["node_status"] === "online") {
+                connectedNodes += 1;
+                totalConsoleNodes += 1;
+            } else if (listed_nodes[i]["node_status"] === "offline") {
+                totalConsoleNodes += 1;
+            } else if (listed_nodes[i]["node_status"] === "unknown") {
+                totalConsoleNodes += 1;
+            }
+        }
+        //Nodes on Console Card
+        //Nodes on Network Card
+        totalNetworkNodes = listed_nodes.length;
+        //JSON Data
+        res.json({ connectedNodes: connectedNodes, totalConsoleNodes: totalConsoleNodes, totalNetworkNodes: totalNetworkNodes })
+    });
+    //Node Requests Card
+    //Connected Nodes Card
+    //Nodes on Console Card
+    //Nodes on Network Card
+    //Inbound Requests Graph
+    //Node Connected Graph
+    //Outbound Requests Graph
+    //General Node Population Cards
+};
+
 //Create a new node
 exports.create_node = function (req, res) {
     let newNode = new node(req.body);

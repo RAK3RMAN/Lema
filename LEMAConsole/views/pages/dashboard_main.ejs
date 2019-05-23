@@ -27,7 +27,7 @@
                             <i class="fas fa-project-diagram"></i>
                         </div>
                         <p class="card-category">Connected Nodes</p>
-                        <h3 class="card-title">00</h3>
+                        <h3 class="card-title"><span id="connectedNodes"></span></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -44,7 +44,7 @@
                             <i class="fas fa-server"></i>
                         </div>
                         <p class="card-category">Nodes on Console</p>
-                        <h3 class="card-title">00</h3>
+                        <h3 class="card-title"><span id="totalConsoleNodes"></span></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -60,7 +60,7 @@
                             <i class="fas fa-network-wired"></i>
                         </div>
                         <p class="card-category">Nodes on Network</p>
-                        <h3 class="card-title">00</h3>
+                        <h3 class="card-title"><span id="totalNetworkNodes"></span></h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -161,4 +161,9 @@
     </div>
 </div>
 <% include ../partials/wrapper-bottom.ejs %>
-<% include ../partials/footer.ejs %>
+<% include ../partials/footer.ejs %><script type="text/javascript" src="/static/js/lema-js/dashFunct.js"></script>
+<script>
+    document.ready = function () {
+        dashDetails();
+    }
+</script>
