@@ -60,7 +60,10 @@ function nodeList() {
                         name_element = "<a href=\"/node/details/" + value.node_id + "\" style='color: grey !important'><i class=\"far fa-question-circle\" style=\"color: dodgerblue;\"></i> " + value.node_name + "  " + nodeArch + "</a>"
                     }
                     let tools = ("<div class=\"td-actions text-right\">\n" +
-                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info\" data-original-title=\"\" onclick=\"nodeEdit('" + value.node_id + "')\" title=\"\">\n" +
+                        "<a href=\"/node/details/" + value.node_id + "\" class='text-white'>" +
+                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-success\" data-original-title=\"\" title=\"\">\n" +
+                        "<i class=\"fas fa-bars\"></i> Details</a>\n" +
+                        "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-info ml-2\" data-original-title=\"\" onclick=\"nodeEdit('" + value.node_id + "')\" title=\"\">\n" +
                         "<i class=\"fas fa-edit\"></i> Edit\n" +
                         "<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger ml-2\" data-original-title=\"\" onclick=\"nodeRelease('" + value.node_id + "', '" + value.socket_id + "')\" title=\"\">\n" +
                         "<i class=\"fas fa-times-circle\"></i> Release\n" +

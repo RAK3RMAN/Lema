@@ -9,7 +9,7 @@ detect_os=$(grep raspbian /etc/os-release)
 if [ "$detect_os" ]; then
     echo "Detected OS: Raspbian"
 else
-    echo "The detected OS is not Raspbian, this agent is designed to run on a Raspberry Pi."
+    echo "WARNING: The detected OS is not Raspbian, this agent is designed to run on a Raspberry Pi."
     echo "LEMAgent - Would you like to override this check?"
     echo "(y)es or (N)o: (n)"
     read overrideOS
@@ -23,7 +23,7 @@ else
 fi
 echo ""
 if [ "$EUID" -ne 0 ]; then
-  echo "This script must be run with root-level access."
+  echo "WARNING: This script must be run with root-level access."
   echo ""
   echo "Exiting install manager..."
   echo "Follow advanced setup in README if script failed."
