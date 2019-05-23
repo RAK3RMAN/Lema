@@ -130,7 +130,7 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
     echo ""
     echo "LEMAgent - Configuring PM2 with LEMAgent..."
     pm2 startup
-    pm2 start start.sh --name LEMAgent
+    pm2 start start.sh --name LEMAgent --watch
     pm2 save
     echo ""
     echo "LEMAgent Setup is now complete!"

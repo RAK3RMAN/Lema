@@ -64,15 +64,25 @@ function pinoutList(nodeID) {
                         formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: grey\"></i>" + NAStatus;
                     }
                 } else {
-                    if (value === "ON") {
-                        formatValueL = value + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #4caf50\"></i>";
-                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #4caf50\"></i>" + value;
-                    } else if (value === "OFF") {
-                        formatValueL = value + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #f44336\"></i>";
-                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #f44336\"></i>" + value;
+                    //Append Pin Mode
+                    let pinMode;
+                    if (value.slice(0,6) === "D-IN--") {
+                        pinMode = "D IN";
+                    } else if (value.slice(0,6) === "D-OUT-") {
+                        pinMode = "D OUT";
                     } else {
-                        formatValueL = value + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #00bcd4\"></i>";
-                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #00bcd4\"></i>" + value;
+                        pinMode = "UNDEFINED"
+                    }
+                    //Append Status
+                    if (value.slice(6,7) === "1") {
+                        formatValueL = value.slice(6,7) + " | " + pinMode + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #4caf50\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #4caf50\"></i>" + pinMode + " | " + value.slice(6,7);
+                    } else if (value.slice(6,7) === "0") {
+                        formatValueL = value.slice(6,7) + " | " + pinMode + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #f44336\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #f44336\"></i>" + pinMode + " | " + value.slice(6,7);
+                    } else {
+                        formatValueL = value.slice(6,7) + " | " + pinMode + "<i class=\"fas fa-dot-circle pl-1\" style=\"color: #00bcd4\"></i>";
+                        formatValueR = "<i class=\"fas fa-dot-circle pr-1\" style=\"color: #00bcd4\"></i>" + pinMode + " | " + value.slice(6,7);
                     }
                 }
                 if (key.slice(3,5) % 2 === 0) {

@@ -22,6 +22,11 @@ module.exports.pinUpdate = function (pin, action) {
     console.log("PIN:" + pin + " ACTION:" + action);
 };
 
+//Pin Action Function
+module.exports.checkPins = function () {
+    checkPins(arch);
+};
+
 //Check Pin Status
 function checkPins(arch) {
     if (arch === "raspberryPi") {
