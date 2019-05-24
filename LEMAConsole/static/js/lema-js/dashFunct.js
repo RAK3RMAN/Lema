@@ -68,14 +68,14 @@ function dashDetails() {
                         "                " + value.node_name + "\n" +
                         "            </h3>\n" +
                         "            <p class='text-white'>Node IP: " + value.node_ip + "</p>\n" +
-                        "        </div>\n" +
+                        "        </a\n" +
                         "    </div>\n" +
                         "</div>"
                     );
                 } else if (value.node_status === "unknown") {
                     $('#nodePopulation').append(
                         "<div class=\"col-xl-3 col-lg-6 col-md-6 col-sm-6\">\n" +
-                        "    <div class=\"card bg-info mt-0\">\n" +
+                        "    <a class=\"card bg-info mt-0\">\n" +
                         "        <a class=\"card-body\" href=\"/node/details/" + value.node_id + "\">\n" +
                         "            <h5 class=\"card-category card-category-social text-right\">\n" +
                         "                <i class=\"far fa-question-circle\"></i> UNKNOWN\n" +
@@ -84,7 +84,7 @@ function dashDetails() {
                         "                " + value.node_name + "\n" +
                         "            </h3>\n" +
                         "            <p class='text-white'>Node IP: " + value.node_ip + "</p>\n" +
-                        "        </div>\n" +
+                        "        </a>\n" +
                         "    </div>\n" +
                         "</div>"
                     );
