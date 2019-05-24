@@ -17,8 +17,10 @@ function dashDetails() {
         success: function (data) {
             console.log(data);
             //Node Requests Card
+            document.getElementById("totalRequests").innerHTML = data.totalRequests;
             //Connected Nodes Card
             document.getElementById("connectedNodes").innerHTML = data.connectedNodes;
+            parseUpdated('recentConnectWidget', data.recentConnect);
             //Nodes on Console Card
             let addpending_S = "s";
             let addhidden_S = "s";
@@ -30,8 +32,11 @@ function dashDetails() {
             document.getElementById("totalNetworkNodes").innerHTML = data.totalNetworkNodes;
             document.getElementById("scanRange").innerHTML = "<i class=\"material-icons\">gps_fixed</i> Scanning IP Range: " + data.startRange + " - " + data.endRange;
             //Inbound Requests Graph
+            parseUpdated('recentInbound', data.recentInbound);
             //Node Connected Graph
+            parseUpdated('recentConnectGraph', data.recentConnect);
             //Outbound Requests Graph
+            parseUpdated('recentOutbound', data.recentOutbound);
             //General Node Population Cards
             $('#nodePopulation').empty();
             $.each(data.nodeList, function (i, value) {
@@ -67,7 +72,7 @@ function dashDetails() {
                         "    </div>\n" +
                         "</div>"
                     );
-                } else {
+                } else if (value.node_status === "unknown") {
                     $('#nodePopulation').append(
                         "<div class=\"col-xl-3 col-lg-6 col-md-6 col-sm-6\">\n" +
                         "    <div class=\"card bg-info mt-0\">\n" +
@@ -94,4 +99,13 @@ function dashDetails() {
             });
         }
     });
+}
+
+//Append Updated Details
+function parseUpdated(element, dateSent) {
+    if (dateSent === null) {
+        document.getElementById(element).innerHTML = "<i class=\"material-icons\">update</i> Data not logged yet...";
+    } else {
+        document.getElementById(element).innerHTML = "<i class=\"material-icons\">update</i>Updated " + moment(dateSent).fromNow();
+    }
 }

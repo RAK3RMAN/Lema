@@ -3,6 +3,8 @@ App/Filename : LEMAConsole/resolvers/socketResolver.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let node = require('../models/nodeModel.js');
+let request = require('request');
+let requests = require('../models/requestsModel.js');
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
 let debug_mode = storage.get('debug_mode');
@@ -42,10 +44,31 @@ function exportIO(io) {
 
 //Update Status of Node Device when Connected
 function updateStatus(node_id, status, socketID) {
+    //Save Node Parameter to Node DB
     node.findOneAndUpdate({ node_id: node_id }, { $set: { node_status: status, socket_id: socketID }}, function (err, data) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
         }
         //if (debug_mode === "true") { console.log("NODE Resolver: Node Status Updated: " + data) }
+    });
+    //Log Request
+    let classType = "";
+    if (status === "online") {
+        classType = 'connection';
+    }
+    if (status === "offline") {
+        classType = 'disconnection';
+    }
+    let newRequest = new requests({
+        class: classType,
+        node_associated: node_id,
+        details: 'test'
+    });
+    newRequest.save(function (err, created_request) {
+        if (err) {
+            console.log("REQUEST Resolver: Save failed: " + err);
+        } else {
+            if (debug_mode === "true") { console.log('REQUEST Resolver: Request Created: ' + JSON.stringify(created_request)) }
+        }
     });
 }

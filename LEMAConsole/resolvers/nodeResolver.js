@@ -3,6 +3,8 @@ App/Filename : LEMAConsole/resolvers/nodeResolver.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 let node = require('../models/nodeModel.js');
+let requests = require('../models/requestsModel.js');
+let moment = require('moment');
 let request = require('request');
 let ip = require('ip');
 let dataStore = require('data-store');
@@ -15,15 +17,19 @@ exports.dash_details = function (req, res) {
     //Set Variables
     let connectedNodes = 0;
     let totalConsoleNodes = 0;
-    let totalNetworkNodes = 0;
     let pendingNodes = 0;
     let hiddenNodes = 0;
+    let totalRequests = 0;
+    let startRange;
+    let endRange;
+    let recentConnect;
+    let recentInbound;
+    let recentOutbound;
     node.find({}, function (err, listed_nodes) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
         }
         for (let i in listed_nodes) {
-            console.log(listed_nodes[i]["node_status"]);
             //Connected Nodes Card
             //Nodes on Console Card
             if (listed_nodes[i]["node_status"] === "online") {
@@ -38,39 +44,81 @@ exports.dash_details = function (req, res) {
             } else if (listed_nodes[i]["node_status"] === "hidden") {
                 hiddenNodes += 1;
             }
-
         }
-        //Nodes on Network Card
-        let startRange;
-        let endRange;
-        totalNetworkNodes = listed_nodes.length;
-        varSet.find({}, function (err, var_data) {
+        requests.find({}, function (err, listed_requests) {
             if (err) {
                 console.log("NODE Resolver: Retrieve failed: " + err);
-            } else {
-                for (let i in var_data) {
-                    if (var_data[i]["var_name"] === "node_search_rangeStart") {
-                        startRange = var_data[i]["var_value"];
-                    }
-                    if (var_data[i]["var_name"] === "node_search_rangeEnd") {
-                        endRange = var_data[i]["var_value"];
-                    }
-                }
-                //Send JSON Data
-                res.json({
-                    nodeList: listed_nodes,
-                    connectedNodes: connectedNodes,
-                    totalConsoleNodes: totalConsoleNodes,
-                    totalNetworkNodes: totalNetworkNodes,
-                    pendingNodes: pendingNodes,
-                    hiddenNodes: hiddenNodes,
-                    startRange: startRange,
-                    endRange: endRange,
-                })
             }
+            //Node Requests Card
+            for (let i in listed_requests) {
+                //Node Requests Card
+                if (listed_requests[i]["created_date"] > moment().startOf('day').subtract(1,'week')) {
+                    totalRequests += 1;
+                }
+            }
+            //Get recent updates for each request class
+            let recentConnectData = listed_requests.map(function(Request){
+                if (Request.class === "connection" || "disconnection") {
+                    return moment(Request.created_date, 'DD.MM.YYYY');
+                }
+            });
+            let recentInboundData = listed_requests.map(function(Request){
+                if (Request.class === "inbound") {
+                    return moment(Request.created_date, 'DD.MM.YYYY');
+                }
+            });
+            let recentOutboundData = listed_requests.map(function(Request){
+                if (Request.class === "outbound") {
+                    return moment(Request.created_date, 'DD.MM.YYYY');
+                }
+            });
+            if (recentConnectData.filter(Boolean).length === 0) {
+                recentConnect = null;
+            }  else {
+                recentConnect = moment.max(recentConnectData.filter(Boolean));
+            }
+            if (recentInboundData.filter(Boolean).length === 0) {
+                recentInbound = null;
+            }  else {
+                recentInbound = moment.max(recentInboundData.filter(Boolean));
+            }
+            if (recentOutboundData.filter(Boolean).length === 0) {
+                recentOutbound = null;
+            }  else {
+                recentOutbound = moment.max(recentOutboundData.filter(Boolean));
+            }
+            //Nodes on Network Card
+            varSet.find({}, function (err, var_data) {
+                if (err) {
+                    console.log("NODE Resolver: Retrieve failed: " + err);
+                } else {
+                    for (let i in var_data) {
+                        if (var_data[i]["var_name"] === "node_search_rangeStart") {
+                            startRange = var_data[i]["var_value"];
+                        }
+                        if (var_data[i]["var_name"] === "node_search_rangeEnd") {
+                            endRange = var_data[i]["var_value"];
+                        }
+                    }
+                    //Send JSON Data
+                    res.json({
+                        nodeList: listed_nodes,
+                        connectedNodes: connectedNodes,
+                        totalConsoleNodes: totalConsoleNodes,
+                        totalNetworkNodes: listed_nodes.length,
+                        totalRequests: totalRequests,
+                        recentConnect: recentConnect,
+                        recentInbound: recentInbound,
+                        recentOutbound: recentOutbound,
+                        pendingNodes: pendingNodes,
+                        hiddenNodes: hiddenNodes,
+                        startRange: startRange,
+                        endRange: endRange,
+                    })
+                }
+            });
         });
     });
-    //Node Requests Card
     //Inbound Requests Graph
     //Node Connected Graph
     //Outbound Requests Graph
