@@ -48,7 +48,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">devices</i> 00 Nodes Pending | 00 Nodes Hidden
+                            <span id="totalConsoleNodes_Details"></span>
                         </div>
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">gps_fixed</i> Scanning IP Range: 00 - 00
+                            <span id="scanRange"></span>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
             </div>
             <div class="col-xl-4 col-lg-12">
                 <div class="card card-chart">
-                    <div class="card-header card-header-primary">
+                    <div class="card-header card-header-info">
                         <div class="ct-chart" id="websiteViewsChart"></div>
                     </div>
                     <div class="card-body">
@@ -123,38 +123,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header card-header-primary">
+                    <div class="card-header card-header-info">
                         <h4 class="card-title"><strong>General Node Population</strong></h4>
                         <p class="card-category">See the <strong><a href="/node/list">Node List</a></strong> tab for more details</p>
                     </div>
-                    <div class="card-body row mt-3">
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                            <div class="card bg-warning mt-0">
-                                <div class="card-body">
-                                    <h5 class="card-category card-category-social text-right">
-                                        <i class="far fa-times-circle"></i> OFFLINE
-                                    </h5>
-                                    <h3 class="card-title mb-0">
-                                        <a href="#pablo">NODE-KA8A67</a>
-                                    </h3>
-                                    <p>Node IP: 192.168.202.100</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
-                            <div class="card bg-success mt-0">
-                                <div class="card-body">
-                                    <h5 class="card-category card-category-social text-right">
-                                        <i class="far fa-check-circle"></i> ONLINE
-                                    </h5>
-                                    <h3 class="card-title mb-0">
-                                        <a href="#pablo">NODE-F9FALKJ</a>
-                                    </h3>
-                                    <p>Node IP: 192.168.202.100</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="card-body row mt-3" id="nodePopulation"></div>
                 </div>
             </div>
         </div>

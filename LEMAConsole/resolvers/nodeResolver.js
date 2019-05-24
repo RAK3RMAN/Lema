@@ -13,38 +13,67 @@ let socket = require('./socketResolver.js');
 //Get details for dashboard
 exports.dash_details = function (req, res) {
     //Set Variables
-    let connectedNodes;
-    let totalConsoleNodes;
-    let totalNetworkNodes;
+    let connectedNodes = 0;
+    let totalConsoleNodes = 0;
+    let totalNetworkNodes = 0;
+    let pendingNodes = 0;
+    let hiddenNodes = 0;
     node.find({}, function (err, listed_nodes) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
         }
         for (let i in listed_nodes) {
+            console.log(listed_nodes[i]["node_status"]);
             //Connected Nodes Card
+            //Nodes on Console Card
             if (listed_nodes[i]["node_status"] === "online") {
-                connectedNodes += 1;
+                connectedNodes = connectedNodes + 1;
                 totalConsoleNodes += 1;
             } else if (listed_nodes[i]["node_status"] === "offline") {
                 totalConsoleNodes += 1;
             } else if (listed_nodes[i]["node_status"] === "unknown") {
                 totalConsoleNodes += 1;
+            } else if (listed_nodes[i]["node_status"] === "pending") {
+                pendingNodes += 1;
+            } else if (listed_nodes[i]["node_status"] === "hidden") {
+                hiddenNodes += 1;
             }
+
         }
-        //Nodes on Console Card
         //Nodes on Network Card
+        let startRange;
+        let endRange;
         totalNetworkNodes = listed_nodes.length;
-        //JSON Data
-        res.json({ connectedNodes: connectedNodes, totalConsoleNodes: totalConsoleNodes, totalNetworkNodes: totalNetworkNodes })
+        varSet.find({}, function (err, var_data) {
+            if (err) {
+                console.log("NODE Resolver: Retrieve failed: " + err);
+            } else {
+                for (let i in var_data) {
+                    if (var_data[i]["var_name"] === "node_search_rangeStart") {
+                        startRange = var_data[i]["var_value"];
+                    }
+                    if (var_data[i]["var_name"] === "node_search_rangeEnd") {
+                        endRange = var_data[i]["var_value"];
+                    }
+                }
+                //Send JSON Data
+                res.json({
+                    nodeList: listed_nodes,
+                    connectedNodes: connectedNodes,
+                    totalConsoleNodes: totalConsoleNodes,
+                    totalNetworkNodes: totalNetworkNodes,
+                    pendingNodes: pendingNodes,
+                    hiddenNodes: hiddenNodes,
+                    startRange: startRange,
+                    endRange: endRange,
+                })
+            }
+        });
     });
     //Node Requests Card
-    //Connected Nodes Card
-    //Nodes on Console Card
-    //Nodes on Network Card
     //Inbound Requests Graph
     //Node Connected Graph
     //Outbound Requests Graph
-    //General Node Population Cards
 };
 
 //Create a new node
