@@ -28,9 +28,9 @@ module.exports = function () {
                 .emit('authenticate', {token: jwt_token})
                 .on('authenticated', function () {
                     console.log('LEMAgent | Authorized connection made to LEMAConsole | SocketID: ' + socket.id);
+                    //Emit Pin Configuration
+                    socket.emit('pinConfig', JSON.parse(fs.readFileSync('./config/pinConfig.json')))
                     socket
-                        //Emit Pin Configuration
-                        .emit('pinConfig', JSON.parse(fs.readFileSync('./config/pinConfig.json')))
                         //Pin Update
                         .on('pinUpdate', function (data) {
                             console.log('LEMAgent | Updating Pin ' + data);
@@ -40,6 +40,10 @@ module.exports = function () {
                         .on('release', function (data) {
                             console.log('LEMAgent | Starting to Release Node...');
                             agentRelease(data);
+                        })
+                        .on('disconnect', function (data) {
+                            console.log('LEMAgent | Disconnected from LEMAConsole. Attempting to reconnect..')
+                            socket.removeAllListeners('authenticated');
                         })
                 })
                 .on('unauthorized', function(msg) {

@@ -14,7 +14,7 @@ let socket = require('./socketResolver.js');
 
 //Get details for dashboard
 exports.dash_details = function (req, res) {
-    //Set Variables
+    //Set variables for statistics
     let connectedNodes = 0;
     let totalConsoleNodes = 0;
     let pendingNodes = 0;
@@ -25,13 +25,16 @@ exports.dash_details = function (req, res) {
     let recentConnect;
     let recentInbound;
     let recentOutbound;
+    let inboundArray = [];
+    let connectedArray = [];
+    let outboundArray = [];
+    //Get all nodes from database
     node.find({}, function (err, listed_nodes) {
         if (err) {
             console.log("NODE Resolver: Retrieve failed: " + err);
         }
+        //Parse statistics for connectedNodes, totalConsoleNodes, pendingNodes, and hiddenNodes
         for (let i in listed_nodes) {
-            //Connected Nodes Card
-            //Nodes on Console Card
             if (listed_nodes[i]["node_status"] === "online") {
                 connectedNodes = connectedNodes + 1;
                 totalConsoleNodes += 1;
@@ -45,18 +48,48 @@ exports.dash_details = function (req, res) {
                 hiddenNodes += 1;
             }
         }
+        //Get all requests from database
         requests.find({}, function (err, listed_requests) {
             if (err) {
                 console.log("NODE Resolver: Retrieve failed: " + err);
             }
-            //Node Requests Card
             for (let i in listed_requests) {
-                //Node Requests Card
+                //Parse for totalRequests for the last week
                 if (listed_requests[i]["created_date"] > moment().startOf('day').subtract(1,'week')) {
                     totalRequests += 1;
                 }
             }
-            //Get recent updates for each request class
+            //Parse for inbound node count over the last 12 hours
+            for (let step = 12; step > 0; step--) {
+                let hourArray = [];
+                for (let i in listed_requests) {
+                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "inbound") {
+                        hourArray.push(listed_requests[i]["node_associated"]);
+                    }
+                }
+                inboundArray.push(hourArray.length);
+            }
+            //Parse for connected node count over the last 12 hours
+            for (let step = 12; step > 0; step--) {
+                let hourArray = [];
+                for (let i in listed_requests) {
+                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "connection" && !(hourArray.includes(listed_requests[i]["node_associated"]))) {
+                        hourArray.push(listed_requests[i]["node_associated"]);
+                    }
+                }
+                connectedArray.push(hourArray.length);
+            }
+            //Parse for outbound node count over the last 12 hours
+            for (let step = 12; step > 0; step--) {
+                let hourArray = [];
+                for (let i in listed_requests) {
+                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "outbound") {
+                        hourArray.push(listed_requests[i]["node_associated"]);
+                    }
+                }
+                outboundArray.push(hourArray.length);
+            }
+            //Parse through recent updates for each request class based on date
             let recentConnectData = listed_requests.map(function(Request){
                 if (Request.class === "connection" || "disconnection") {
                     return moment(Request.created_date, 'DD.MM.YYYY');
@@ -72,6 +105,7 @@ exports.dash_details = function (req, res) {
                     return moment(Request.created_date, 'DD.MM.YYYY');
                 }
             });
+            //Check for blank data sets on recent updates
             if (recentConnectData.filter(Boolean).length === 0) {
                 recentConnect = null;
             }  else {
@@ -87,11 +121,12 @@ exports.dash_details = function (req, res) {
             }  else {
                 recentOutbound = moment.max(recentOutboundData.filter(Boolean));
             }
-            //Nodes on Network Card
+            //Get all variables from database
             varSet.find({}, function (err, var_data) {
                 if (err) {
                     console.log("NODE Resolver: Retrieve failed: " + err);
                 } else {
+                    //Parse for scanner range
                     for (let i in var_data) {
                         if (var_data[i]["var_name"] === "node_search_rangeStart") {
                             startRange = var_data[i]["var_value"];
@@ -114,6 +149,9 @@ exports.dash_details = function (req, res) {
                         hiddenNodes: hiddenNodes,
                         startRange: startRange,
                         endRange: endRange,
+                        inboundArray: inboundArray,
+                        connectedArray: connectedArray,
+                        outboundArray: outboundArray,
                     })
                 }
             });

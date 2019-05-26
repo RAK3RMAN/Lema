@@ -28,6 +28,7 @@ module.exports.initialize = function (server) {
                         console.log("NODE Resolver: Update failed: " + err);
                     }
                 });
+                logRequest('inbound', nodeID, 'pinConfig update from node');
             });
             socket.on('disconnect', function (reason) {
                 console.log('Node DISCONNECTED with ID: ' + nodeID + ' | Reason: ' + reason);
@@ -59,10 +60,15 @@ function updateStatus(node_id, status, socketID) {
     if (status === "offline") {
         classType = 'disconnection';
     }
+    logRequest(classType, node_id, 'connected through socket.io');
+}
+
+//Log request
+function logRequest(class_sent, node_associated, details) {
     let newRequest = new requests({
-        class: classType,
-        node_associated: node_id,
-        details: 'test'
+        class: class_sent,
+        node_associated: node_associated,
+        details: details
     });
     newRequest.save(function (err, created_request) {
         if (err) {

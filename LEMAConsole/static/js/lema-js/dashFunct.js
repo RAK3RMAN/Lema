@@ -30,7 +30,7 @@ function dashDetails() {
             document.getElementById("totalConsoleNodes_Details").innerHTML = "<i class=\"material-icons\">devices</i> <a class=\"text-warning\">" + data.pendingNodes + "</a> Node" + addpending_S + " Pending | " + data.hiddenNodes + " Node" + addhidden_S + " Hidden";
             //Nodes on Network Card
             document.getElementById("totalNetworkNodes").innerHTML = data.totalNetworkNodes;
-            document.getElementById("scanRange").innerHTML = "<i class=\"material-icons\">gps_fixed</i> Scanning IP Range: " + data.startRange + " - " + data.endRange;
+            document.getElementById("scanRange").innerHTML = "<i class=\"material-icons\">gps_fixed</i> IP Range: " + data.startRange + " - " + data.endRange;
             //Inbound Requests Graph
             parseUpdated('recentInbound', data.recentInbound);
             //Node Connected Graph
