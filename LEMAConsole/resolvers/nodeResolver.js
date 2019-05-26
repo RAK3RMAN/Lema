@@ -157,9 +157,6 @@ exports.dash_details = function (req, res) {
             });
         });
     });
-    //Inbound Requests Graph
-    //Node Connected Graph
-    //Outbound Requests Graph
 };
 
 //Create a new node
@@ -234,6 +231,7 @@ exports.agent_setup = function (req, res) {
             };
             console.log("NODE Discovery: Sent parameters to node: " + agent_config);
             request.post(agent_config, function (err, response, body) {
+                logRequest('outbound', req.body["node_id"], 'sent agent setup request');
                 if (err) {
                     console.log('NODE Discovery: ERROR in Reaching Node: ', err);
                     res.status(500).send('error');
@@ -336,6 +334,22 @@ function var_Updater(var_name, var_value) {
             if (debug_mode === "true") {
                 console.log("VAR Resolver: " + var_name + " Updated: " + var_value)
             }
+        }
+    });
+}
+
+//Log request
+function logRequest(class_sent, node_associated, details) {
+    let newRequest = new requests({
+        class: class_sent,
+        node_associated: node_associated,
+        details: details
+    });
+    newRequest.save(function (err, created_request) {
+        if (err) {
+            console.log("REQUEST Resolver: Save failed: " + err);
+        } else {
+            if (debug_mode === "true") { console.log('REQUEST Resolver: Request Created: ' + JSON.stringify(created_request)) }
         }
     });
 }
