@@ -80,18 +80,18 @@ function dashDetails() {
             parseUpdated('recentConnectGraph', data.recentConnect);
             let dataconnectedChart = {
                 labels: [
-                    moment().subtract(12, 'hour').format("ha").slice(0, -1),
-                    moment().subtract(11, 'hour').format("ha").slice(0, -1),
-                    moment().subtract(10, 'hour').format("ha").slice(0, -1),
-                    moment().subtract(9, 'hour').format("ha").slice(0, -1),
-                    moment().subtract(8, 'hour').format("ha").slice(0, -1),
-                    moment().subtract(7, 'hour').format("ha").slice(0, -1),
                     moment().subtract(6, 'hour').format("ha").slice(0, -1),
+                    "",
                     moment().subtract(5, 'hour').format("ha").slice(0, -1),
+                    "",
                     moment().subtract(4, 'hour').format("ha").slice(0, -1),
+                    "",
                     moment().subtract(3, 'hour').format("ha").slice(0, -1),
+                    "",
                     moment().subtract(2, 'hour').format("ha").slice(0, -1),
-                    moment().subtract(1, 'hour').format("ha").slice(0, -1)
+                    "",
+                    moment().subtract(1, 'hour').format("ha").slice(0, -1),
+                    "",
                 ],
                 series: [
                     [
@@ -114,7 +114,7 @@ function dashDetails() {
                 axisX: {
                     showGrid: false
                 },
-                low: 0,
+                low: (Math.min.apply(Math, data.connectedArray) - 1),
                 high: (Math.max.apply(Math, data.connectedArray) + 1),
                 chartPadding: {
                     top: 0,

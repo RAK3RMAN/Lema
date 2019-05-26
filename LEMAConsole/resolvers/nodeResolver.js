@@ -70,14 +70,21 @@ exports.dash_details = function (req, res) {
                 inboundArray.push(hourArray.length);
             }
             //Parse for connected node count over the last 12 hours
-            for (let step = 12; step > 0; step--) {
-                let hourArray = [];
+            for (let step = 6; step > 0; step--) {
+                let hourConnect = [];
+                let hourDisconnect = [];
                 for (let i in listed_requests) {
-                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "connection" && !(hourArray.includes(listed_requests[i]["node_associated"]))) {
-                        hourArray.push(listed_requests[i]["node_associated"]);
+                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "connection" && !(hourConnect.includes(listed_requests[i]["node_associated"]))) {
+                        hourConnect.push(listed_requests[i]["node_associated"]);
                     }
                 }
-                connectedArray.push(hourArray.length);
+                for (let i in listed_requests) {
+                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "disconnection" && !(hourDisconnect.includes(listed_requests[i]["node_associated"]))) {
+                        hourDisconnect.push(listed_requests[i]["node_associated"]);
+                    }
+                }
+                connectedArray.push(hourConnect.length);
+                connectedArray.push(-1*(hourDisconnect.length));
             }
             //Parse for outbound node count over the last 12 hours
             for (let step = 12; step > 0; step--) {
