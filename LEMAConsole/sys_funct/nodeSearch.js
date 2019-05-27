@@ -53,6 +53,7 @@ function gatherInfo(ip) {
         } else if (response.statusCode === 200) {
             let nodeData = JSON.parse(body);
             if (debug_mode === "true") { console.log("NODE Discovery (2): Extracted ID from Node: " + nodeData["node_id"]) }
+            logRequest('outbound', nodeData["node_id"], 'outbound broadcast request for node details');
             //Search database to see if Node exists
             node.find({ node_id: nodeData["node_id"] }, function (err, data) {
                 if (err) {
@@ -82,6 +83,22 @@ function createNodePen(hostname, ip, type, id) {
             console.log("NODE Resolver: Save failed: " + err);
         } else {
             if (debug_mode === "true") { console.log('NODE Discovery (3): NodePen Created: ' + JSON.stringify(created_node)) }
+        }
+    });
+}
+
+//Log request
+function logRequest(class_sent, node_associated, details) {
+    let newRequest = new requests({
+        class: class_sent,
+        node_associated: node_associated,
+        details: details
+    });
+    newRequest.save(function (err, created_request) {
+        if (err) {
+            console.log("REQUEST Resolver: Save failed: " + err);
+        } else {
+            if (debug_mode === "true") { console.log('REQUEST Resolver: Request Created: ' + JSON.stringify(created_request)) }
         }
     });
 }

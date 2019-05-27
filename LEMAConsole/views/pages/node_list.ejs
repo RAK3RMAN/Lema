@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped dt-responsive display nowrap" id="activeTable" style="width: 100%">
+                            <table class="table table-hover dt-responsive display nowrap" id="activeTable" style="width: 100%">
                                 <thead class="text-success">
                                 <th>Node Name</th>
                                 <th>IP Address</th>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped dt-responsive display nowrap" id="pendingTable" style="width: 100%">
+                            <table class="table table-hover dt-responsive display nowrap" id="pendingTable" style="width: 100%">
                                 <thead class="text-warning">
                                 <th>Hostname/IP</th>
                                 <th>Node ID</th>
@@ -121,7 +121,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-striped dt-responsive display nowrap" id="hiddenTable" style="width: 100%">
+                            <table class="table table-hover dt-responsive display nowrap" id="hiddenTable" style="width: 100%">
                                 <thead class="text-muted">
                                 <th>Hostname/IP</th>
                                 <th>Node ID</th>
@@ -146,6 +146,7 @@
 <% include ../partials/wrapper-bottom.ejs %>
 <% include ../partials/footer.ejs %>
 <script type="text/javascript" src="/static/js/lema-js/nodeFunct.js"></script>
+<script type="text/javascript" src="/static/js/lema-js/wrapperJS.js"></script>
 <script>
     document.ready = function () {
         $('#activeTable').DataTable();

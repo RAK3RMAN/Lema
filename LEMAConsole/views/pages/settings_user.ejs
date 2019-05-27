@@ -5,17 +5,16 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header card-header-tabs card-header-success">
+                    <div class="card-header card-header-tabs card-header-info">
                         <div class="nav-tabs-navigation">
                             <div class="nav-tabs-wrapper">
                                 <span class="nav-tabs-title p-0 mr-5">
-                                    <h4 class="card-title"><strong><span id="node_name"></span> | Pinout Details</strong></h4>
-                                    <p class="card-category"><strong><span
-                                                    id="node_details"></span></strong></p>
+                                    <h4 class="card-title"><strong>Basic User Details</strong></h4>
+                                    <p class="card-category"><strong>Last Modified: </strong></p>
                                 </span>
                                 <ul class="nav nav-tabs justify-content-end" data-tabs="tabs">
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link active" onclick="pinoutList('<%=nodeID%>')">
+                                        <a class="nav-link active" onclick="">
                                             <i class="fas fa-sync-alt"></i>
                                             <div class="ripple-container"></div>
                                         </a>
@@ -40,10 +39,9 @@
 </div>
 <% include ../partials/wrapper-bottom.ejs %>
 <% include ../partials/footer.ejs %>
-<script type="text/javascript" src="/static/js/lema-js/detailsFunct.js"></script>
 <script type="text/javascript" src="/static/js/lema-js/wrapperJS.js"></script>
 <script>
     document.ready = function () {
-        pinoutList('<%=nodeID%>')
+
     }
 </script>

@@ -117,6 +117,8 @@ app.use('/api/docs', auth.isLoggedIn, swaggerUi.serve, swaggerUi.setup(swaggerDo
 //Auth Routes
 app.get('/login', authRouter.loginPage);
 app.get('/signup', authRouter.signupPage);
+app.get('/user/settings', auth.isLoggedIn, authRouter.usersettingsPage);
+app.get('/admin/settings', auth.isLoggedIn, authRouter.adminsettingsPage);
 app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/login');
@@ -151,7 +153,7 @@ app.use(function (err, req, res, next) {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
     //Render Error Page
     res.status(err.status || 500);
-    res.render('pages/error.ejs', {title: 'Error'});
+    res.render('pages/error.ejs', {title: 'Error', theme: 'white'});
 });
 
 //End of Error Handler - - - - - - - - - - - - - - - - -

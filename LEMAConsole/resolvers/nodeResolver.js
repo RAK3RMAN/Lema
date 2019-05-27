@@ -278,6 +278,7 @@ exports.hide_node = function (req, res) {
     });
     if (req.body["socket_id"]) {
         io.to(req.body["socket_id"]).emit('release', req.body["node_id"]);
+        logRequest('outbound', req.body["node_id"], 'sent agent release request');
         setTimeout(function () {
             node.findOneAndUpdate({ node_id: req.body["node_id"] }, { $set: { node_status: 'hidden' }}, function (err, data) {
                 if (err || data == null) {
