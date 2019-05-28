@@ -44,6 +44,7 @@
 <script type="text/javascript" src="/static/js/lema-js/wrapperJS.js"></script>
 <script>
     document.ready = function () {
+        themeHandler('<%= user.details.console_theme %>');
         pinoutList('<%=nodeID%>')
     }
 </script>

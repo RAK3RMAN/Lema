@@ -72,6 +72,7 @@ app.set('view engine', 'ejs');
 let authRouter = require('./routes/authRoutes.js');
 let materialRouter = require('./routes/materialRoutes.js');
 let nodeRouter = require('./routes/nodeRoutes.js');
+let userRouter = require('./routes/userRoutes.js');
 
 //Resolvers
 let auth = require('./resolvers/authResolver.js');
@@ -106,6 +107,7 @@ app.use('/static', express.static(process.cwd() + '/static'));
 
 //Forward Node Routes
 nodeRouter(app);
+userRouter(app);
 
 //Material Routes
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);

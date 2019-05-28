@@ -114,8 +114,8 @@ function dashDetails() {
                 axisX: {
                     showGrid: false
                 },
-                low: -1*Math.max.apply(Math, [-1*Math.min.apply(Math, data.connectedArray), Math.max.apply(Math, data.connectedArray)]),
-                high: Math.max.apply(Math, [-1*Math.min.apply(Math, data.connectedArray), Math.max.apply(Math, data.connectedArray)]),
+                low: (-1*Math.max.apply(Math, [-1*Math.min.apply(Math, data.connectedArray), Math.max.apply(Math, data.connectedArray)])) - 1,
+                high: (Math.max.apply(Math, [-1*Math.min.apply(Math, data.connectedArray), Math.max.apply(Math, data.connectedArray)])) + 1,
                 chartPadding: {
                     top: 0,
                     right: 5,
@@ -184,7 +184,7 @@ function dashDetails() {
                         "<div class=\"col-xl-3 col-lg-6 col-md-6 col-sm-6\">\n" +
                         "    <div class=\"card bg-success mt-0\">\n" +
                         "        <a class=\"card-body\" href=\"/node/details/" + value.node_id + "\">\n" +
-                        "            <h5 class=\"card-category card-category-social text-right\">\n" +
+                        "            <h5 class=\"card-category card-category-social text-right text-white\">\n" +
                         "                <i class=\"far fa-check-circle\"></i> ONLINE\n" +
                         "            </h5>\n" +
                         "            <h3 class=\"card-title mb-0\">\n" +
@@ -200,7 +200,7 @@ function dashDetails() {
                         "<div class=\"col-xl-3 col-lg-6 col-md-6 col-sm-6\">\n" +
                         "    <div class=\"card bg-warning mt-0\">\n" +
                         "        <a class=\"card-body\" href=\"/node/details/" + value.node_id + "\">\n" +
-                        "            <h5 class=\"card-category card-category-social text-right\">\n" +
+                        "            <h5 class=\"card-category card-category-social text-right text-white\">\n" +
                         "                <i class=\"far fa-times-circle\"></i> OFFLINE\n" +
                         "            </h5>\n" +
                         "            <h3 class=\"card-title mb-0\">\n" +
@@ -216,7 +216,7 @@ function dashDetails() {
                         "<div class=\"col-xl-3 col-lg-6 col-md-6 col-sm-6\">\n" +
                         "    <a class=\"card bg-info mt-0\">\n" +
                         "        <a class=\"card-body\" href=\"/node/details/" + value.node_id + "\">\n" +
-                        "            <h5 class=\"card-category card-category-social text-right\">\n" +
+                        "            <h5 class=\"card-category card-category-social text-right text-white\">\n" +
                         "                <i class=\"far fa-question-circle\"></i> UNKNOWN\n" +
                         "            </h5>\n" +
                         "            <h3 class=\"card-title mb-0\">\n" +
