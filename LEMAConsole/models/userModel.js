@@ -11,6 +11,11 @@ let userSchema = mongoose.Schema({
         email: String,
         password: String,
     },
+    details: {
+        first_name: String,
+        last_name: String,
+        console_theme: String,
+    },
 });
 
 //Hash Passwords

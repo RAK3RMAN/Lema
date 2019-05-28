@@ -68,7 +68,7 @@ if [ "$autoInstall" = "y" ] || [ "$autoInstall" = "" ]; then
 			    cd Lema
 			    git pull
 			    cd ..
-			    pm2 restart LEMAgent
+			    pm2 restart LEMAgent --watch
 			    echo ""
                 echo "LEMA repository updated successfully!"
                 echo ""

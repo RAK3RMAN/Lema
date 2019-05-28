@@ -5,6 +5,7 @@ Author       : RAk3rman
 let cmd = require('node-cmd');
 let request = require('request');
 let node = require('../models/nodeModel.js');
+let requests = require('../models/requestsModel.js');
 let cronJob = require('cron').CronJob;
 let dataStore = require('data-store');
 let storage = new dataStore({path: './config/sysConfig.json'});
@@ -53,7 +54,6 @@ function gatherInfo(ip) {
         } else if (response.statusCode === 200) {
             let nodeData = JSON.parse(body);
             if (debug_mode === "true") { console.log("NODE Discovery (2): Extracted ID from Node: " + nodeData["node_id"]) }
-            logRequest('outbound', nodeData["node_id"], 'outbound broadcast request for node details');
             //Search database to see if Node exists
             node.find({ node_id: nodeData["node_id"] }, function (err, data) {
                 if (err) {
@@ -83,6 +83,7 @@ function createNodePen(hostname, ip, type, id) {
             console.log("NODE Resolver: Save failed: " + err);
         } else {
             if (debug_mode === "true") { console.log('NODE Discovery (3): NodePen Created: ' + JSON.stringify(created_node)) }
+            logRequest('outbound', nodeData["node_id"], 'outbound broadcast request for node details');
         }
     });
 }

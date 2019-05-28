@@ -5,17 +5,17 @@ Author       : RAk3rman
 
 //Dashboard Page Route - Material
 exports.dashMain = function (req, res) {
-    res.render('pages/dashboard_main.ejs', {title: 'Dashboard', user: req.user, theme: 'white'})
+    res.render('pages/dashboard_main.ejs', {title: 'Dashboard', user: req.user, theme: req.user.details.console_theme})
 };
 
 //Nodes List Page Route - Material
 exports.nodeList = function (req, res) {
-    res.render('pages/node_list.ejs', {title: 'Node List', user: req.user, theme: 'white'});
+    res.render('pages/node_list.ejs', {title: 'Node List', user: req.user, theme: req.user.details.console_theme});
 };
 
 //Nodes Details Page Route - Material
 exports.nodeDetails = function (req, res) {
-    res.render('pages/node_details.ejs', {title: 'Node Details', user: req.user, nodeID: req.params.nodeID, theme: 'white'});
+    res.render('pages/node_details.ejs', {title: 'Node Details', user: req.user, nodeID: req.params.nodeID, theme: req.user.details.console_theme});
 };
 
 //System Setup Page Route - Material

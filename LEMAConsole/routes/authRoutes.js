@@ -15,10 +15,10 @@ exports.signupPage = function (req, res) {
 
 //User Settings Page Route - Auth
 exports.usersettingsPage = function (req, res) {
-    res.render('pages/settings_user.ejs', {title: 'User Settings', user: req.user, theme: 'white'})
+    res.render('pages/settings_user.ejs', {title: 'User Settings', user: req.user, theme: req.user.details.console_theme})
 };
 
 //Admin Settings Page Route - Auth
 exports.adminsettingsPage = function (req, res) {
-    res.render('pages/admin_settings.ejs', {title: 'Admin Settings', user: req.user, theme: 'white'})
+    res.render('pages/admin_settings.ejs', {title: 'Admin Settings', user: req.user, theme: req.user.details.console_theme})
 };

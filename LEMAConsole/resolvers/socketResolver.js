@@ -60,7 +60,7 @@ function updateStatus(node_id, status, socketID) {
     if (status === "offline") {
         classType = 'disconnection';
     }
-    logRequest(classType, node_id, 'connected through socket.io');
+    logRequest(classType, node_id, classType + ' through socket.io');
 }
 
 //Log request

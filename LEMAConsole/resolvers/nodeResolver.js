@@ -74,12 +74,9 @@ exports.dash_details = function (req, res) {
                 let hourConnect = [];
                 let hourDisconnect = [];
                 for (let i in listed_requests) {
-                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "connection" && !(hourConnect.includes(listed_requests[i]["node_associated"]))) {
+                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "connection") {
                         hourConnect.push(listed_requests[i]["node_associated"]);
-                    }
-                }
-                for (let i in listed_requests) {
-                    if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "disconnection" && !(hourDisconnect.includes(listed_requests[i]["node_associated"]))) {
+                    } else if ((moment().subtract(step,'hours').startOf('hour') < listed_requests[i]["created_date"]) && (listed_requests[i]["created_date"] < moment().subtract(step-1,'hours').startOf('hour')) && listed_requests[i]["class"] === "disconnection") {
                         hourDisconnect.push(listed_requests[i]["node_associated"]);
                     }
                 }

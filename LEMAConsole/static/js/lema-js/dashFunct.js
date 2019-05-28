@@ -114,8 +114,8 @@ function dashDetails() {
                 axisX: {
                     showGrid: false
                 },
-                low: (Math.min.apply(Math, data.connectedArray) - 1),
-                high: (Math.max.apply(Math, data.connectedArray) + 1),
+                low: -1*Math.max.apply(Math, [-1*Math.min.apply(Math, data.connectedArray), Math.max.apply(Math, data.connectedArray)]),
+                high: Math.max.apply(Math, [-1*Math.min.apply(Math, data.connectedArray), Math.max.apply(Math, data.connectedArray)]),
                 chartPadding: {
                     top: 0,
                     right: 5,

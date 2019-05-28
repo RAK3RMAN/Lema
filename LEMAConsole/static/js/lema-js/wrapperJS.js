@@ -2,6 +2,12 @@
 LEMAConsole Front-End JS - Authored by: RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
 
+//Switch theme color function
+function switchTheme(currentColor) {
+
+}
+
+//Theme coloring handlers
 if ($('body').hasClass("white")) {
     $('#logo-selection').append(
         "<img src=\"/static/img/logo.png\" width=\"80%\">"
