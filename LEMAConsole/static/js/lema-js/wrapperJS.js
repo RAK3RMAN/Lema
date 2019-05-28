@@ -43,6 +43,8 @@ function themeHandler(console_theme) {
         );
         document.getElementById("nav-selection1").className = "nav-link text-white";
         document.getElementById("nav-selection2").className = "nav-link text-white";
+        document.getElementById("nav-selection3").className = "d-lg-none d-md-block text-white";
+        document.getElementById("nav-selection4").className = "d-lg-none d-md-block text-white";
     }
     let friendlyColor = "LIGHT";
     if (console_theme === "white") {

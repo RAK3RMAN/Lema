@@ -8,6 +8,9 @@ module.exports = function (app) {
     let user = require('../resolvers/userResolver.js');
 
     app.route('/api/user/theme')
-        .post(auth.isLoggedIn, user.change_theme)
+        .post(auth.isLoggedIn, user.change_theme);
+
+    app.route('/api/user/update')
+        .post(auth.isLoggedIn, user.update_user);
 
 };

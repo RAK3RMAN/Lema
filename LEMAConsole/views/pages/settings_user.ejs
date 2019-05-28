@@ -24,44 +24,42 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="bmd-label-floating">Email address</label>
-                                        <input type="email" class="form-control" value="<%= user.local.email %>">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="bmd-label-floating">First Name</label>
-                                        <input type="text" class="form-control" value="<%= user.details.first_name %>">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="bmd-label-floating">Last Name</label>
-                                        <input type="text" class="form-control" value="<%= user.details.last_name %>">
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Email address</label>
+                                    <input type="email" class="form-control" id="email" value="<%= user.local.email %>">
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="bmd-label-floating">Password Reset</label>
-                                        <input type="password" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group bmd-form-group">
-                                        <label class="bmd-label-floating">Enter Password Again</label>
-                                        <input type="password" class="form-control">
-                                    </div>
+                            <div class="col-md-4">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">First Name</label>
+                                    <input type="text" class="form-control" id="first_name" value="<%= user.details.first_name %>">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-outline-success pull-right">Update Profile</button>
-                            <div class="clearfix"></div>
-                        </form>
+                            <div class="col-md-4">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Last Name</label>
+                                    <input type="text" class="form-control" id="last_name" value="<%= user.details.last_name %>">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Password Reset</label>
+                                    <input type="password" id="password1" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    <label class="bmd-label-floating">Enter Password Again</label>
+                                    <input type="password" id="password2" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success pull-right" onclick="updateBasic('<%= user._id %>')">Update Profile</button>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -71,6 +69,7 @@
 <% include ../partials/wrapper-bottom.ejs %>
 <% include ../partials/footer.ejs %>
 <script type="text/javascript" src="/static/js/lema-js/wrapperJS.js"></script>
+<script type="text/javascript" src="/static/js/lema-js/usersetFunct.js"></script>
 <script>
     document.ready = function () {
         themeHandler('<%= user.details.console_theme %>');

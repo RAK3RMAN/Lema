@@ -60,8 +60,8 @@
                             <a class="nav-link" href="javscript:void(0)" id="navbarDropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">notifications</i>
-                                <span class="notification">1</span>
-                                <p class="d-lg-none d-md-block">
+                                <span class="notification text-white">1</span>
+                                <p id="nav-selection3" class="d-lg-none d-md-block">
                                     Alerts
                                 </p>
                             </a>
@@ -73,12 +73,14 @@
                             <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">person</i>
-                                <p class="d-lg-none d-md-block" style="text-transform: lowercase">
+                                <p id="nav-selection4" class="d-lg-none d-md-block" style="text-transform: lowercase">
                                     <%= user.local.email %>
                                 </p>
                                 <div class="ripple-container"></div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                                <a class="dropdown-item">Welcome, <%= user.details.first_name %> <%= user.details.last_name %></a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="https://github.com/RAK3RMAN/lema/wiki" target="_blank">Documentation</a>
                                 <a class="dropdown-item" href="/user/settings">User Settings</a>
                                 <div class="dropdown-divider"></div>
