@@ -305,7 +305,7 @@ function nodeEdit(nodeID) {
                     '           <input type="text" class="form-control" value="' + data[0]["node_ip"] + '" id="editIP">\n' +
                     '       </div>\n' +
                     '   </div>\n' +
-                    '</div>',
+                    '</div>',`
                 showCancelButton: true,
                 confirmButtonText: 'Update',
             }).then(() => {

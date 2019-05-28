@@ -14,7 +14,10 @@ let userSchema = mongoose.Schema({
     details: {
         first_name: String,
         last_name: String,
-        console_theme: String,
+        console_theme: {
+            type: String,
+            default: "white",
+        },
     },
 });
 

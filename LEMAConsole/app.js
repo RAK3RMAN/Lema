@@ -59,6 +59,12 @@ if (public_secret === undefined) {
     storage.set('public_secret', newSecret);
     console.log('Lema Config Manager: Public Secret Set - ' + newSecret);
 }
+//Setup Status Check
+let setup_status = storage.get('setup_status');
+if (setup_status === undefined) {
+    storage.set('setup_status', false);
+    console.log('Lema Config Manager: Setup Status Set to DEFAULT: false');
+}
 //Initialize Exit Options
 let exitOpt = require('./config/exitOpt.js');
 setTimeout(exitOpt.testCheck, 3000);
@@ -113,12 +119,16 @@ userRouter(app);
 app.get('/', auth.isLoggedIn, materialRouter.dashMain);
 app.get('/node/list', auth.isLoggedIn, materialRouter.nodeList);
 app.get('/node/details/:nodeID', auth.isLoggedIn, materialRouter.nodeDetails);
-app.get('/setup', auth.isLoggedIn, materialRouter.sysSetup);
 app.use('/api/docs', auth.isLoggedIn, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+//Setup Route
+if (storage.get('setup_status') === false) {
+    app.get('/setup', materialRouter.sysSetup);
+    app.get('/signup', authRouter.signupPage);
+}
 
 //Auth Routes
 app.get('/login', authRouter.loginPage);
-app.get('/signup', authRouter.signupPage);
 app.get('/user/settings', auth.isLoggedIn, authRouter.usersettingsPage);
 app.get('/admin/settings', auth.isLoggedIn, authRouter.adminsettingsPage);
 app.get('/logout', function (req, res) {
