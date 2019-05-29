@@ -295,6 +295,164 @@
         }
       }
     },
+    "/api/dash_details": {
+      "get": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Get all data and statistics for the main dashboard",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/sys_check": {
+      "get": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Check the system status and return",
+        "description": "This API only is available when LEMAConsole is in setup mode",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/sys_setup": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Setup LEMAConsole with given parameters",
+        "description": "This API only is available when LEMAConsole is in setup mode",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/console_setup"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/user/theme": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Update the console theme of a given user",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user_theme"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/user/update": {
+      "post": {
+        "tags": [
+          "LEMAConsole_INT"
+        ],
+        "summary": "Edit an existing user",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body parameters that are sent inside of api request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/lema-agent/broadcast": {
       "get": {
         "tags": [
@@ -381,6 +539,32 @@
         "name": "node"
       }
     },
+    "user": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "local.email": {
+          "type": "string"
+        },
+        "local.password": {
+          "type": "string"
+        },
+        "details.first_name": {
+          "type": "string"
+        },
+        "details.last_name": {
+          "type": "string"
+        },
+        "details.console_theme": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    },
     "scan_range": {
       "type": "object",
       "properties": {
@@ -399,6 +583,46 @@
       "type": "object",
       "properties": {
         "node_id": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    },
+    "console_setup": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "mongodb_url": {
+          "type": "string"
+        },
+        "console_port": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "node"
+      }
+    },
+    "user_theme": {
+      "type": "object",
+      "properties": {
+        "userID": {
+          "type": "string"
+        },
+        "theme": {
           "type": "string"
         }
       },
