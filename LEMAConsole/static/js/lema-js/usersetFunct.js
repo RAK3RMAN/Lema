@@ -16,7 +16,7 @@ function updateBasic(userID) {
     let last_name = document.getElementById('last_name').value;
     let password1 = document.getElementById('password1').value;
     let password2 = document.getElementById('password2').value;
-    if (password1 === password2) {
+    if (password2 < 8 || password1 === password2 || email === "" || first_name === "" || last_name === "") {
         $.ajax({
             type: "POST",
             url: "/api/user/update",
@@ -39,9 +39,23 @@ function updateBasic(userID) {
             }
         });
     } else {
-        Toast.fire({
-            type: 'error',
-            title: 'Passwords do not match...'
-        });
+        if (password1 === password2) {
+            Toast.fire({
+                type: 'error',
+                title: 'Passwords do not match...'
+            });
+        }
+        if (password2 < 8) {
+            Toast.fire({
+                type: 'error',
+                title: 'Password is not long enough...'
+            });
+        }
+        if (email === "" || first_name === "" || last_name === "") {
+            Toast.fire({
+                type: 'error',
+                title: 'Values are missing...'
+            });
+        }
     }
 }

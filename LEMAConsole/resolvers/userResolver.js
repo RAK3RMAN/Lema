@@ -24,7 +24,7 @@ exports.change_theme = function (req, res) {
 //Edit the user details
 //TODO Enforce rule that logged in user can only update their account unless admin
 exports.update_user = function (req, res) {
-     function generateHash(password) {
+    function generateHash(password) {
         return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
     }
     user.findOneAndUpdate({ _id: req.body["_id"] }, { "$set": { "local.email": req.body["email"], "local.password": generateHash(req.body["password"]), "details.first_name": req.body["first_name"], "details.last_name": req.body["last_name"] } }, function (err, updatedUser) {

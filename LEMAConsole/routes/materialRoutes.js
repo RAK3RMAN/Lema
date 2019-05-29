@@ -2,6 +2,8 @@
 App/Filename : LEMAConsole/routes/materialRoutes.js
 Author       : RAk3rman
 \/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\*/
+let dataStore = require('data-store');
+let storage = new dataStore({path: './config/sysConfig.json'});
 
 //Dashboard Page Route - Material
 exports.dashMain = function (req, res) {
@@ -20,5 +22,7 @@ exports.nodeDetails = function (req, res) {
 
 //System Setup Page Route - Material
 exports.sysSetup = function (req, res) {
-    res.render('pages/sys_setup.ejs', {title: 'Setup', theme: 'white'})
+    if (storage.get('setup_status') === false) {
+        res.render('pages/sys_setup.ejs', {title: 'Setup', theme: 'white'})
+    }
 };

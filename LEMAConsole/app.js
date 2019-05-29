@@ -43,8 +43,8 @@ if (console_port === undefined) {
 //MongoDB URL Check
 let mongodb_url = storage.get('mongodb_url');
 if (mongodb_url === undefined) {
-    storage.set('mongodb_url', 'mongodb://localhost:27017');
-    console.log('Lema Config Manager: MongoDB URL Set to DEFAULT: mongodb://localhost:27017');
+    storage.set('mongodb_url', 'mongodb://localhost:27017/lema-console');
+    console.log('Lema Config Manager: MongoDB URL Set to DEFAULT: mongodb://localhost:27017/lema-console');
 }
 //Debug Mode Check
 let debug_mode = storage.get('debug_mode');
@@ -121,12 +121,6 @@ app.get('/node/list', auth.isLoggedIn, materialRouter.nodeList);
 app.get('/node/details/:nodeID', auth.isLoggedIn, materialRouter.nodeDetails);
 app.use('/api/docs', auth.isLoggedIn, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-//Setup Route
-if (storage.get('setup_status') === false) {
-    app.get('/setup', materialRouter.sysSetup);
-    app.get('/signup', authRouter.signupPage);
-}
-
 //Auth Routes
 app.get('/login', authRouter.loginPage);
 app.get('/user/settings', auth.isLoggedIn, authRouter.usersettingsPage);
@@ -140,12 +134,13 @@ app.post('/login', passport.authenticate('local-login', {
     failureRedirect: '/login',
     failureFlash: true
 }));
-app.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/',
-    failureRedirect: '/signup',
-    failureFlash: true
-}));
 
+//Setup Route
+if (storage.get('setup_status') === false) {
+    app.get('/setup', materialRouter.sysSetup);
+    app.get('/api/sys_check', authRouter.systemCheck);
+    app.post('/api/sys_setup', authRouter.systemSetup);
+}
 //End of Page Specific Routes/Logic - - - - - - - - - -
 
 
