@@ -10,7 +10,3 @@ LEMAConsole/config/sysConfig\.json
 LEMAgent/config/sysConfig\.json
 
 LEMAgent/config/pinConfig\.json
-
-LEMAgent/package-lock.json
-
-LEMAConsole/package-lock.json
